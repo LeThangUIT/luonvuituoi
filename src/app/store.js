@@ -1,8 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
+import BrandReducer from './containers/admin/brandManagement/brandSlice'
+import AuthReducer from './containers/customer/Auth/authSlice'
 
 
 const store = configureStore({
-  reducer: {}
+  reducer: {
+    auth: AuthReducer,
+    brand: BrandReducer,
+    
+  }
 })
 
 export default store

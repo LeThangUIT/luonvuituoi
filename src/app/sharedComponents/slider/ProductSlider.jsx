@@ -16,7 +16,6 @@ export const IconRight = styled.svg`
   ${tw` p-2 rounded-full bg-[#EE4C7E] h-10 w-10 absolute top-1/2 -right-0 z-index[1] opacity-30 hover:opacity-100 hover:cursor-pointer`}
 `;
 export const ProductsSlider = (props) => {
-  console.log(Navigation);
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
@@ -36,8 +35,8 @@ export const ProductsSlider = (props) => {
       {props.data.map((item, index) => {
         return (
           <>
-            <SwiperSlide>
-              <ProductCard data={item}></ProductCard>
+            <SwiperSlide key={index}>
+              <ProductCard  data={item}></ProductCard>
             </SwiperSlide>
           </>
         );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { PinkButton } from "../../button";
@@ -26,6 +27,7 @@ export function RightHeader() {
   const handleMouseLeave = () => {
     setColor("white")
   }
+  const navigate = useNavigate()
   return (
     <RightContainer>
       <ShoppingCartIcon
@@ -60,7 +62,7 @@ export function RightHeader() {
           </clipPath>
         </defs>
       </ShoppingCartIcon>
-      <PinkButton onMouseOver={handleMouseEvent} onMouseLeave={handleMouseLeave}>
+      <PinkButton onMouseOver={handleMouseEvent} onMouseLeave={handleMouseLeave} onClick={() => navigate("/login")}>
         {/* <IconUser style={{color: "inherits"}}></IconUser> */}
         <UserIcon style={{color: "inherits"}}
         width="17"

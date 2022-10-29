@@ -15,6 +15,8 @@ import BrandManagementIndex from './app/containers/admin/brandManagement/BrandMa
 import ProductManagementIndex from './app/containers/admin/productManagement/ProductManagementIndex';
 import OrderManagementIndex from './app/containers/admin/orderManagement/OrderManagementIndex';
 import DashBoardIndex from './app/containers/admin/dashBoard/DashBoardIndex';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -26,6 +28,7 @@ const AppContainer = styled.div`
 function App() {
   return (
     <AppContainer>
+      <ToastContainer />
       <Routes>
         <Route path="/login" element={<LoginIndex />} />
         <Route path="/register" element={<RegisterIndex />} />

@@ -1,10 +1,15 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import {useNavigate} from "react-router-dom"
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import tw from 'twin.macro'
 import { PinkButton } from "../../../../sharedComponents/button";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../Auth/authSlice";
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 export const PageContainer = styled.div`
     ${tw`
@@ -90,7 +95,7 @@ export const Navigate = styled.span`
 `
 export const Register = styled.span`
     ${tw`
-        text-primaryColor text-[14px] text-center font-medium
+        text-primaryColor text-[14px] text-center font-medium hover:cursor-pointer hover:opacity-75
     `}
 `
 const initialValues = {
@@ -103,12 +108,31 @@ const validationSchema = Yup.object({
       .email("Định dạng email chưa đúng!"),
     password: Yup.string()
        .required("Bạn cần phải nhập trường này!")
-       .min(8, 'Quá ngắn!')
+       .min(0, 'Quá ngắn!')
         .max(50, 'Quá dài!')
   });
   
-const onSubmit = (values) => console.log("Form data ", values);
+
 export default function LoginPage() {
+    const deviceId = uuidv4()
+    const {userToken, loading} = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const onSubmit = async (values) => {
+        const data = {deviceId, ...values}
+        var res = await dispatch(login(data));
+        if(!res.payload.success){
+            toast.error(res.payload.message, {
+              position: toast.POSITION.TOP_RIGHT
+          });
+        }
+    };
+
+    useEffect(() => {
+        if (userToken) {
+          navigate("/")
+        }
+      }, [navigate, userToken]) 
     return (
         <PageContainer>
             <Content>
@@ -141,14 +165,14 @@ export default function LoginPage() {
                                             value={formik.values.password}
                                             onBlur={formik.handleBlur}
                                         />
-                                        <PinkButton type="submit">Đăng nhập</PinkButton>
+                                        <PinkButton disabled={loading} type="submit">Đăng nhập</PinkButton>
                                     </FormContainer>
                                 </Form>
                             )
                         }}
                     </Formik>
                 </LoginFrame>
-                <Navigate>Bạn chưa có tài khoản? <Register>Đăng ký ngay</Register></Navigate>
+                <Navigate>Bạn chưa có tài khoản? <Register onClick={() => navigate("/register", {replace: true})}>Đăng ký ngay</Register></Navigate>
             </Content>
             <RightSection></RightSection>
         </PageContainer>

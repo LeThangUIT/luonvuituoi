@@ -23,6 +23,12 @@ export const Heading26 = styled.span`
         not-italic font-bold text-[26px] leading-[31px] text-blackColor 
     `}
 `;
+
+export const Heading22 = styled.span`
+  ${tw`
+        not-italic font-bold text-[20px] leading-[25px] text-blackColor 
+    `}
+`;
 export const PinkHeading26 = styled.span`
   ${tw`
         not-italic font-bold text-[26px] leading-[31px] text-primaryColor 
@@ -37,6 +43,12 @@ export const Heading16 = styled.span`
 export const PinkHeading16 = styled.span`
   ${tw`
         not-italic font-bold text-[16px] leading-[19px] text-primaryColor 
+    `}
+`;
+
+export const ErrorText = styled.span`
+  ${tw`
+        not-italic font-bold text-[16px] leading-[19px] text-[red] 
     `}
 `;
 
