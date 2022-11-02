@@ -5,7 +5,7 @@ import { Navigation } from "swiper";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { useRef } from "react";
-import ProductCard from "../../containers/customer/BrandPage/components/ProductCard";
+import ProductCard from "../../containers/customer/ProductPage/components/ProductCard";
 
 export const IconLeft = styled.svg`
   transform: translate(0, -50%);

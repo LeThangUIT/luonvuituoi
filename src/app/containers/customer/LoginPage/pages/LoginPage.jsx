@@ -1,15 +1,16 @@
 import { Form, Formik } from "formik";
-import {useNavigate} from "react-router-dom"
-import React, { useEffect } from "react";
+import {useLocation, useNavigate} from "react-router-dom"
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from 'twin.macro'
 import { PinkButton } from "../../../../sharedComponents/button";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../Auth/authSlice";
+import { adminLogin, login } from "../../Auth/authSlice";
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import VerifyEmail from "../../RegisterPage/components/VerifyEmail";
 
 export const PageContainer = styled.div`
     ${tw`
@@ -114,30 +115,52 @@ const validationSchema = Yup.object({
   
 
 export default function LoginPage() {
+    const {pathname} = useLocation();
     const deviceId = uuidv4()
-    const {userToken, loading} = useSelector((state) => state.auth)
+    const {userToken, adminToken, loading} = useSelector((state) => state.auth)
     const navigate = useNavigate();
     const dispatch = useDispatch()
+
+    const [openModal, setOpenModal] = useState(false)
+    const [emailValue, setEmailValue] = useState("")
     const onSubmit = async (values) => {
+        setEmailValue(values.email)
         const data = {deviceId, ...values}
-        var res = await dispatch(login(data));
-        if(!res.payload.success){
-            toast.error(res.payload.message, {
-              position: toast.POSITION.TOP_RIGHT
-          });
+        if(pathname === '/login') {    
+            var res = await dispatch(login(data));
+            if(!res.payload.success){
+                if(res.payload.message === 'Account is not activated') {
+                    setOpenModal(true)
+                }
+                toast.error(res.payload.message, {
+                  position: toast.POSITION.TOP_RIGHT
+              });
+            }
+        }
+        else {
+            var res = await dispatch(adminLogin(data));
+            if(!res.payload.success){
+                toast.error(res.payload.message, {
+                  position: toast.POSITION.TOP_RIGHT
+              });
+            }
         }
     };
 
     useEffect(() => {
-        if (userToken) {
+        console.log(pathname)
+        if (userToken && pathname === "/login") {
           navigate("/")
         }
-      }, [navigate, userToken]) 
+        if (adminToken && pathname === "/adminLogin") {
+            navigate("/admin")
+        }
+      }, [navigate, userToken, adminToken]) 
     return (
         <PageContainer>
             <Content>
                 <LoginFrame>
-                    <Label>Đăng nhập</Label>
+                    {pathname === '/login' ? <Label>Đăng nhập</Label> : <Label>Admin, Đăng nhập</Label>}
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
@@ -175,6 +198,7 @@ export default function LoginPage() {
                 <Navigate>Bạn chưa có tài khoản? <Register onClick={() => navigate("/register", {replace: true})}>Đăng ký ngay</Register></Navigate>
             </Content>
             <RightSection></RightSection>
+            {openModal && <VerifyEmail closeModal={setOpenModal} email={emailValue}/>}
         </PageContainer>
     )
 }

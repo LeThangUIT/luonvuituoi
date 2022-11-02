@@ -1,9 +1,23 @@
 import axios from "axios";
-import { API_URL } from "../constant";
+import { ADMIN_API_URL, API_URL } from "../constant";
 
 class authApi {
+    apiMe = (adminToken) => {
+        const url = `${ADMIN_API_URL}/me`
+        return axios.get(url,  {
+            headers: {
+              Authorization: "Bearer " + adminToken,
+            },
+          })
+    }
+
     login = (data) => {
         const url = `${API_URL}/auth/login`
+        return axios.post(url, data)
+    }
+
+    adminLogin = (data) => {
+        const url = `${API_URL}/auth/admin/login`
         return axios.post(url, data)
     }
 

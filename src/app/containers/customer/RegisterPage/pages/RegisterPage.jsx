@@ -56,6 +56,7 @@ export default function RegisterPage() {
     setEmailValue(values.email)
     const res = await dispatch(register(values))
     if(!res.payload.success){
+      console.log(res.payload.message)
       toast.error(res.payload.message, {
         position: toast.POSITION.TOP_RIGHT
     })

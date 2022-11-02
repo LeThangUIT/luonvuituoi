@@ -5,12 +5,41 @@ import { HTTP_STATUS } from "../../../constant";
 const userToken = localStorage.getItem('userToken')
   ? localStorage.getItem('userToken')
   : null
+
+const adminToken = localStorage.getItem('adminToken')
+? localStorage.getItem('adminToken')
+: null
+
+export const admin = createAsyncThunk(
+    'auth/admin', 
+    async ( {rejectWithValue}) => {
+        try{
+            const response = await AuthApi.apiMe()
+            return response.data
+        } catch(error) {       
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 export const login = createAsyncThunk(
     'auth/login',
     async (data, {rejectWithValue}) => {
         try{
             const response = await AuthApi.login(data)
             localStorage.setItem('userToken', response.data)
+            return response.data
+        } catch(error) {       
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const adminLogin = createAsyncThunk(
+    'auth/adminLogin',
+    async (data, {rejectWithValue}) => {
+        try{
+            const response = await AuthApi.adminLogin(data)
+            localStorage.setItem('adminToken', response.data)
             return response.data
         } catch(error) {       
             return rejectWithValue(error.response.data)
@@ -47,7 +76,9 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState: {
         loading: false,
+        isAdmin: false,
         userToken,
+        adminToken,
     },
     reducers: {},
     extraReducers: {
@@ -56,9 +87,22 @@ const AuthSlice = createSlice({
         },
         [login.fulfilled]: (state, action) => {
             state.loading = false
+            localStorage.setItem("userToken", action.payload.data)
             state.userToken = action.payload.data
         },
         [login.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        [adminLogin.pending]: (state, action) => {
+            state.loading = true
+        },
+        [adminLogin.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminToken", action.payload.data)
+            state.adminToken = action.payload.data
+        },
+        [adminLogin.rejected]: (state, action) => {
             state.loading = false
         },
 
@@ -79,6 +123,17 @@ const AuthSlice = createSlice({
             state.loading = false
         },
         [verify.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        [admin.pending]: (state, action) => {
+            state.loading = true
+        },
+        [admin.fulfilled]: (state, action) => {
+            state.loading = false
+            state.isAdmin = action.payload.data.success
+        },
+        [admin.rejected]: (state, action) => {
             state.loading = false
         },
     }

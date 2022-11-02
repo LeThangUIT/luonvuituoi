@@ -14,47 +14,12 @@ import Rose from "../../../../assets/images/Rose.jpg";
 import TrashIcon from "../../../../sharedComponents/icon/trashIcon";
 import QuantityComponent from "../../DetailPage/components/Quantity";
 import { PinkButton } from "../../../../sharedComponents/button";
+import { Image, ImageBox, RowSpace, Table, TableBody, TableData, TableHead, TableHeading, TableNameData, TableRow } from "../../../../sharedComponents/table";
 
 const Body = styled.div`
   ${tw`
         flex flex-col items-start absolute top-[40px] md:top-[137px] left-0 right-0 w-full
     `}
-`;
-const TableProduct = styled.table`
-  ${tw` w-full col-span-3 table-auto  box-border`}
-`;
-const TableHead = styled.thead`
-  ${tw` h-[57px] bg-white border border-[#EEEEEE] rounded-lg `}
-`;
-const TableBody = styled.tbody`
-  ${tw``}
-`;
-const TableRow = styled.tr`
-  ${tw` h-[140px] border border-[#EEEEEE] bg-white`}
-`;
-const RowSpace = styled.tr`
-  ${tw` h-3`}
-`;
-const TableHeading = styled.th`
-  ${tw`text-left pl-4 px-4`}
-`;
-const TableData = styled.td`
-  ${tw`px-4 whitespace-nowrap`}
-`;
-const TableNameData = styled.td`
-  ${tw`px-4`}
-`;
-
-
-const ImageBox = styled.div`
-  ${tw`
-      h-[100px] w-[100px] rounded-lg overflow-hidden flex 
-  `}
-`;
-const Image = styled.img`
-  ${tw`
-     object-cover w-full h-full relative flex-basis[100%] flex-grow-0 flex-shrink-0
-  `}
 `;
 
 const TotalContainer = styled.div`
@@ -73,7 +38,7 @@ function CartPage() {
       <Body>
         <ContentContainer>
           <ListProductContainer>
-            <TableProduct>
+            <Table>
               <TableHead>
                 <TableHeading>
                   <Heading14>Sản phẩm</Heading14>
@@ -132,7 +97,7 @@ function CartPage() {
                   <TableData class="">DeTableRowoit</TableData>
                 </TableRow>
               </TableBody>
-            </TableProduct>
+            </Table>
             <TotalContainer>
               <Heading14>Tổng tiền giỏ hàng</Heading14>
               <FlexContainer>

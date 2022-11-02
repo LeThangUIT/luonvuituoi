@@ -1,12 +1,15 @@
 import React from 'react'
-import MainDash from '../component/MainDash/MainDash'
-import RightSide from '../component/RightSide/RightSide'
+import Cards from '../component/Cards/Cards'
+import {MainDash} from '../../components/MainDash/MainDash'
+import { Heading30 } from '../../../../sharedComponents/text'
 
 function DashBoardPage() {
   return (
     <>
-      <MainDash/>
-      <RightSide/>
+      <MainDash>
+        <Heading30>Dashboard Page</Heading30>
+        <Cards></Cards>
+      </MainDash>
     </>
   )
 }

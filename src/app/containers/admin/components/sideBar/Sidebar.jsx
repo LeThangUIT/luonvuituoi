@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 import {FaHamburger, FaSignOutAlt} from 'react-icons/fa'
-import { SidebarData } from "../Data/Data.js";
-// import { UilSignOutAlt, UilBars } from '@iconscout/react-unicons';
+import { SidebarData } from "../../Data/Data";
 
 import { motion } from 'framer-motion';
-import { Logo } from "../../../sharedComponents/header/logo";
+import { Logo } from "../../../../sharedComponents/header/logo/index";
 import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();

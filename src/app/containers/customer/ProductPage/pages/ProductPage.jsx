@@ -15,7 +15,7 @@ export const Body = styled.div`
         flex flex-col items-start absolute top-[40px] md:top-[137px] left-0 right-0 w-full
     `}
 `
-export default function BrandPage() {
+export default function ProductPage() {
     const formatter = new Intl.NumberFormat("en-US", {
         minimumFractionDigits: 0,
       });

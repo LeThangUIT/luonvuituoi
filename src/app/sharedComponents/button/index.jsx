@@ -15,3 +15,23 @@ export const WhiteButton = styled.button`
         text-primaryColor not-italic font-semibold text-sm leading-[17px] hover:text-white
     `}
 `
+
+export const AddButton = styled.button`
+    ${tw` 
+        box-border flex gap-x-2 justify-between items-center py-2 px-4 bg-[#5CB85C] rounded-lg border  
+        text-white not-italic font-semibold text-sm leading-[17px] hover:opacity-75
+    `}
+`
+export const UpdateButton = styled.button`
+    ${tw` 
+        box-border flex gap-x-2 justify-between items-center py-2 px-4 bg-[#5BC0DE] rounded-lg border  
+        text-white not-italic font-semibold text-sm leading-[17px] hover:opacity-75
+    `}
+`
+
+export const DeleteButton = styled.button`
+    ${tw` 
+        box-border flex gap-x-2 justify-between items-center py-2 px-4 bg-[#D9534F] rounded-lg border  
+        text-white not-italic font-semibold text-sm leading-[17px] hover:opacity-75
+    `}
+`

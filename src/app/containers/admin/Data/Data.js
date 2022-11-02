@@ -30,8 +30,8 @@ export const SidebarData = [
   },
   {
     icon: FaList,
-    heading: "Brands",
-    path: "brand"
+    heading: "Category",
+    path: "category"
   }
 ]
 

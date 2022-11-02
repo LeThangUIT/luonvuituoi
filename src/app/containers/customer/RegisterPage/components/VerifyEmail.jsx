@@ -3,28 +3,15 @@ import * as Yup from "yup";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import tw from "twin.macro";
 import { PinkButton } from "../../../../sharedComponents/button";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import { Heading22, LightText14 } from "../../../../sharedComponents/text";
 import { verify } from "../../Auth/authSlice";
 import { FormContainer } from "../../LoginPage/pages/LoginPage";
 import { toast } from 'react-toastify';
+import { ButtonClose, ModalBackground, ModalContainer, ModalFooter, ModalTitle } from "../../../../sharedComponents/modal";
 
-const ModalBackground = styled.div`
-  ${tw` w-screen h-screen bg-[rgba(200, 200, 200, 0.7)] fixed flex justify-center items-center`}
-`;
-const ModalContainer = styled.div`
-  ${tw` max-w-xs relative rounded-xl bg-white flex flex-col gap-4 p-6`}
-`;
-const ButtonClose = styled.div`
-  ${tw` absolute z-10 w-3  top-4 right-4`}
-`;
-const ModalTitle = styled.div`
-  ${tw` mt-2 flex justify-center`}
-`;
-const ModalFooter = styled.div``;
+
 const initialValues = {
     codeVerify: "",
 };
@@ -51,6 +38,7 @@ function VerifyEmail({ closeModal, email }) {
             toast.success(res.payload.message, {
                 position: toast.POSITION.TOP_RIGHT
               });
+            closeModal(false)
             navigate("/login")
         }
     };
@@ -67,7 +55,7 @@ function VerifyEmail({ closeModal, email }) {
                             <Heading22>Xác thực email của bạn</Heading22>
                         </ModalTitle>
                         <LightText14>
-                            Xin hãy nhập mã xác thực được gửi đến {email}
+                            Xin hãy nhập mã xác thực đã được gửi đến {email}
                         </LightText14>
                         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                             {(formik) => {

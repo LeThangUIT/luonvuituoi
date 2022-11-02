@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import BrandReducer from './containers/admin/brandManagement/brandSlice'
+import CategoryReducer from './containers/admin/categoryManagement/categorySlice'
 import AuthReducer from './containers/customer/Auth/authSlice'
-
 
 const store = configureStore({
   reducer: {
     auth: AuthReducer,
-    brand: BrandReducer,
+    category: CategoryReducer,
     
   }
 })

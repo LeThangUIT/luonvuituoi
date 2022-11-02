@@ -17,7 +17,7 @@ const PageContainer = styled.div`
     `}
 `;
 
-export default function BrandDetailPage() {
+export default function ProductPageByCategory() {
     return (
         <PageContainer>
             <Header></Header>
