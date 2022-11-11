@@ -17,6 +17,7 @@ import ProtectedRoute from "./app/sharedComponents/protectedRoute/ProtectedRoute
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductIndex from "./app/containers/customer/ProductPage/ProductIndex";
+import CallbackApi from "./app/containers/CallbackApi";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -38,6 +39,7 @@ function App() {
         <Route path="/detail/:productId" element={<DetailIndex />} />
         <Route path="/cart" element={<CartIndex />} />
         <Route path="/checkout" element={<CheckoutIndex />} />
+        <Route path="/callback/:social" element={<CallbackApi />} />
         <Route
           path="/admin/*"
           element={
