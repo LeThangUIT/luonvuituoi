@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_API_URL, API_URL } from "../constant";
+import { ADMIN_API_URL, AUTH_API_URL } from "../constant";
 
 class authApi {
     apiMe = (adminToken) => {
@@ -12,23 +12,28 @@ class authApi {
     }
 
     login = (data) => {
-        const url = `${API_URL}/auth/login`
+        const url = `${AUTH_API_URL}/login`
         return axios.post(url, data)
     }
 
     adminLogin = (data) => {
-        const url = `${API_URL}/auth/admin/login`
+        const url = `${AUTH_API_URL}/admin/login`
         return axios.post(url, data)
     }
 
     register = (data) => {
-        const url = `${API_URL}/auth/register`
+        const url = `${AUTH_API_URL}/register`
         return axios.post(url, data)
     }
 
     verify = (data) => {
-        const url = `${API_URL}/auth/verifyRegister`
+        const url = `${AUTH_API_URL}/verifyRegister`
         return axios.post(url, data)
+    }
+
+    callbackSocial = (data) => {
+        const url = `${AUTH_API_URL}/callback` + data;
+        return axios.get(url, {})
     }
 }
 const AuthApi = new authApi()
