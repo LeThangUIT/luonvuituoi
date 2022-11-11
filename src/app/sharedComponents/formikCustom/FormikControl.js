@@ -1,5 +1,7 @@
 import React from "react";
 import Checkbox from "./formikCustomControl/CheckBox";
+import EditorInput from "./formikCustomControl/EditorInput";
+import ImagesInput from "./formikCustomControl/ImagesInput";
 import Input from "./formikCustomControl/Input";
 import Radiobutton from "./formikCustomControl/RadioButton";
 import Select from "./formikCustomControl/Select";
@@ -10,6 +12,10 @@ const FormikControl = (props) => {
   switch (control) {
     case "input":
       return <Input {...rest}></Input>;
+    case "editorInput":
+      return <EditorInput {...rest}></EditorInput>;
+    case "imagesInput":
+      return <ImagesInput {...rest}></ImagesInput>
     case "textarea":
       return <Textarea {...rest} />;
     case "select":

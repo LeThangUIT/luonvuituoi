@@ -67,7 +67,7 @@ const Container = styled.div`
 const Label = styled.span`
   ${tw` min-w-[140px] box-border text-[14px]  text-[ #300F19] font-normal leading-[17px]`}
 `;
-const ButtonGroup = styled.div`
+export const ButtonGroup = styled.div`
   ${tw` flex flex-row gap-[10px] flex-wrap`}
 `;
 const Size = styled.span`

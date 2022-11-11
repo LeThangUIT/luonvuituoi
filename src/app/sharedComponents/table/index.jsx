@@ -11,7 +11,7 @@ export const TableBody = styled.tbody`
   ${tw``}
 `;
 export const TableRow = styled.tr`
-  ${tw` h-fit-content border border-[#EEEEEE] bg-white`}
+  ${tw` h-fit-content border border-[#EEEEEE] bg-white content-center`}
 `;
 export const RowSpace = styled.tr`
   ${tw` h-3`}

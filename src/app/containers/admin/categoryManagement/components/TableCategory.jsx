@@ -33,9 +33,11 @@ function TableCategory({listCategories}) {
   return (
     <Table>
         <TableHead>
+          <TableRow>
             <TableHeading>STT</TableHeading>
             <TableHeading>Tên</TableHeading>
             <TableHeading>Tùy biến</TableHeading>
+          </TableRow>
         </TableHead>
         <TableBody>
           {listCategories && listCategories.map((item, index) => (
