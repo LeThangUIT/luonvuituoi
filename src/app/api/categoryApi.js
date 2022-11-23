@@ -1,10 +1,9 @@
 import axios from "axios";
 import { ADMIN_API_URL, API_URL } from "../constant";
 
-const adminToken = localStorage.getItem("adminToken");
 
 class categoryApi {
-  getAllCategorysByAdmin = () => {
+  getAllCategoriesByAdmin = (adminToken) => {
     const url = `${ADMIN_API_URL}/category`;
     return axios.get(url, {
       headers: {
@@ -13,8 +12,15 @@ class categoryApi {
     });
   };
 
-  deleteCategory = (param) => {
-    const url = `${ADMIN_API_URL}/category/${param}`;
+  getAllCategories = () => {
+    const url = `${API_URL}/category`;
+    return axios.get(url);
+  };
+
+  deleteCategory = ({id, adminToken}) => {
+    console.log(adminToken)
+    console.log(id)
+    const url = `${ADMIN_API_URL}/category/${id}`;
     return axios.delete(url, {
       headers: {
         Authorization: "Bearer " + adminToken,
@@ -22,7 +28,7 @@ class categoryApi {
     });
   };
 
-  addCategory = (data) => {
+  addCategory = ({data, adminToken}) => {
     const url = `${ADMIN_API_URL}/category`;
     return axios.post(url, data, {
       headers: {
@@ -31,9 +37,9 @@ class categoryApi {
     });
   };
 
-  updateCategory = (param, data) => {
-    const url = `${ADMIN_API_URL}/category/${param}`;
-    return axios.put(url, {name: data}, {
+  updateCategory = ({id, name, adminToken}) => {
+    const url = `${ADMIN_API_URL}/category/${id}`;
+    return axios.put(url, {name: name}, {
       headers: {
         Authorization: "Bearer " + adminToken,
       },

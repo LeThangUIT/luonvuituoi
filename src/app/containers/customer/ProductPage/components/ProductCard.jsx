@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { AddToCartIcon } from "../../../../sharedComponents/icon/addToCartIcon";
@@ -16,7 +18,7 @@ const ImageContainer = styled.div`
 `;
 const ImageBox = styled.div`
   ${tw`
-      h-[175px] rounded-lg overflow-hidden flex 
+      h-[175px] rounded-lg overflow-hidden flex hover:cursor-pointer
   `}
 `;
 const Image = styled.img`
@@ -41,26 +43,28 @@ const PriceContainer = styled.div`
 `;
 const Price = styled.span`
   ${tw`
-     not-italic font-bold text-base leading-[19px] text-[ #EE4C7E] flex-1
+     not-italic font-bold text-base leading-[19px] text-[ #EE4C7E] flex-1 
   `}
 `;
-function ProductCard(props) {
+function ProductCard({data}) {
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
+  const navigate = useNavigate()
+  const handProductDetail = (id) => {
+    navigate(`/detail/${id}`)
+  }
   return (
     <ProductContainer>
       <ImageContainer>
-        <ImageBox>
-          {props.data.image.map((item1, index) => {
-            return <Image src={item1}></Image>;
-          })}
+        <ImageBox onClick={() => handProductDetail(data.id)}>
+          <Image src={data.imageMain}></Image>
         </ImageBox>
       </ImageContainer>
       <DescribesBox2>
-        <Heading14>{props.data.name}</Heading14>
+        <Heading14 onClick={() => handProductDetail(data.id)}>{data.name}</Heading14>
         <PriceContainer>
-          <Price>đ {formatter.format(props.data.price)}</Price>
+          <Price>đ {formatter.format(data.price)}</Price>
           <AddToCartIcon></AddToCartIcon>
         </PriceContainer>
       </DescribesBox2>

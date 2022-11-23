@@ -20,10 +20,10 @@ export const Label = styled.span`
     `}
 `
 export const BoxText = styled.input`
-  ${tw` w-full border border-solid border-[#EEEEEE] px-[20px] py-2 rounded-lg bg-[#FAFAFA] placeholder:text-[14px] placeholder:text-[#818181] placeholder:not-italic placeholder:font-normal placeholder:leading-[17px]`}
+  ${tw` focus:outline-none w-full border border-solid border-[#EEEEEE] px-[20px] py-2 rounded-lg bg-[#FAFAFA] placeholder:text-[14px] placeholder:text-[#818181] placeholder:not-italic placeholder:font-normal placeholder:leading-[17px]`}
 `;
 
-const ErrorContainer = styled.div`
+export const ErrorContainer = styled.div`
   ${tw` h-7`}
 `
 const Input = (props) => {

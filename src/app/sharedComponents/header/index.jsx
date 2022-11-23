@@ -11,6 +11,8 @@ import { slide as Menu } from "react-burger-menu";
 import menuStyles from "./menuStyles";
 import { listMenu } from "./data";
 import { SubMenuResponsive } from "./navbar/subNavReponsive";
+import { useSelector } from "react-redux";
+
 
 const HeaderContainer = styled.div`
   ${tw`
@@ -76,7 +78,10 @@ export function Header() {
             <Menu styles={menuStyles}>
               {listMenu.map((item, index) => {
                 return (
-                  <SubMenuResponsive item={item} key={index}></SubMenuResponsive>
+                  <SubMenuResponsive
+                    item={item}
+                    key={index}
+                  ></SubMenuResponsive>
                 );
               })}
               <LoginButton>
@@ -111,7 +116,8 @@ export function Header() {
           </TopChildren>
           <TopChildren>
             {showSearch ? (
-              <svg onTouchStart={() => setShowSearch(false)}
+              <svg
+                onTouchStart={() => setShowSearch(false)}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import "../form.css";
 import TextError from "./TextError";
@@ -49,15 +49,6 @@ const Image = styled.img`
 `;
 const MyInput = ({ form, field, ...props }) => {
   const [images, setImages] = useState([]);
-  // const [images, setImages] = useState([])
-  // const handleChange = (e) => {
-  //     for(let i = 0; i<e.target.files.length; i++) {
-  //         const newImage = e.target.files[i]
-  //         newImage["id"] = Math.random()
-  //         console.log(images)
-  //         setImages((prevState) => [...prevState, newImage])
-  //     }
-  // }
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
@@ -66,6 +57,14 @@ const MyInput = ({ form, field, ...props }) => {
     });
     setImages((prevImages) => prevImages.concat(imagesArray));
   };
+  const onDeleteImage = (url) => {
+    URL.revokeObjectURL(url)
+    setImages(prevImage => prevImage.filter((item) => item !== url))
+  }
+  useEffect(() => {
+    form.setFieldValue(field.name,images);
+  }, [images])
+  
   return (
     <>
       <Labell>
@@ -83,14 +82,11 @@ const MyInput = ({ form, field, ...props }) => {
       {images && (
         <ImageGroup>
           {images.map((url, index) => {
-            console.log(url.blob())
             return (
               <ImageBox key={index}>
                 <Image src={url}></Image>{" "}
                 <DeleteIcon
-                  onClick={() =>
-                    setImages(images.filter((item) => item !== url))
-                  }
+                  onClick={() => onDeleteImage(url)}
                 >
                   x
                 </DeleteIcon>

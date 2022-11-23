@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_API_URL, AUTH_API_URL } from "../constant";
+import { ADMIN_API_URL, AUTH_API_URL, USER_API_URL } from "../constant";
 
 class authApi {
     apiMe = (adminToken) => {
@@ -7,6 +7,15 @@ class authApi {
         return axios.get(url,  {
             headers: {
               Authorization: "Bearer " + adminToken,
+            },
+          })
+    }
+
+    apiUserMe = (userToken) => {
+        const url = `${USER_API_URL}/me`
+        return axios.get(url,  {
+            headers: {
+              Authorization: "Bearer " + userToken,
             },
           })
     }
@@ -19,6 +28,11 @@ class authApi {
     adminLogin = (data) => {
         const url = `${AUTH_API_URL}/admin/login`
         return axios.post(url, data)
+    }
+
+    socialLogin = (data) => {
+        const url = `${AUTH_API_URL}/redirect/${data}`
+        return axios.get(url)
     }
 
     register = (data) => {

@@ -3,8 +3,16 @@ import CategoryApi from "../../../api/categoryApi";
 
 export const getAllCategoriesByAdmin = createAsyncThunk(
     "category/getAllCategoriesByAdmin",
+    async(adminToken) => {
+        const allCategory = await CategoryApi.getAllCategoriesByAdmin(adminToken);
+        return allCategory;
+
+    }
+)
+export const getAllCategories = createAsyncThunk(
+    "category/getAllCategoriesByAdmin",
     async() => {
-        const allCategory = await CategoryApi.getAllCategorysByAdmin();
+        const allCategory = await CategoryApi.getAllCategories();
         return allCategory;
 
     }
@@ -12,16 +20,17 @@ export const getAllCategoriesByAdmin = createAsyncThunk(
 
 export const addCategory = createAsyncThunk(
     "category/addCategory",
-    async( data ) => {
-        const newCategory = await CategoryApi.addCategory(data);
+    async({data, adminToken}) => {
+        const newCategory = await CategoryApi.addCategory({data, adminToken});
         return newCategory;
     }
 )
 
 export const updateCategory = createAsyncThunk(
     "category/updateCategory",
-    async( category ) => {
-        const res = await CategoryApi.updateCategory(category.id, category.name);
+    async( {category, adminToken}) => {
+        console.log(adminToken)
+        const res = await CategoryApi.updateCategory({id: category.id,name: category.name, adminToken});
         const data = {category, res}
         return data;
     }
@@ -29,9 +38,11 @@ export const updateCategory = createAsyncThunk(
 
 export const deleteCategory = createAsyncThunk(
     "category/deleteCategory",
-    async( id ) => {
-        const res = await CategoryApi.deleteCategory(id);
+    async( {id, adminToken}) => {
+        console.log(id)
+        const res = await CategoryApi.deleteCategory({id, adminToken});
         const data = {id, res}
+        console.log(data)
         return data;
     }
 )
@@ -68,12 +79,24 @@ const CategorySlice = createSlice({
             state.loading = false
         },
 
+        [getAllCategories.pending](state) {
+            state.loading = true
+        },
+        [getAllCategories.fulfilled](state, action) {
+            state.listCategories = action.payload.data.data
+            state.loading = false
+        },
+        [getAllCategories.rejected](state) {
+            state.loading = false
+        },
+
         [addCategory.pending](state) {
             state.loading = true
         },
         [addCategory.fulfilled](state, action) {
             state.listCategories.push(action.payload.data.data)
             state.loading = false
+            state.isShow = false
         },
         [addCategory.rejected](state) {
             state.loading = false

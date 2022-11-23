@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductIndex from "./app/containers/customer/ProductPage/ProductIndex";
 import CallbackApi from "./app/containers/CallbackApi";
+import ProfileIndex from "./app/containers/customer/ProfilePage/ProfileIndex";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -38,6 +39,7 @@ function App() {
         <Route path="/product/*" element={<ProductIndex />} />
         <Route path="/detail/:productId" element={<DetailIndex />} />
         <Route path="/cart" element={<CartIndex />} />
+        <Route path="/profile" element={<ProfileIndex/>}/>
         <Route path="/checkout" element={<CheckoutIndex />} />
         <Route path="/callback/:social" element={<CallbackApi />} />
         <Route

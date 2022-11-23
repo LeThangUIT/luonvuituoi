@@ -21,6 +21,19 @@ export const admin = createAsyncThunk(
         }
     }
 )
+
+export const fetchUserInfo = createAsyncThunk(
+    'auth/user', 
+    async (userToken, {rejectWithValue}) => {
+        try{
+            const response = await AuthApi.apiUserMe(userToken)
+            return response.data
+        } catch(error) {       
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 export const login = createAsyncThunk(
     'auth/login',
     async (data, {rejectWithValue}) => {
@@ -79,6 +92,7 @@ const AuthSlice = createSlice({
         isAdmin: false,
         userToken,
         adminToken,
+        userInfo: null,
     },
     reducers: {},
     extraReducers: {
@@ -91,6 +105,17 @@ const AuthSlice = createSlice({
             state.userToken = action.payload.data
         },
         [login.rejected]: (state, action) => {
+            state.loading = false
+        },
+
+        [fetchUserInfo.pending]: (state, action) => {
+            state.loading = true
+        },
+        [fetchUserInfo.fulfilled]: (state, action) => {
+            state.loading = false
+            state.userInfo = action.payload.data
+        },
+        [fetchUserInfo.rejected]: (state, action) => {
             state.loading = false
         },
 

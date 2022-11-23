@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AuthApi from "../api/authApi";
 function CallbackApi() {
   const { social } = useParams();
-  console.log(social);
   useEffect(async () => {
     let url = window.location.href;
     let data = url.split("?")[1];
     data = `/${social}?` + data;
-    console.log(data);
-    await AuthApi.callbackSocial(data);
+    try {
+      const res = await AuthApi.callbackSocial(data);
+      localStorage.setItem("userToken", res.data.data)
+      window.location.href = "/"
+    } catch (e) {
+      console.log(e)
+      window.location.href = "/login"
+    }
+
   }, []);
   return (
     <div
@@ -22,6 +28,7 @@ function CallbackApi() {
     >
       Đang tải ...
     </div>
+
   );
 }
 

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import tw from 'twin.macro'
 import { Body } from "../../../../sharedComponents/body";
 import { Footer } from "../../../../sharedComponents/footer";
 import { Header } from "../../../../sharedComponents/header";
+import { getAllCategories } from "../../../admin/categoryManagement/categorySlice";
+import { fetchUserInfo } from "../../Auth/authSlice";
 import { Banner } from "../components/banner";
 import { Content } from "../components/content";
 
@@ -19,6 +22,14 @@ export const PageContainer = styled.div`
 `;
 
 export default function HomePage() {
+    const userToken = localStorage.getItem("userToken");
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getAllCategories())
+        if(userToken) {
+            dispatch(fetchUserInfo(userToken))
+        }
+    }, [])
     return (
         <PageContainer>
             <Header></Header>

@@ -2,6 +2,8 @@ let option = {
     Key: "color",
     Items: ["red", "green", "blue"],
 };
+
+
   
   let options = [];
   
@@ -100,7 +102,7 @@ let option = {
           },
         ],
       };
-      variants.push(optionValue);
+      newVariants.push(optionValue);
     } else {
       for (const variant of variants) {
         const newOptionValue = {

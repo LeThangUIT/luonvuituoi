@@ -5,7 +5,6 @@ import ProductManagementPage from './pages/ProductManagementPage'
 function ProductManagementIndex() {
   return (
         <Routes>
-          
             <Route index element={<ProductManagementPage/>} ></Route>
         </Routes>
   )

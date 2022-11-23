@@ -22,6 +22,7 @@ import { PinkButton } from "../../../../sharedComponents/button";
 import { toast } from "react-toastify";
 
 function CategoryModal() {
+  const adminToken = localStorage.getItem("adminToken");
   const { isUpdate, newCategory, loading } = useSelector(
     (state) => state.category
   );
@@ -42,10 +43,10 @@ function CategoryModal() {
   const onSubmit = async (values) => {
     if (isUpdate) {
       var {payload} = await dispatch(
-        updateCategory({ id: newCategory.id, ...values })
+        updateCategory({category: { id: newCategory.id, ...values }, adminToken})
       );
     } else {
-      var {payload} = await dispatch(addCategory(values));
+      var {payload} = await dispatch(addCategory({data: values, adminToken}));
     }
     if (!payload.res.data.success) {
       dispatch(hideCategoryModal());

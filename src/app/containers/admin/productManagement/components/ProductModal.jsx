@@ -10,7 +10,7 @@ import {
   ModalTitle,
 } from "../../../../sharedComponents/modal";
 import { Heading16, Heading22 } from "../../../../sharedComponents/text";
-import { hideProductModal } from "../productSlice";
+import { addProduct, hideProductModal } from "../productSlice";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Form, Formik } from "formik";
@@ -21,6 +21,8 @@ import Input, { BoxText } from "../../../../sharedComponents/formikCustom/formik
 import { Label } from "../../../../sharedComponents/formikCustom/formikCustomControl/ImagesInput";
 import { ButtonGroup } from "../../../customer/DetailPage/pages/DetailPage";
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from "../../../../sharedComponents/table";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../../firebase";
 
 const Frame = styled.div`
   ${tw` p-5 rounded-lg bg-white border border-black flex flex-col gap-y-4 `}
@@ -40,7 +42,9 @@ const BoxValue = styled.div`
   `}
 `;
 function ProductModal() {
+  const adminToken = localStorage.getItem("adminToken")
   const { isUpdate, loading } = useSelector((state) => state.product);
+  const {listCategories} = useSelector((state) => state.category)
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(hideProductModal());
@@ -48,39 +52,76 @@ function ProductModal() {
 
   const initialValues = {
     name: "",
-    description: "",
-    images: "",
+    categoryId: "",
     price: "",
+    quantity: 0,
+    details: "",
+    description: "",
+    images: [],
+    imageMain: "",
+    imageDescription: ""
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required("Bạn cần phải nhập trường này!"),
+    // name: Yup.string().required("Bạn cần phải nhập trường này!"),
   });
-  const onSubmit = (values) => {
-    console.log(values);
+  
+  const onSubmit = async (values) => {
+    console.log("first")
+    if(values.images.length != 4) {
+      //ko cho them
+    }
+    else {
+      await values.images.map(async (url, index) => {
+        let blob = await fetch(url).then(r => r.blob()).catch((error) => console.log(error));
+        const imageRef = ref(storage, "image " + values.name + index);
+        uploadBytes(imageRef, blob)
+        .then(() => {
+          getDownloadURL(imageRef)
+            .then(async (url) => {
+              if(index == 0) {
+                values.imageMain = url
+              }
+              else {
+                values.imageDescription += `${url} ` 
+              }
+            })
+            .catch((error) => {
+              console.log(error.message, "error getting the image url");
+            });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      })
+      const {images, ...rest} = values
+      let data = {variants,options, ...rest}
+      console.log(data)
+      dispatch(addProduct({data, adminToken}))
+    }
   };
 
   const [isChecked, setIsChecked] = useState(false);
   const [options, setOptions] = useState([
     {
-      Key: "",
-      Items: [],
+      key: "",
+      items: [],
     },
   ]);
-  const [variants, setVariants] = useState([])
+  let [variants, setVariants] = useState([])
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
 
   const handleAddOption = () => {
     const newOption = {
-      Key: "",
-      Items: [],
+      key: "",
+      items: [],
     };
     setOptions((prevState) => [...prevState, newOption]);
   };
 
   const handleOptionChange = (event, index) => {
-    options[index].Key = event.target.value;
+    options[index].key = event.target.value;
     setOptions(options);
   };
   const handleDeleteOption = (index) => {
@@ -89,58 +130,78 @@ function ProductModal() {
     if (options.length == 0) {
       setOptions([
         {
-          Key: "",
-          Items: [],
+          key: "",
+          items: [],
         },
       ])
       setIsChecked(false);
     }
   };
-
+  
   useEffect(() => {
-    const valueVariants = [];
+    let initialVariants = []
+    let valueVariantLoop = []
     for (const option of options) {
-      for ( const item of option.Items) {
-        if(options.length == 1) {
-          const optionValue = {
-            OptionValues: [
+      if(valueVariantLoop.length == 0) {
+        for(const item of option.items) {
+          const newVariantValue = {
+            optionValues: [
               {
-                Option: option.Key,
-                Value: item
+                option: option.key,
+                value: item
               }
-            ]
+            ],
+            quantity: 0,
+            price: 0
           }
-          valueVariants.push(optionValue)
+          initialVariants.push(newVariantValue)
         }
-        else {
-          for(const variant of variants) {
-            const newOptionValue = {
-              Option: option.Key,
-              Value: item,
-            };
-            valueVariants.push({
-              OptionValues: [newOptionValue, ...variant.OptionValues]
+        valueVariantLoop = initialVariants
+        initialVariants = []
+      }
+      else {
+        for(const item of option.items) {
+          const newOptionValues = {
+                option: option.key,
+                value: item
+          }
+          valueVariantLoop.forEach((variant, index) => {
+            let arrayValue = [...variant.optionValues]
+            arrayValue.push(newOptionValues)
+            initialVariants.push({
+              optionValues: [...arrayValue],
+              quantity: 0,
+              price: 0
             })
-          }
+          })
         }
+        valueVariantLoop = initialVariants
+        initialVariants = []
       }
     }
-    console.log(valueVariants)
-    setVariants(valueVariants)
+    setVariants(valueVariantLoop)
   }, [options])
   
   const handleValueChange = (event, index) => {
     if (event.keyCode == 13) {
-      options[index].Items.push(event.target.value);
+      options[index].items.push(event.target.value);
       event.target.value = "";
       setOptions([...options]);
     }
   };
   const handleDeleteValue = (index, indexValue) => {
-    options[index].Items.splice(indexValue, 1);
+    options[index].items.splice(indexValue, 1);
     setOptions([...options]);
   };
 
+  const handleChangeQuantity = (event, index) => {
+    variants[index].quantity = event.target.value;
+    setVariants([...variants])
+  }
+  const handleChangePrice = (event, index) => {
+    variants[index].price = event.target.value;
+    setVariants([...variants])
+  }
   return (
     <ModalBackground>
       <ModalContainer>
@@ -171,15 +232,33 @@ function ProductModal() {
                     type="text"
                     label="Tên sản phẩm"
                     name="name"
-                    // onChange={formik.handleChange}
-                    // value={formik.values.name}
-                    // onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
+                    onBlur={formik.handleBlur}
                   ></FormikControl>
-                  <FormikControl
+                   <FormikControl
+                      control="select"
+                      label="Danh mục"
+                      name="categoryId"
+                      options={listCategories}
+                      // onChange={formik.handleChange}
+                      // value={formik.values.categoryId}
+                      // onBlur={formik.handleBlur}
+                    />
+                    <FormikControl
                     control="editorInput"
                     type="text"
                     label="Mô tả"
                     name="description"
+                    // onChange={formik.handleChange}
+                    // value={formik.values.description}
+                    // onBlur={formik.handleBlur}
+                  ></FormikControl>
+                   <FormikControl
+                    control="editorInput"
+                    type="text"
+                    label="Chi tiết"
+                    name="details"
                     // onChange={formik.handleChange}
                     // value={formik.values.description}
                     // onBlur={formik.handleBlur}
@@ -189,10 +268,20 @@ function ProductModal() {
                     type="text"
                     label="Giá sản phẩm"
                     name="price"
-                    // onChange={formik.handleChange}
-                    // value={formik.values.price}
-                    // onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.price}
+                    onBlur={formik.handleBlur}
                   ></FormikControl>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Số lượng"
+                    name="quantity"
+                    onChange={formik.handleChange}
+                    value={formik.values.quantity}
+                    onBlur={formik.handleBlur}
+                  ></FormikControl>
+                  
                   <FormikControl
                     control="imagesInput"
                     type="file"
@@ -215,14 +304,6 @@ function ProductModal() {
                       <div>
                         {options.map((item, index) => {
                           return (
-                            // <div key={index}>
-                            //   <FormikControl
-                            //     control="input"
-                            //     type="text"
-                            //     label="Tên tùy chọn"
-                            //     name={item.Key}
-                            //   ></FormikControl>
-                            // </div>
                             <FrameBody key={index}>
                               <Label> Tên tùy chọn</Label>
                               <FlexFrame>
@@ -242,7 +323,7 @@ function ProductModal() {
                                 }
                               ></BoxText>
                               <ButtonGroup>
-                                {item.Items.map((value, indexValue) => {
+                                {item.items.map((value, indexValue) => {
                                   return (
                                     <BoxValue>
                                       <span key={indexValue}>{value}</span>
@@ -264,30 +345,48 @@ function ProductModal() {
                       </div>
                     )}
                   </Frame>
-                  {options[0].Items.length > 0 &&
+                  {options[0].items.length > 0 &&
                   <Frame>
-                    {console.log(variants)}
                       <Heading16>Biến thể</Heading16>
                       <Table>
                         <TableHead>
                           <TableRow>
                             <TableHeading>Biến thể</TableHeading>
+                            <TableHeading>Giá</TableHeading>
                             <TableHeading>Số lượng</TableHeading>
-                            {/* <TableHeading>Xóa</TableHeading> */}
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          <TableRow>
-                            <TableData>Xanh / M</TableData>
-                            <TableData>
-                              <BoxText></BoxText>
-                            </TableData>
-                          </TableRow>
+                          {variants.map((item, index) => {
+                            return (
+                              <TableRow key={index}>
+                                <TableData>
+                                  {item.optionValues.map((name, index) => {
+                                      if(index == 0) {
+                                        return(
+                                          <Heading16>{name.value}</Heading16>
+                                        )
+                                      }
+                                      else {
+                                        return (
+                                          <Heading16> / {name.value}</Heading16>
+                                        )
+                                      }
+                                  })}
+                                </TableData>
+                                <TableData>
+                                  <BoxText value={item.price} onChange={(event) => handleChangePrice(event, index)}></BoxText>
+                                </TableData>
+                                <TableData>
+                                  <BoxText value={item.quantity} onChange={(event) => handleChangeQuantity(event, index)}></BoxText>
+                                </TableData>
+                              </TableRow>
+                            )
+                          })}
                         </TableBody>
                       </Table>
                      </Frame>
                   }
-
                   <ModalFooter>
                     <PinkButton disabled={loading} type="submit">
                       Xác nhận

@@ -20,10 +20,6 @@ function CategoryManagementPage() {
     (state) => state.category
   );
   const dispatch = useDispatch();
-  useEffect(() => {
-    const action = getAllCategoriesByAdmin();
-    dispatch(action);
-  }, []);
 
   const handleAdd = () => {
     dispatch(showCategoryModal({ isUpdate: false, data: null }));

@@ -8,17 +8,18 @@ import { Table, TableBody, TableData, TableHead, TableHeading, TableNameData, Ta
 import { deleteCategory, showCategoryModal } from '../categorySlice';
 
 
-const ButtonGroup = styled.div`
+export const ButtonGroup = styled.div`
   ${tw` flex flex-row gap-[10px] flex-wrap`}
 `;
 function TableCategory({listCategories}) {
+  const adminToken = localStorage.getItem("adminToken");
   const dispatch = useDispatch()
   const handleUpdate = (item) => {
     dispatch(showCategoryModal({isUpdate: true, data: item}))
   }
   const handleDelete = async (id) => {
     if(window.confirm("Bạn có muốn xóa danh mục này không")) {
-      var {payload} = await dispatch(deleteCategory(id))
+      var {payload} = await dispatch(deleteCategory({id, adminToken}))
     }
     if (!payload.res.data.success) {
       toast.error(payload.res.data.message, {

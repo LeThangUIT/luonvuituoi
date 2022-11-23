@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { AddToCartIcon } from "../../../../sharedComponents/icon/addToCartIcon";
@@ -21,10 +21,12 @@ import {
   Text14,
 } from "../../../../sharedComponents/text";
 import ProductImageSlider from "../../../../sharedComponents/slider/ProductImageSlider";
-import { ImageList } from "../../../../assets/ImageList";
 import { StarIcon } from "../../../../sharedComponents/icon/starIcon";
 import Quantity from "../components/Quantity";
 import QuantityComponent from "../components/Quantity";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductDetail } from "../../../admin/productManagement/productSlice";
+import { useParams } from "react-router-dom";
 
 const ContentContainer = styled.div`
   ${tw`
@@ -94,146 +96,159 @@ const RatingButton = styled.button`
 `;
 const CommentFrame = styled.div`
   ${tw` flex flex-col items-start gap-2 pl-12 pb-8`}
-`
+`;
 const StarGroup = styled.div`
   ${tw` flex flex-row items-center gap-1`}
-`
+`;
 function DetailPage() {
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
+  let {productId} = useParams()
+  const { productDetail } = useSelector((state) => state.product);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchProductDetail(productId))
+  }, [])
+  let listImages = []
+  if(productDetail != null) {
+    listImages = [productDetail.imageMain, ...productDetail.imageDescription.split(" ")]
+    listImages.pop()
+  }
   return (
     <PageContainer>
       <Header></Header>
       <Body>
-        <ContentContainer>
-          <GridContainer>
-            <ImageSection>
-              <ProductImageSlider images={ImageList}></ProductImageSlider>
-            </ImageSection>
-            <ContentSection>
-              <NameProduct>Giày Air Force 1</NameProduct>
-              <EvaluationFrame>
-                <StartFrame>
-                  <StarIcon size="20" color="#F0A500"></StarIcon>
-                  <StarIcon size="20" color="#F0A500"></StarIcon>
-                  <StarIcon size="20" color="#F0A500"></StarIcon>
-                  <StarIcon size="20" color="#F0A500"></StarIcon>
-                  <StarIcon size="20" color="#818181"></StarIcon>
-                </StartFrame>
-                <Line></Line>
-                <LightText14>Xem 21 đánh giá</LightText14>
-                <Line></Line>
-                <LightText14>Đã bán 16</LightText14>
-              </EvaluationFrame>
-              <Price>đ {formatter.format(300000)}</Price>
-              <Container>
-                <Label>Size</Label>
-                <ButtonGroup>
-                  <Size>35</Size>
-                  <Size>36</Size>
-                  <Size>37</Size>
-                  <Size>38</Size>
-                  <Size>39</Size>
-                  <Size>40</Size>
-                  <Size>41</Size>
-                  <Size>42</Size>
-                </ButtonGroup>
-              </Container>
-              <Container>
-                <Label>Số lượng</Label>
-                <QuantityComponent></QuantityComponent>
-              </Container>
-              <ButtonGroup>
-                <WhiteButton>
-                  <AddToCartIcon />
-                  Thêm vào giỏ hàng
-                </WhiteButton>
-                <WhiteButton>Mua ngay</WhiteButton>
-              </ButtonGroup>
-            </ContentSection>
-          </GridContainer>
-        </ContentContainer>
-        <ContentContainer>
-          <ContentSection>
-            <HeadingTitle>
-              <Heading26>Chi tiết sản phẩm</Heading26>
-              <RightIcon></RightIcon>
-            </HeadingTitle>
-            <DescriptionSection>
-              <Heading14>Đặc điểm sản phẩm</Heading14>
-              <Text14>
-                - Bé hãy cùng với mẹ hoặc các bạn tạo ra những chiếc bánh pizza
-                thật hấp dẫn với nhiều hình trang trí thật dễ thương và ngộ
-                nghĩnh.
-              </Text14>
-              <Heading14>Thông tin sản phẩm</Heading14>
-            </DescriptionSection>
-          </ContentSection>
-        </ContentContainer>
-        <ContentContainer>
-          <ContentSection>
-            <HeadingTitle>
-              <Heading26>Đánh giá sản phẩm</Heading26>
-              <RightIcon></RightIcon>
-            </HeadingTitle>
-            <DescriptionSection>
-              <FilterEvaluationFrame>
-                <RatingFrame>
-                  <PinkHeading48>5</PinkHeading48>
-                  <PinkHeading16>/</PinkHeading16>
-                  <PinkHeading16>5</PinkHeading16>
-                  <StarIcon size="16" color="#F0A500"></StarIcon>
-                </RatingFrame>
-                <RatingGroup>
-                  <RatingButton>
-                    <Text14>Tất cả</Text14>
-                  </RatingButton>
-                  <RatingButton>
-                    <Text14>5 sao</Text14>
-                  </RatingButton>{" "}
-                  <RatingButton>
-                    <Text14>4 sao</Text14>
-                  </RatingButton>{" "}
-                  <RatingButton>
-                    <Text14>3 sao</Text14>
-                  </RatingButton>{" "}
-                  <RatingButton>
-                    <Text14>2 sao</Text14>
-                  </RatingButton>
-                  <RatingButton>
-                      <Text14>1 sao</Text14>
-                  </RatingButton>
-                </RatingGroup>
-              </FilterEvaluationFrame>
-              <CommentFrame>
-                <Heading16>Le Duc Thang</Heading16>
-                <StarGroup>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                </StarGroup>
-                <LightText12>2:06 11/10/2022</LightText12>
-                <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-              </CommentFrame>
-              <CommentFrame>
-                <Heading16>Bui Thanh Tra</Heading16>
-                <StarGroup>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#F0A500"></StarIcon>
-                  <StarIcon size="12" color="#818181"></StarIcon>
-                </StarGroup>
-                <LightText12>2:06 11/10/2022</LightText12>
-                <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-              </CommentFrame>
-            </DescriptionSection>
-          </ContentSection>
-        </ContentContainer>
+        {productDetail ? (
+          <>
+            <ContentContainer>
+              <GridContainer>
+                <ImageSection>
+                  <ProductImageSlider images={listImages}></ProductImageSlider>
+                </ImageSection>
+                <ContentSection>
+                  <NameProduct>{productDetail.name}</NameProduct>
+                  <EvaluationFrame>
+                    <StartFrame>
+                      <StarIcon size="20" color="#F0A500"></StarIcon>
+                      <StarIcon size="20" color="#F0A500"></StarIcon>
+                      <StarIcon size="20" color="#F0A500"></StarIcon>
+                      <StarIcon size="20" color="#F0A500"></StarIcon>
+                      <StarIcon size="20" color="#818181"></StarIcon>
+                    </StartFrame>
+                    <Line></Line>
+                    <LightText14>Xem 21 đánh giá</LightText14>
+                    <Line></Line>
+                    <LightText14>Đã bán 16</LightText14>
+                  </EvaluationFrame>
+                  <Price>đ {formatter.format(productDetail.price)}</Price>
+                  {productDetail.options.map((option, index) => (
+                    <Container key={index}>
+                      <Label>{option.name}</Label>
+                      <ButtonGroup>
+                        {option.values.map((item, index) => (
+                          <Size key={index}>{item.name}</Size>
+                        ))}
+                      </ButtonGroup>
+                    </Container>
 
+                  ))}
+                  <Container>
+                    <Label>Số lượng</Label>
+                    <QuantityComponent></QuantityComponent>
+                  </Container>
+                  <ButtonGroup>
+                    <WhiteButton>
+                      <AddToCartIcon />
+                      Thêm vào giỏ hàng
+                    </WhiteButton>
+                    <WhiteButton>Mua ngay</WhiteButton>
+                  </ButtonGroup>
+                </ContentSection>
+              </GridContainer>
+            </ContentContainer>
+            <ContentContainer>
+              <ContentSection>
+                <HeadingTitle>
+                  <Heading26>Chi tiết sản phẩm</Heading26>
+                  <RightIcon></RightIcon>
+                </HeadingTitle>
+                <DescriptionSection>
+                  <Heading14>Đặc điểm sản phẩm</Heading14>
+                  <div dangerouslySetInnerHTML={{__html: productDetail.description}}>
+                  </div>
+                  <Heading14>Thông tin sản phẩm</Heading14>
+                  <div dangerouslySetInnerHTML={{__html: productDetail.details}}>
+                  </div>
+                </DescriptionSection>
+              </ContentSection>
+            </ContentContainer>
+            <ContentContainer>
+              <ContentSection>
+                <HeadingTitle>
+                  <Heading26>Đánh giá sản phẩm</Heading26>
+                  <RightIcon></RightIcon>
+                </HeadingTitle>
+                <DescriptionSection>
+                  <FilterEvaluationFrame>
+                    <RatingFrame>
+                      <PinkHeading48>5</PinkHeading48>
+                      <PinkHeading16>/</PinkHeading16>
+                      <PinkHeading16>5</PinkHeading16>
+                      <StarIcon size="16" color="#F0A500"></StarIcon>
+                    </RatingFrame>
+                    <RatingGroup>
+                      <RatingButton>
+                        <Text14>Tất cả</Text14>
+                      </RatingButton>
+                      <RatingButton>
+                        <Text14>5 sao</Text14>
+                      </RatingButton>{" "}
+                      <RatingButton>
+                        <Text14>4 sao</Text14>
+                      </RatingButton>{" "}
+                      <RatingButton>
+                        <Text14>3 sao</Text14>
+                      </RatingButton>{" "}
+                      <RatingButton>
+                        <Text14>2 sao</Text14>
+                      </RatingButton>
+                      <RatingButton>
+                        <Text14>1 sao</Text14>
+                      </RatingButton>
+                    </RatingGroup>
+                  </FilterEvaluationFrame>
+                  <CommentFrame>
+                    <Heading16>Le Duc Thang</Heading16>
+                    <StarGroup>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                    </StarGroup>
+                    <LightText12>2:06 11/10/2022</LightText12>
+                    <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
+                  </CommentFrame>
+                  <CommentFrame>
+                    <Heading16>Bui Thanh Tra</Heading16>
+                    <StarGroup>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#F0A500"></StarIcon>
+                      <StarIcon size="12" color="#818181"></StarIcon>
+                    </StarGroup>
+                    <LightText12>2:06 11/10/2022</LightText12>
+                    <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
+                  </CommentFrame>
+                </DescriptionSection>
+              </ContentSection>
+            </ContentContainer>
+          </>
+        ) : (
+          <span>loading</span>
+        )}
         <Footer></Footer>
       </Body>
     </PageContainer>

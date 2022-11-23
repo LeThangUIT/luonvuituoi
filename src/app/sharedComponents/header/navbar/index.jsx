@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { DropDownIcon } from "../../icon/dropDownIcon/DropDownIcon";
@@ -35,6 +37,10 @@ export const MenuItem = styled.div`
 `;
 
 export function Navbar() {
+  const {listCategories} = useSelector(state => state.category)
+  if(listCategories.length !=0) {
+    listMenu[1].subMenu = listCategories
+  }
   const [display, setDisplay] = useState("hidden")
   const [index1, setIndex1] = useState()
   const showSubMenu = (index) => {
@@ -44,18 +50,19 @@ export function Navbar() {
   const hideSubMenu = () => {
     setDisplay("hidden")
   }
+  const navigate = useNavigate()
   return (
     <NavbarContainter>
         <NavbarContent>
             {listMenu.map((item, index) => {
                 return(
-                    <MenuItem onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
+                    <MenuItem onClick={() => navigate(item.path) } onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
                         <Heading14 key={index}>{item.name}</Heading14>
                         {item.subMenu.length>0 && 
                             <DropDownIcon size="9" color="#818181"></DropDownIcon> 
                         }
                         {item.subMenu.length>0 && index1 == index &&
-                            <SubMenu display={display} subMenu1={item.subMenu}></SubMenu> 
+                            <SubMenu display={display} data={item.subMenu}></SubMenu> 
                         }             
                     </MenuItem>
                 )
