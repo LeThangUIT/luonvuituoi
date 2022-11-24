@@ -20,7 +20,6 @@ const SmallImage = styled.img`
   ${tw` object-cover w-full h-[90px] rounded-lg`}
 `;
 function ProductImageSlider({ images }) {
-  console.log(images);
   const [thumbsSwiper, setThumbsSwiper] = useState();
   const prevRef = useRef(null);
   const nextRef = useRef(null);

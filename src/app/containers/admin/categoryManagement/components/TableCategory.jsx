@@ -41,7 +41,7 @@ function TableCategory({listCategories}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {listCategories && listCategories.map((item, index) => (
+          {listCategories?.items && listCategories.items.map((item, index) => (
             <TableRow key={index}>
                 <TableData>{++index}</TableData>
                 <TableNameData>{item.name}</TableNameData>

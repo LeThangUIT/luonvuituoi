@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
+import { UilTimes} from "@iconscout/react-unicons";
+
 import "../form.css";
 import TextError from "./TextError";
 import styled from "styled-components";
@@ -39,9 +41,9 @@ const ImageBox = styled.div`
       h-[175px] rounded-lg overflow-hidden flex relative
   `}
 `;
-const DeleteIcon = styled.span`
-  ${tw` absolute top-2 right-2`}
-`;
+const DeleteIcon = styled(UilTimes)`
+  ${tw` absolute top-2 right-2 hover:cursor-pointer hover:bg-gray-50 rounded-full`}
+`
 const Image = styled.img`
   ${tw`
      object-cover w-full h-full 
@@ -88,7 +90,7 @@ const MyInput = ({ form, field, ...props }) => {
                 <DeleteIcon
                   onClick={() => onDeleteImage(url)}
                 >
-                  x
+
                 </DeleteIcon>
               </ImageBox>
             );

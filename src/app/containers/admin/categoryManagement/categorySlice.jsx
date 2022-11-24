@@ -29,7 +29,6 @@ export const addCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
     "category/updateCategory",
     async( {category, adminToken}) => {
-        console.log(adminToken)
         const res = await CategoryApi.updateCategory({id: category.id,name: category.name, adminToken});
         const data = {category, res}
         return data;
@@ -39,10 +38,8 @@ export const updateCategory = createAsyncThunk(
 export const deleteCategory = createAsyncThunk(
     "category/deleteCategory",
     async( {id, adminToken}) => {
-        console.log(id)
         const res = await CategoryApi.deleteCategory({id, adminToken});
         const data = {id, res}
-        console.log(data)
         return data;
     }
 )
@@ -52,7 +49,7 @@ const CategorySlice = createSlice({
     name: 'category',
     initialState: {
         loading: null,
-        listCategories: [],
+        listCategories: null,
         isShow: false,
         isUpdate: null,
         newCategory: null
@@ -94,7 +91,7 @@ const CategorySlice = createSlice({
             state.loading = true
         },
         [addCategory.fulfilled](state, action) {
-            state.listCategories.push(action.payload.data.data)
+            state.listCategories.items.push(action.payload.data.data)
             state.loading = false
             state.isShow = false
         },
@@ -106,9 +103,8 @@ const CategorySlice = createSlice({
             state.loading = true
         },
         [updateCategory.fulfilled](state, action) {
-            console.log(action)
             state.loading = false
-            state.listCategories.forEach((item, index) => {
+            state.listCategories.items.forEach((item, index) => {
                 if(item.id == action.payload.category.id) {
                     item.name = action.payload.category.name
                 }
@@ -122,9 +118,8 @@ const CategorySlice = createSlice({
             state.loading = true
         },
         [deleteCategory.fulfilled](state, action) {
-            console.log(action)
             state.loading = false
-            state.listCategories = state.listCategories.filter((item, index) => item.id !== action.payload.id)
+            state.listCategories.items = state.listCategories.items.filter((item, index) => item.id !== action.payload.id)
         },
         [deleteCategory.rejected](state) {
             state.loading = false

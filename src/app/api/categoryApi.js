@@ -6,6 +6,9 @@ class categoryApi {
   getAllCategoriesByAdmin = (adminToken) => {
     const url = `${ADMIN_API_URL}/category`;
     return axios.get(url, {
+      params: {
+        noPagination: 1
+      },
       headers: {
         Authorization: "Bearer " + adminToken,
       },
@@ -18,8 +21,6 @@ class categoryApi {
   };
 
   deleteCategory = ({id, adminToken}) => {
-    console.log(adminToken)
-    console.log(id)
     const url = `${ADMIN_API_URL}/category/${id}`;
     return axios.delete(url, {
       headers: {

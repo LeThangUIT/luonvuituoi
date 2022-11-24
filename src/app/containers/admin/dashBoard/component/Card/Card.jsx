@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { FaArrowAltCircleRight } from 'react-icons/fa';
+import { UilMultiply  } from '@iconscout/react-unicons'
 import Chart from 'react-apexcharts'
 import './Card.css'
 const Card = (props) => {
@@ -105,7 +105,7 @@ function ExpandedCard({ param, setExpanded }) {
       layoutId='expandableCard'
     >
       <div style={{ alignSelf: 'flex-end', cursor: 'pointer', color: 'white' }}>
-        <FaArrowAltCircleRight onClick={setExpanded} />
+        <UilMultiply onClick={setExpanded} />
       </div>
       <span>{param.title}</span>
       <div className="chartContainer">

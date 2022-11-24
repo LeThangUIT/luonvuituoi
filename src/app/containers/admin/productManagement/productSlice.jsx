@@ -45,7 +45,7 @@ const ProductSlice = createSlice({
     name: 'product',
     initialState: {
         loading: null,
-        listProducts: [],
+        listProducts: null,
         isShow: false,
         isUpdate: null,
         newProduct: null,
@@ -60,6 +60,9 @@ const ProductSlice = createSlice({
         hideProductModal: (state, action) => {
             state.isShow = false;
         },
+        setLoading: (state) => {
+            state.loading = true
+        }
     },
     extraReducers: {
         [getAllProductsByAdmin.pending](state) {
@@ -100,7 +103,7 @@ const ProductSlice = createSlice({
             state.loading = true
         },
         [addProduct.fulfilled](state, action) {
-            state.listProducts.push(action.payload.data.data)
+            state.listProducts.items.push(action.payload.data.data)
             state.loading = false
             state.isShow = false
         },
@@ -113,7 +116,7 @@ const ProductSlice = createSlice({
         },
         [deleteProduct.fulfilled](state, action) {
             state.loading = false
-            state.listProducts = state.listProducts.filter((item, index) => item.id !== action.payload.id)
+            state.listProducts.items = state.listProducts.items.filter((item, index) => item.id !== action.payload.id)
         },
         [deleteProduct.rejected](state) {
             state.loading = false
@@ -122,5 +125,5 @@ const ProductSlice = createSlice({
 })
 
 export const { reducer: ProductReducer, actions } = ProductSlice;
-export const {showProductModal, hideProductModal} = actions;
+export const {showProductModal, hideProductModal, setLoading} = actions;
 export default ProductReducer;

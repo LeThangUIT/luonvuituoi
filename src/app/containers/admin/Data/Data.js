@@ -1,6 +1,5 @@
 // Sidebar imports
-
-import {FaHome, FaFileInvoiceDollar, FaUser, FaCube, FaList} from 'react-icons/fa'
+import { UilEstate, UilBill, UilUser, UilStore, UilListUl, UilUsdSquare, UilMoneyWithdrawal, UilReceiptAlt} from '@iconscout/react-unicons'
 
 import img1 from '../../../assets/images/Rose.jpg';
 import img2 from '../../../assets/images/Lisa.jpg';
@@ -9,30 +8,31 @@ import img3 from '../../../assets/images/Jisoo.jpg';
 
 export const SidebarData = [
   {
-    icon: FaHome,
+    icon: UilEstate,
     heading: "Dashboard",
     path: ""
   },
   {
-    icon: FaFileInvoiceDollar,
-    heading: "Orders",
-    path: "order"
-  },
-  {
-    icon: FaUser,
-    heading: "Customers",
-    path: "customer"
-  },
-  {
-    icon: FaCube,
+    icon: UilStore,
     heading: "Products",
     path: "product"
   },
   {
-    icon: FaList,
+    icon: UilListUl,
     heading: "Category",
     path: "category"
-  }
+  },
+  {
+    icon: UilBill,
+    heading: "Orders",
+    path: "order"
+  },
+  {
+    icon: UilUser,
+    heading: "Customers",
+    path: "customer"
+  },
+
 ]
 
 export const CardsData = [
@@ -44,7 +44,7 @@ export const CardsData = [
     },
     barValue: 70,
     value: "25,970",
-    png: FaFileInvoiceDollar,
+    png: UilUsdSquare,
     series: [
       {
         name: "Sales",
@@ -60,7 +60,7 @@ export const CardsData = [
     },
     barValue: 80,
     value: "14,270",
-    png: FaFileInvoiceDollar,
+    png: UilMoneyWithdrawal,
     series: [
       {
         name: "Sales",
@@ -76,7 +76,7 @@ export const CardsData = [
     },
     barValue: 60,
     value: "4,270",
-    png: FaFileInvoiceDollar,
+    png: UilReceiptAlt,
     series: [
       {
         name: "Expenses",

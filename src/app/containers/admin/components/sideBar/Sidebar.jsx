@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import {FaHamburger, FaSignOutAlt} from 'react-icons/fa'
+import { UilLeftArrowFromLeft, UilBars} from '@iconscout/react-unicons'
 import { SidebarData } from "../../Data/Data";
 
 import { motion } from 'framer-motion';
@@ -27,7 +27,7 @@ const Sidebar = () => {
         onClick={() => setExpanded(!expanded)}
       >
         {/* burger icon */}
-        <FaHamburger></FaHamburger>
+        <UilBars></UilBars>
 
       </div>
       <motion.div
@@ -54,7 +54,7 @@ const Sidebar = () => {
 
           <div className="menuItem">
             {/* Sign out Icon */}
-            <FaSignOutAlt className="icon"></FaSignOutAlt>
+            <UilLeftArrowFromLeft className="icon"></UilLeftArrowFromLeft>
           </div>
         </div>
       </motion.div>

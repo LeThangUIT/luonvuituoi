@@ -10,7 +10,6 @@ function Admin() {
   const dispatch = useDispatch()
   const adminToken = localStorage.getItem("adminToken")
   useEffect(() => {
-    console.log("first")
     dispatch(getAllCategoriesByAdmin(adminToken))
   }, [])
   

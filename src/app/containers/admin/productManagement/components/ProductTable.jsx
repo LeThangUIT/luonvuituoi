@@ -41,7 +41,7 @@ function ProductTable({listProducts}) {
       </TableRow>
     </TableHead>
     <TableBody>
-      {listProducts && listProducts.map((item, index) => (
+      {listProducts && listProducts.items.map((item, index) => (
         <TableRow key={index}>
             <TableData>
                 <ImageBox>

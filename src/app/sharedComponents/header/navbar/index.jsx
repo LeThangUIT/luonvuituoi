@@ -38,8 +38,8 @@ export const MenuItem = styled.div`
 
 export function Navbar() {
   const {listCategories} = useSelector(state => state.category)
-  if(listCategories.length !=0) {
-    listMenu[1].subMenu = listCategories
+  if(listCategories != null) {
+    listMenu[1].subMenu = listCategories.items
   }
   const [display, setDisplay] = useState("hidden")
   const [index1, setIndex1] = useState()

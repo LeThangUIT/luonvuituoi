@@ -38,6 +38,11 @@ class propductApi {
     const url = `${API_URL}/product/${id}`
     return axios.get(url)
   }
+
+  getOption = (optionValues) => {
+    const url = `${API_URL}/option/GetByAnother`
+    return axios.post(url, optionValues)
+  }
 }
 const ProductApi = new propductApi();
 export default ProductApi;

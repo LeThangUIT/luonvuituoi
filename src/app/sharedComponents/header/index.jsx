@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -11,7 +11,9 @@ import { slide as Menu } from "react-burger-menu";
 import menuStyles from "./menuStyles";
 import { listMenu } from "./data";
 import { SubMenuResponsive } from "./navbar/subNavReponsive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategories } from "../../containers/admin/categoryManagement/categorySlice";
+import { fetchUserInfo } from "../../containers/customer/Auth/authSlice";
 
 
 const HeaderContainer = styled.div`
@@ -68,6 +70,14 @@ const UserIcon = styled.svg`
   `}
 `;
 export function Header() {
+  const userToken = localStorage.getItem("userToken");
+  const dispatch = useDispatch()
+  useEffect(() => {
+      dispatch(getAllCategories())
+      if(userToken) {
+          dispatch(fetchUserInfo(userToken))
+      }
+  }, [])
   const isMobile = useMediaQuery({ maxWidth: SCREENS.md });
   const [showSearch, setShowSearch] = useState(false);
   if (isMobile) {

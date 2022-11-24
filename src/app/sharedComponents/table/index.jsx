@@ -2,7 +2,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 
 export const Table = styled.table`
-  ${tw` w-full col-span-3 table-auto  box-border`}
+  ${tw` w-full col-span-3 table-auto  box-border shadow-sm`}
 `;
 export const TableHead = styled.thead`
   ${tw` h-[57px] bg-white border border-[#EEEEEE] rounded-lg `}

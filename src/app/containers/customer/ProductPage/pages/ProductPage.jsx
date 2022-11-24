@@ -21,10 +21,8 @@ export default function ProductPage() {
     const dispatch = useDispatch()
     const {listProducts} = useSelector(state => state.product)
     useEffect(() => {
-        console.log("first")
         dispatch(getAllProducts())
     }, [])
-    console.log(listProducts)
     
     const formatter = new Intl.NumberFormat("en-US", {
         minimumFractionDigits: 0,
@@ -38,8 +36,8 @@ export default function ProductPage() {
                         <Heading26>Tất cả sản phẩm</Heading26>
                         <RightIcon></RightIcon>
                     </HeadingTitle>
-                    {listProducts.length > 0 && <ListProductContainer>
-                        {listProducts.map((item, index) => {
+                    {listProducts && <ListProductContainer>
+                        {listProducts.items.map((item, index) => {
                             return (
                                 <ProductCard key={index} data={item}></ProductCard>  
                             );

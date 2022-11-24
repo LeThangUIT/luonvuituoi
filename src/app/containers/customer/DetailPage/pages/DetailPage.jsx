@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { AddToCartIcon } from "../../../../sharedComponents/icon/addToCartIcon";
@@ -27,6 +27,7 @@ import QuantityComponent from "../components/Quantity";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../admin/productManagement/productSlice";
 import { useParams } from "react-router-dom";
+import ProductApi from "../../../../api/productApi";
 
 const ContentContainer = styled.div`
   ${tw`
@@ -72,10 +73,12 @@ const Label = styled.span`
 export const ButtonGroup = styled.div`
   ${tw` flex flex-row gap-[10px] flex-wrap`}
 `;
-const Size = styled.span`
+const Size = styled.button`
   ${tw` py-2 px-5 border border-solid border-[#EEEEEE] rounded-lg text-[14px]  text-[ #300F19] font-normal leading-[17px] hover:opacity-90 hover:cursor-pointer`}
 `;
-
+const ActiveSize = styled.button`
+  ${tw` py-2 px-5 border border-solid border-primaryColor rounded-lg text-[14px]  text-[ #300F19] font-normal leading-[17px] hover:opacity-90 hover:cursor-pointer`}
+`;
 const DescriptionSection = styled.div`
   ${tw` flex flex-col items-start gap-5 w-full`}
 `;
@@ -115,6 +118,19 @@ function DetailPage() {
     listImages = [productDetail.imageMain, ...productDetail.imageDescription.split(" ")]
     listImages.pop()
   }
+
+  const [optionValues, setOptionValues] = useState([])
+  const handleOnclickOption = (data) => {
+    let index = optionValues.findIndex(option => option.optionId == data.optionId)
+    if(index == -1) {
+      optionValues.push(data)
+    }
+    else{
+      optionValues[index].valueId = data.valueId
+    }
+    console.log(ProductApi.getOption({optionValues}))
+    setOptionValues([...optionValues])
+  }
   return (
     <PageContainer>
       <Header></Header>
@@ -146,9 +162,19 @@ function DetailPage() {
                     <Container key={index}>
                       <Label>{option.name}</Label>
                       <ButtonGroup>
-                        {option.values.map((item, index) => (
-                          <Size key={index}>{item.name}</Size>
-                        ))}
+                        {option.values.map((item, index) => {
+                          if(optionValues.findIndex(optionValue => optionValue.optionId == option.id && optionValue.valueId == item.id) == -1) {
+                            return (
+                              <Size onClick={() => handleOnclickOption({optionId: option.id, valueId: item.id})} key={index}>{item.name}</Size>
+                              )
+                            }
+                            else {
+                              {console.log("first")}
+                              return (
+                              <ActiveSize key={index}>{item.name}</ActiveSize>
+                            )
+                          }
+                        })}
                       </ButtonGroup>
                     </Container>
 

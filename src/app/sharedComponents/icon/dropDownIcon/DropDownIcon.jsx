@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-interface IIconProps {size: string, color: string, }
 const DropDown = styled.svg`
   ${tw` transform hover:rotate-180`}
 `;
-export const DropDownIcon:React.FC<IIconProps> = ({size, color}) => {
+export const DropDownIcon = ({size, color}) => {
   return (
     <DropDown
       viewBox="0 0 9 9"

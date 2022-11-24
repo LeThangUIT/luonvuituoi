@@ -2,14 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-interface IIconProps {
-  size: string;
-  color: string;
-}
 const DropDown = styled.svg`
   ${tw` transform hover:rotate-180`}
 `;
-export const UpIcon: React.FC<IIconProps> = ({ size, color }) => {
+export const UpIcon = ({ size, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

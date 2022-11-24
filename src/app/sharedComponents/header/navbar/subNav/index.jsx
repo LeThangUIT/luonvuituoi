@@ -20,7 +20,6 @@ export const ArrowIconRight = styled.svg`
 `
 
 export const SubMenu = ({display, data}) => {
-  console.log(data)
     return (
         <SubNav className={display}>
             {data.map((item, index) => {

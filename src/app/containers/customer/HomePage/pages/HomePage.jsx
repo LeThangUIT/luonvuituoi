@@ -22,14 +22,6 @@ export const PageContainer = styled.div`
 `;
 
 export default function HomePage() {
-    const userToken = localStorage.getItem("userToken");
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getAllCategories())
-        if(userToken) {
-            dispatch(fetchUserInfo(userToken))
-        }
-    }, [])
     return (
         <PageContainer>
             <Header></Header>
