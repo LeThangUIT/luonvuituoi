@@ -35,9 +35,7 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={window.innerWidth <= 768 ? `${expanded}` : ""}
       >
-        {/* logo */}
         <Logo></Logo>
-        {/* menu */}
         <div className="menu">
           {SidebarData.map((item, index) => {
             return (
@@ -53,7 +51,6 @@ const Sidebar = () => {
           })}
 
           <div className="menuItem">
-            {/* Sign out Icon */}
             <UilLeftArrowFromLeft className="icon"></UilLeftArrowFromLeft>
           </div>
         </div>

@@ -2,23 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-const Quantity = styled.div`
-  ${tw` flex flex-row gap-5 items-center p-[6px] bg-[rgba(228, 228, 228, 0.3)] rounded-lg`}
+export const Quantity = styled.div`
+  ${tw` max-w-max flex flex-row gap-4 items-center p-[6px] bg-[rgba(228, 228, 228, 0.3)] rounded-lg`}
 `;
-const Number = styled.span`
-  ${tw` font-semibold text-xl leading-6 text-primaryColor`}
+export const Number = styled.span`
+  ${tw` w-6 font-semibold text-xl leading-6 text-primaryColor`}
 `;
-const Decrease = styled.svg`
+export const Decrease = styled.svg`
   ${tw` p-2 h-8 w-8 rounded-2xl hover:opacity-90 hover:cursor-pointer`}
 `;
-const Increase = styled.svg`
+export const Increase = styled.svg`
   ${tw` p-2 h-8 w-8 rounded-[10px] bg-primaryColor hover:opacity-90 hover:cursor-pointer`}
 `;
 
-function QuantityComponent() {
+function QuantityComponent({quantity, setQuantity}) {
+  const handleIncrease = () => {
+    setQuantity(++quantity)
+  }
+  const handleDecrease = () => {
+    if(quantity > 1) {
+      setQuantity(--quantity)
+    }
+  }
   return (
     <Quantity >
-      <Decrease
+      <Decrease onClick={handleDecrease}
         width="20"
         height="20"
         viewBox="0 0 12 2"
@@ -30,9 +38,8 @@ function QuantityComponent() {
           fill="#EE4C7E"
         />
       </Decrease>
-
-      <Number>1</Number>
-      <Increase
+      <Number>{quantity}</Number>
+      <Increase onClick={handleIncrease}
         width="12"
         height="12"
         viewBox="0 0 12 12"

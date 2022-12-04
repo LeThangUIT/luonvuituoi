@@ -10,9 +10,8 @@ function CallbackApi() {
     try {
       const res = await AuthApi.callbackSocial(data);
       localStorage.setItem("userToken", res.data.data)
-      window.location.href = "/"
+      window.location.href = localStorage.getItem("currentPath")
     } catch (e) {
-      console.log(e)
       window.location.href = "/login"
     }
 

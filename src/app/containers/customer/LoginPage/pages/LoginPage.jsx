@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
+import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
+import * as Yup from "yup";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { PinkButton } from "../../../../sharedComponents/button";
-import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
-import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogin, login } from "../../Auth/authSlice";
 import { toast } from "react-toastify";
@@ -127,6 +127,7 @@ const validationSchema = Yup.object({
 
 export default function LoginPage() {
   const { pathname } = useLocation();
+  const pathBeforeLogin = localStorage.getItem("currentPath")
   const deviceId = uuidv4();
   const { userToken, adminToken, loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -172,9 +173,8 @@ export default function LoginPage() {
     } catch (e) {}
   };
   useEffect(() => {
-    console.log(pathname);
     if (userToken && pathname === "/login") {
-      navigate("/");
+      navigate(pathBeforeLogin);
     }
     if (adminToken && pathname === "/adminLogin") {
       navigate("/admin");
@@ -200,21 +200,15 @@ export default function LoginPage() {
                   <FormContainer>
                     <FormikControl
                       control="input"
-                      type="email"
                       label="Email"
+                      type="email"
                       name="email"
-                      onChange={formik.handleChange}
-                      value={formik.values.email}
-                      onBlur={formik.handleBlur}
                     />
                     <FormikControl
                       control="input"
-                      type="password"
                       label="Password"
+                      type="password"
                       name="password"
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                      onBlur={formik.handleBlur}
                     />
                     <PinkButton disabled={loading} type="submit">
                       Đăng nhập

@@ -93,8 +93,13 @@ const AuthSlice = createSlice({
         userToken,
         adminToken,
         userInfo: null,
+        beforeLogin: "/"
     },
-    reducers: {},
+    reducers: {
+        setBeforeLoginRoute: (state, action) => {
+            state.beforeLogin = action.payload
+        }
+    },
     extraReducers: {
         [login.pending]: (state, action) => {
             state.loading = true
@@ -166,5 +171,5 @@ const AuthSlice = createSlice({
 })
 
 export const { reducer: AuthReducer, actions} = AuthSlice
-export const {} = actions
+export const {setBeforeLoginRoute} = actions
 export default AuthReducer

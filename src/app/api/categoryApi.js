@@ -3,11 +3,14 @@ import { ADMIN_API_URL, API_URL } from "../constant";
 
 
 class categoryApi {
-  getAllCategoriesByAdmin = (adminToken) => {
+
+  getAllCategoriesByAdmin = async ({page, perPage, adminToken, noPagination}) => {
     const url = `${ADMIN_API_URL}/category`;
-    return axios.get(url, {
+    return await axios.get(url, {
       params: {
-        noPagination: 1
+        page, 
+        perPage,
+        noPagination
       },
       headers: {
         Authorization: "Bearer " + adminToken,

@@ -11,7 +11,7 @@ export const TableBody = styled.tbody`
   ${tw``}
 `;
 export const TableRow = styled.tr`
-  ${tw` h-fit-content border border-[#EEEEEE] bg-white content-center`}
+  ${tw` border border-[#EEEEEE] bg-white content-center`}
 `;
 export const RowSpace = styled.tr`
   ${tw` h-3`}
@@ -29,7 +29,7 @@ export const TableNameData = styled.td`
 
 export const ImageBox = styled.div`
   ${tw`
-      h-[100px] w-[100px] rounded-lg overflow-hidden flex 
+      h-[70px] w-[70px] rounded-lg overflow-hidden flex 
   `}
 `;
 export const Image = styled.img`

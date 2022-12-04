@@ -11,18 +11,29 @@ class propductApi {
       },
     });
   };
-  getAllProductsByAdmin = (adminToken) => {
+  getAllProductsByAdmin = ({page, perPage, keyWord, adminToken}) => {
     const url = `${ADMIN_API_URL}/product`;
     return axios.get(url, {
+      params: {
+        page,
+        perPage,
+        keyWord
+      },
       headers: {
         Authorization: "Bearer " + adminToken,
       },
     });
   };
 
-  getAllProducts = () => {
+  getAllProducts = ({page, perPage, keyWord}) => {
     const url = `${API_URL}/product`;
-    return axios.get(url);
+    return axios.get(url, {
+      params : {
+        page,
+        perPage,
+        keyWord
+      }
+    });
   };
 
   deleteProduct = ({ id, adminToken }) => {
@@ -40,6 +51,7 @@ class propductApi {
   }
 
   getOption = (optionValues) => {
+    console.log(optionValues)
     const url = `${API_URL}/option/GetByAnother`
     return axios.post(url, optionValues)
   }

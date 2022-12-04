@@ -24,9 +24,7 @@ const ErrorContainer = styled.div`
   ${tw` h-7`}
 `;
 
-// const Session = styled.div`
-//   ${tw` rounded-lg border border-dashed`}
-// `
+
 const Labell = styled.label`
   ${tw` p-4 rounded-lg border border-dashed`}
 `;
@@ -72,13 +70,12 @@ const MyInput = ({ form, field, ...props }) => {
       <Labell>
         + Thêm ảnh{" "}
         <Input
-          type="file"
           multiple
+          type={props.type}
           accept="image/png, image/jpeg"
-          // onChange={(event) => {
-          //     form.setFieldValue(field.name, event.currentTarget.files);
-          // }}
           onChange={onSelectFile}
+          onBlur={field.onBlur}
+          values={field.value}
         ></Input>
       </Labell>
       {images && (

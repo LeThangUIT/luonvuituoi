@@ -1,5 +1,5 @@
 // Sidebar imports
-import { UilEstate, UilBill, UilUser, UilStore, UilListUl, UilUsdSquare, UilMoneyWithdrawal, UilReceiptAlt} from '@iconscout/react-unicons'
+import {UilTicket, UilEstate, UilBill, UilUsersAlt, UilStore, UilListUl, UilUsdSquare, UilMoneyWithdrawal, UilReceiptAlt} from '@iconscout/react-unicons'
 
 import img1 from '../../../assets/images/Rose.jpg';
 import img2 from '../../../assets/images/Lisa.jpg';
@@ -28,9 +28,14 @@ export const SidebarData = [
     path: "order"
   },
   {
-    icon: UilUser,
-    heading: "Customers",
-    path: "customer"
+    icon: UilTicket,
+    heading: "Vouchers",
+    path: "voucher"
+  },
+  {
+    icon: UilUsersAlt,
+    heading: "Users",
+    path: "user"
   },
 
 ]

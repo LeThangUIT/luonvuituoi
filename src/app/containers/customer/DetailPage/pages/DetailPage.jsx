@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { AddToCartIcon } from "../../../../sharedComponents/icon/addToCartIcon";
 import { Body } from "../../../../sharedComponents/body";
 import { Footer } from "../../../../sharedComponents/footer";
 import { Header } from "../../../../sharedComponents/header";
 import { HeadingTitle } from "../../HomePage/components/content";
 import { PageContainer } from "../../HomePage/pages/HomePage";
-import { RightIcon } from "../../../../sharedComponents/icon/rightIcon";
-import { WhiteButton } from "../../../../sharedComponents/button";
+import { UilAngleRightB } from '@iconscout/react-unicons'
+import { DisableButton, WhiteButton } from "../../../../sharedComponents/button";
+import { UilShoppingCart } from '@iconscout/react-unicons'
 import {
   Heading14,
   Heading16,
@@ -25,9 +25,14 @@ import { StarIcon } from "../../../../sharedComponents/icon/starIcon";
 import Quantity from "../components/Quantity";
 import QuantityComponent from "../components/Quantity";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail } from "../../../admin/productManagement/productSlice";
-import { useParams } from "react-router-dom";
+import {
+  fetchProductDetail,
+  getByOptionAnother,
+} from "../../../admin/productManagement/productSlice";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import ProductApi from "../../../../api/productApi";
+import { addCartLocal, addToCart } from "../../CartPage/CartSlice";
+import { setBeforeLoginRoute } from "../../Auth/authSlice";
 
 const ContentContainer = styled.div`
   ${tw`
@@ -104,32 +109,62 @@ const StarGroup = styled.div`
   ${tw` flex flex-row items-center gap-1`}
 `;
 function DetailPage() {
+  const navigate = useNavigate()
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
-  let {productId} = useParams()
-  const { productDetail } = useSelector((state) => state.product);
-  const dispatch = useDispatch()
+  let { productId } = useParams();
+  const { productDetail, variantId } = useSelector((state) => state.product);
+  const userToken = localStorage.getItem("userToken")
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProductDetail(productId))
-  }, [])
-  let listImages = []
-  if(productDetail != null) {
-    listImages = [productDetail.imageMain, ...productDetail.imageDescription.split(" ")]
-    listImages.pop()
+    dispatch(fetchProductDetail(productId));
+  }, []);
+  let listImages = [];
+  if (productDetail != null) {
+    listImages = [
+      productDetail.imageMain,
+      ...productDetail.imageDescription.split(" "),
+    ];
+    listImages.pop();
   }
 
-  const [optionValues, setOptionValues] = useState([])
+  const [optionValues, setOptionValues] = useState([]);
   const handleOnclickOption = (data) => {
-    let index = optionValues.findIndex(option => option.optionId == data.optionId)
-    if(index == -1) {
-      optionValues.push(data)
+    let index = optionValues.findIndex(
+      (option) => option.optionId == data.optionId
+    );
+    if (index == -1) {
+      optionValues.push(data);
+    } else {
+      optionValues[index].valueId = data.valueId;
     }
-    else{
-      optionValues[index].valueId = data.valueId
+    dispatch(getByOptionAnother(optionValues));
+    setOptionValues([...optionValues]);
+  };
+  const [quantity, setQuantity] = useState(1)
+  const handleAddToCart = (data) => {
+    if(userToken) {
+      dispatch(addToCart({...data, userToken}))
     }
-    console.log(ProductApi.getOption({optionValues}))
-    setOptionValues([...optionValues])
+    else {
+      // dispatch(setBeforeLoginRoute(currentPath.pathname))
+      navigate("/login")
+    }
+    // else {
+    //   dispatch(addCartLocal(data))
+    //   let cartLocal = localStorage.getItem("cart")
+    //   const {productId, variantId, quantity, ...rest} = data
+    //   let newItem = {productId, variantId, quantity} 
+    //   if(!cartLocal) {
+    //     localStorage.setItem("cart", JSON.stringify([newItem]))
+    //   }
+    //   else{
+    //     let storedCart = JSON.parse(cartLocal)
+    //     storedCart.push(newItem)
+    //     localStorage.setItem("cart", JSON.stringify(storedCart))
+    //   }
+    // }
   }
   return (
     <PageContainer>
@@ -163,31 +198,52 @@ function DetailPage() {
                       <Label>{option.name}</Label>
                       <ButtonGroup>
                         {option.values.map((item, index) => {
-                          if(optionValues.findIndex(optionValue => optionValue.optionId == option.id && optionValue.valueId == item.id) == -1) {
+                          if (
+                            optionValues.findIndex(
+                              (optionValue) =>
+                                optionValue.optionId == option.id &&
+                                optionValue.valueId == item.id
+                            ) == -1
+                          ) {
                             return (
-                              <Size onClick={() => handleOnclickOption({optionId: option.id, valueId: item.id})} key={index}>{item.name}</Size>
-                              )
-                            }
-                            else {
-                              {console.log("first")}
-                              return (
+                              <Size
+                                onClick={() =>
+                                  handleOnclickOption({
+                                    optionId: option.id,
+                                    valueId: item.id,
+                                  })
+                                }
+                                key={index}
+                              >
+                                {item.name}
+                              </Size>
+                            );
+                          } else {
+                            return (
                               <ActiveSize key={index}>{item.name}</ActiveSize>
-                            )
+                            );
                           }
                         })}
                       </ButtonGroup>
                     </Container>
-
                   ))}
                   <Container>
                     <Label>Số lượng</Label>
-                    <QuantityComponent></QuantityComponent>
+                    <QuantityComponent quantity={quantity} setQuantity={setQuantity}></QuantityComponent>
                   </Container>
                   <ButtonGroup>
-                    <WhiteButton>
-                      <AddToCartIcon />
-                      Thêm vào giỏ hàng
-                    </WhiteButton>
+                    {variantId && productDetail.options.length != 0 ? (
+                      <WhiteButton onClick={() => handleAddToCart({variantId, quantity,productId: productDetail.id, imageMain: productDetail.imageMain, name: productDetail.name, price: productDetail.price})}>
+                        <UilShoppingCart />
+                        Thêm vào giỏ hàng
+                      </WhiteButton>
+                    ) : (
+                      <DisableButton >
+                        <UilShoppingCart />
+                        Thêm vào giỏ hàng
+                      </DisableButton>
+                    )}
+
                     <WhiteButton>Mua ngay</WhiteButton>
                   </ButtonGroup>
                 </ContentSection>
@@ -197,15 +253,19 @@ function DetailPage() {
               <ContentSection>
                 <HeadingTitle>
                   <Heading26>Chi tiết sản phẩm</Heading26>
-                  <RightIcon></RightIcon>
+                  <UilAngleRightB></UilAngleRightB>
                 </HeadingTitle>
                 <DescriptionSection>
                   <Heading14>Đặc điểm sản phẩm</Heading14>
-                  <div dangerouslySetInnerHTML={{__html: productDetail.description}}>
-                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: productDetail.description,
+                    }}
+                  ></div>
                   <Heading14>Thông tin sản phẩm</Heading14>
-                  <div dangerouslySetInnerHTML={{__html: productDetail.details}}>
-                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: productDetail.details }}
+                  ></div>
                 </DescriptionSection>
               </ContentSection>
             </ContentContainer>
@@ -213,7 +273,7 @@ function DetailPage() {
               <ContentSection>
                 <HeadingTitle>
                   <Heading26>Đánh giá sản phẩm</Heading26>
-                  <RightIcon></RightIcon>
+                  <UilAngleRightB></UilAngleRightB>
                 </HeadingTitle>
                 <DescriptionSection>
                   <FilterEvaluationFrame>

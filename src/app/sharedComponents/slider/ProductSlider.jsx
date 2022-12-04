@@ -34,11 +34,9 @@ export const ProductsSlider = (props) => {
     >
       {props.data.map((item, index) => {
         return (
-          <>
             <SwiperSlide key={index}>
-              <ProductCard  data={item}></ProductCard>
+              <ProductCard   data={item}></ProductCard>
             </SwiperSlide>
-          </>
         );
       })}
       <IconLeft

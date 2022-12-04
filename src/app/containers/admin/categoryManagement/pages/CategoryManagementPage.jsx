@@ -11,16 +11,21 @@ import {
 } from "../categorySlice";
 import TableBrand from "../components/TableCategory";
 import CategoryModal from "../components/CategoryModal";
+import PagingComponent from "../../../../sharedComponents/pagination/PagingComponent";
 
 const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between`}
 `;
 function CategoryManagementPage() {
+  const adminToken = localStorage.getItem("adminToken");
   const { listCategories, isShow, loading } = useSelector(
     (state) => state.category
   );
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    dispatch(getAllCategoriesByAdmin({adminToken, page:"1", perPage:"2"}))
+  }, [])
+  
   const handleAdd = () => {
     dispatch(showCategoryModal({ isUpdate: false, data: null }));
   };
@@ -35,6 +40,7 @@ function CategoryManagementPage() {
           </AddButton>
         </FlexContainer>
         <TableBrand listCategories={listCategories}></TableBrand>
+        <PagingComponent type={"categoryByAdmin"} pageCount={listCategories?.totalPage}></PagingComponent>
       </MainDash>
       {isShow && <CategoryModal></CategoryModal>}
     </>

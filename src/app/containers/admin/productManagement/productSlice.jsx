@@ -10,15 +10,15 @@ export const addProduct = createAsyncThunk(
 )
 export const getAllProductsByAdmin = createAsyncThunk(
     "product/getAllProductsByAdmin",
-    async(adminToken) => {
-        const allProduct = await ProductApi.getAllProductsByAdmin(adminToken);
+    async({page, perPage, keyWord, adminToken}) => {
+        const allProduct = await ProductApi.getAllProductsByAdmin({page, perPage, keyWord, adminToken});
         return allProduct;
     }
 )
 export const getAllProducts = createAsyncThunk(
     "product/getAllProducts",
-    async() => {
-        const allProduct = await ProductApi.getAllProducts();
+    async({page, perPage, keyWord}) => {
+        const allProduct = await ProductApi.getAllProducts({page, perPage, keyWord});
         return allProduct;
 
     }
@@ -40,6 +40,14 @@ export const fetchProductDetail = createAsyncThunk(
         return res.data;
     }
 )
+export const getByOptionAnother = createAsyncThunk(
+    "product/getByOptionAnother",
+    async(optionValues) => {
+        const res = await ProductApi.getOption({optionValues});
+        console.log(res.data)
+        return res.data;
+    }
+)
 
 const ProductSlice = createSlice({
     name: 'product',
@@ -49,7 +57,8 @@ const ProductSlice = createSlice({
         isShow: false,
         isUpdate: null,
         newProduct: null,
-        productDetail: null
+        productDetail: null,
+        variantId: null,
     },
     reducers:{
         showProductModal: (state, action) => {
@@ -81,6 +90,7 @@ const ProductSlice = createSlice({
         },
         [fetchProductDetail.fulfilled](state, action) {
             state.productDetail = action.payload.data
+            state.variantId = null
             state.loading = false
         },
         [fetchProductDetail.rejected](state) {
@@ -119,6 +129,29 @@ const ProductSlice = createSlice({
             state.listProducts.items = state.listProducts.items.filter((item, index) => item.id !== action.payload.id)
         },
         [deleteProduct.rejected](state) {
+            state.loading = false
+        },
+
+        [getByOptionAnother.pending](state) {
+            state.loading = true
+        },
+        [getByOptionAnother.fulfilled](state, action) {
+            state.loading = false
+            if(action.payload.data[0].optionId != 0) {
+                state.productDetail.options.map(option => {
+                    action.payload.data.map(item => {
+                        if(option.id == item.optionId) {
+                            option.values = item.values
+                        }
+                    })
+                })
+            }
+            else {
+                state.productDetail.price = action.payload.data[0].price
+                state.variantId = action.payload.data[0].variantId
+            }
+        },
+        [getByOptionAnother.rejected](state) {
             state.loading = false
         }
     }

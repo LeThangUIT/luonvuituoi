@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { RightIcon } from "../../../../../sharedComponents/icon/rightIcon";
+import { UilAngleRightB } from '@iconscout/react-unicons'
 import { listProduct } from "./data";
 import { Heading26, LightText14, Heading14 } from "../../../../../sharedComponents/text";
 import { ProductsSlider } from "../../../../../sharedComponents/slider/ProductSlider";
@@ -135,7 +135,7 @@ export function Content() {
                 <TimeText>{giay < 10 ? "0" + giay : giay}</TimeText>
               </TimeBox>
             </Time>
-            <RightIcon></RightIcon>
+            <UilAngleRightB></UilAngleRightB>
           </HeadingTitle>
           <LightText14>135 khuyến mãi</LightText14>
         </Title>

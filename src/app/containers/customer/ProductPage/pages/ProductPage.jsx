@@ -3,14 +3,14 @@ import styled from "styled-components";
 import tw from 'twin.macro'
 import { Footer } from "../../../../sharedComponents/footer";
 import { Header } from "../../../../sharedComponents/header";
-import { RightIcon } from "../../../../sharedComponents/icon/rightIcon";
+import { UilAngleRightB } from '@iconscout/react-unicons'
 import { ContentContainer, HeadingTitle, ListProductContainer } from "../../HomePage/components/content";
-import { listProduct } from "../../HomePage/components/content/data";
 import { PageContainer } from "../../HomePage/pages/HomePage";
 import { Heading26 } from "../../../../sharedComponents/text";
 import ProductCard from "../components/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../../admin/productManagement/productSlice";
+import PagingComponent from "../../../../sharedComponents/pagination/PagingComponent";
 
 export const Body = styled.div`
     ${tw`
@@ -21,7 +21,7 @@ export default function ProductPage() {
     const dispatch = useDispatch()
     const {listProducts} = useSelector(state => state.product)
     useEffect(() => {
-        dispatch(getAllProducts())
+        dispatch(getAllProducts({page:"1", perPage:"2"}))
     }, [])
     
     const formatter = new Intl.NumberFormat("en-US", {
@@ -34,7 +34,7 @@ export default function ProductPage() {
                 <ContentContainer>
                     <HeadingTitle>
                         <Heading26>Tất cả sản phẩm</Heading26>
-                        <RightIcon></RightIcon>
+                        <UilAngleRightB></UilAngleRightB>
                     </HeadingTitle>
                     {listProducts && <ListProductContainer>
                         {listProducts.items.map((item, index) => {
@@ -43,7 +43,7 @@ export default function ProductPage() {
                             );
                         })}
                     </ListProductContainer>}
-                    
+                    <PagingComponent type={"product"} pageCount={listProducts?.totalPage}></PagingComponent>
                 </ContentContainer>
                 <Footer></Footer>
             </Body>

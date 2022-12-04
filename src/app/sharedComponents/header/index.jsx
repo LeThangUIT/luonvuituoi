@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -14,6 +14,7 @@ import { SubMenuResponsive } from "./navbar/subNavReponsive";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../../containers/admin/categoryManagement/categorySlice";
 import { fetchUserInfo } from "../../containers/customer/Auth/authSlice";
+import { useLocation } from "react-router-dom";
 
 
 const HeaderContainer = styled.div`
@@ -70,7 +71,28 @@ const UserIcon = styled.svg`
   `}
 `;
 export function Header() {
+  const lastHeight = useRef(0)
+  const [isShow, setIsShow] = useState(true)
+  useEffect(() => {
+    const handleScroll = () => {
+      let st = window.pageYOffset
+
+      if ( st > lastHeight.current) {
+        setIsShow(false)
+      }
+      else {
+        setIsShow(true)
+      }
+
+      lastHeight.current = st <= 0 ? 0 : st
+    }
+    window.addEventListener("scroll", handleScroll)
+  }, [])
   const userToken = localStorage.getItem("userToken");
+  const currentPath = useLocation()
+  if(!userToken) {
+    localStorage.setItem("currentPath", currentPath.pathname)
+  }
   const dispatch = useDispatch()
   useEffect(() => {
       dispatch(getAllCategories())
@@ -103,7 +125,7 @@ export function Header() {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
                 >
-                  <g clip-path="url(#clip0_50_205)">
+                  <g >
                     <path
                       d="M14.5 16H13.1667V12.638C13.1661 12.1154 12.9583 11.6143 12.5887 11.2447C12.2191 10.8751 11.718 10.6672 11.1953 10.6667H5.80466C5.282 10.6672 4.78089 10.8751 4.41131 11.2447C4.04173 11.6143 3.83386 12.1154 3.83333 12.638V16H2.5V12.638C2.50106 11.7619 2.84957 10.922 3.46908 10.3025C4.0886 9.68294 4.92854 9.33443 5.80466 9.33337H11.1953C12.0715 9.33443 12.9114 9.68294 13.5309 10.3025C14.1504 10.922 14.4989 11.7619 14.5 12.638V16Z"
                       // fill="currentColor"
@@ -145,7 +167,7 @@ export function Header() {
                 fill="#EE4C7E"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g clip-path="url(#clip0_192_194)">
+                <g >
                   <path
                     d="M16.2073 14.2968L13.1106 11.1987C15.4277 8.10223 14.7959 3.71356 11.6994 1.39641C8.60288 -0.920736 4.21422 -0.288925 1.89707 2.80759C-0.42008 5.90411 0.211731 10.2928 3.30825 12.6099C5.79563 14.4713 9.21199 14.4713 11.6994 12.6099L14.7975 15.708C15.1868 16.0973 15.818 16.0973 16.2073 15.708C16.5966 15.3187 16.5966 14.6875 16.2073 14.2982L16.2073 14.2968ZM7.52964 12.012C4.7776 12.012 2.54666 9.78102 2.54666 7.02899C2.54666 4.27695 4.7776 2.04601 7.52964 2.04601C10.2817 2.04601 12.5126 4.27695 12.5126 7.02899C12.5097 9.77978 10.2805 12.009 7.52964 12.012Z"
                     fill="#EE4C7E"
@@ -203,7 +225,7 @@ export function Header() {
     );
   }
   return (
-    <HeaderContainer>
+    <HeaderContainer style={{transform: isShow ? "" : "translateY(-100%)"}}>
       <TopSection>
         <Logo></Logo>
         <SearchBox></SearchBox>

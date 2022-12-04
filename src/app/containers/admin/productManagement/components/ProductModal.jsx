@@ -65,6 +65,7 @@ function ProductModal() {
   const adminToken = localStorage.getItem("adminToken");
   const { isUpdate, loading } = useSelector((state) => state.product);
   const { listCategories } = useSelector((state) => state.category);
+  let listCate = [{id: "", name: "Chọn danh mục"}, ...listCategories?.items]
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(hideProductModal());
@@ -82,7 +83,8 @@ function ProductModal() {
     imageDescription: "",
   };
   const validationSchema = Yup.object({
-    // name: Yup.string().required("Bạn cần phải nhập trường này!"),
+    categoryId: Yup.string().required("Bạn cần phải chọn trường này!"),
+    details: Yup.string().required("Bạn cần phải nhập trường này!"),
   });
 
   const onSubmit = async (values) => {
@@ -241,15 +243,12 @@ function ProductModal() {
                     type="text"
                     label="Tên sản phẩm"
                     name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
                   ></FormikControl>
                   <FormikControl
                     control="select"
                     label="Danh mục"
                     name="categoryId"
-                    options={listCategories?.items}
+                    options={listCate}
                   />
                   <FormikControl
                     control="editorInput"
@@ -268,20 +267,13 @@ function ProductModal() {
                     type="text"
                     label="Giá sản phẩm"
                     name="price"
-                    onChange={formik.handleChange}
-                    value={formik.values.price}
-                    onBlur={formik.handleBlur}
                   ></FormikControl>
                   <FormikControl
                     control="input"
                     type="text"
                     label="Số lượng"
                     name="quantity"
-                    onChange={formik.handleChange}
-                    value={formik.values.quantity}
-                    onBlur={formik.handleBlur}
                   ></FormikControl>
-
                   <FormikControl
                     control="imagesInput"
                     type="file"

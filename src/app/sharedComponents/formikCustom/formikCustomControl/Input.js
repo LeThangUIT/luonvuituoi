@@ -23,16 +23,23 @@ export const BoxText = styled.input`
   ${tw` focus:outline-none w-full border border-solid border-[#EEEEEE] px-[20px] py-2 rounded-lg bg-[#FAFAFA] placeholder:text-[14px] placeholder:text-[#818181] placeholder:not-italic placeholder:font-normal placeholder:leading-[17px]`}
 `;
 
+
+const CustomInput = (props) => {
+  const {field, form, ...rest} = props
+  return (
+    <BoxText {...field} {...rest}></BoxText>
+  )
+}
+
 export const ErrorContainer = styled.div`
   ${tw` h-7`}
 `
 const Input = (props) => {
-  
-  const { label, name, ...rest } = props;
+  const { label, name, ...rest} = props;
   return (
     <FormControl>
-      <Label htmlFor={name}>{label}</Label>
-      <Field component={BoxText} id={name} name={name} {...rest} />
+      {label && <Label htmlFor={name}>{label}</Label>}
+      <Field component={CustomInput}  id={name} name={name} {...rest}/>
       <ErrorContainer>
         <ErrorMessage name={name} component={TextError}/> 
       </ErrorContainer>

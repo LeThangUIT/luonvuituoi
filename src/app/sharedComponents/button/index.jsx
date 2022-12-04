@@ -15,6 +15,12 @@ export const WhiteButton = styled.button`
         text-primaryColor not-italic font-semibold text-sm leading-[17px] hover:text-white
     `}
 `
+export const DisableButton = styled.button`
+    ${tw` 
+        box-border flex gap-x-2 justify-between items-center py-2 px-4 bg-white rounded-lg border border-[#EE4C7E] 
+        text-primaryColor not-italic font-semibold text-sm leading-[17px] hover:cursor-not-allowed opacity-30
+    `}
+`
 
 export const AddButton = styled.button`
     ${tw` 

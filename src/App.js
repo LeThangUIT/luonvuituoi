@@ -13,12 +13,16 @@ import ProductManagementIndex from "./app/containers/admin/productManagement/Pro
 import OrderManagementIndex from "./app/containers/admin/orderManagement/OrderManagementIndex";
 import DashBoardIndex from "./app/containers/admin/dashBoard/DashBoardIndex";
 import CategoryManagementIndex from "./app/containers/admin/categoryManagement/CategoryManagementIndex";
-import ProtectedRoute from "./app/sharedComponents/protectedRoute/ProtectedRoute";
+import ProtectedRoute from "./app/sharedComponents/protectedRoute/ProtectedAdminRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductIndex from "./app/containers/customer/ProductPage/ProductIndex";
 import CallbackApi from "./app/containers/CallbackApi";
 import ProfileIndex from "./app/containers/customer/ProfilePage/ProfileIndex";
+import VoucherManagementIndex from "./app/containers/admin/voucherManagement/OrderManagementIndex";
+import UserManagementIndex from "./app/containers/admin/userManagement/UserManagementIndex";
+import ProtectedAdminRoute from "./app/sharedComponents/protectedRoute/ProtectedAdminRoute";
+import ProtectedCustomerRoute from "./app/sharedComponents/protectedRoute/ProtectedCustomerRoute";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -35,25 +39,27 @@ function App() {
         <Route path="/login/*" element={<LoginIndex />} />
         <Route path="/adminLogin/*" element={<LoginIndex />} />
         <Route path="/register" element={<RegisterIndex />} />
-        <Route path="/" element={<HomeIndex />} />
+        <Route path="/*" element={<HomeIndex />} />
         <Route path="/product/*" element={<ProductIndex />} />
         <Route path="/detail/:productId" element={<DetailIndex />} />
-        <Route path="/cart" element={<CartIndex />} />
-        <Route path="/profile" element={<ProfileIndex/>}/>
-        <Route path="/checkout" element={<CheckoutIndex />} />
+        <Route path="/cart" element={<ProtectedCustomerRoute><CartIndex /></ProtectedCustomerRoute>} />
+        <Route path="/profile/*" element={<ProtectedCustomerRoute><ProfileIndex/></ProtectedCustomerRoute> }/>
+        <Route path="/checkout" element={<ProtectedCustomerRoute><CheckoutIndex /></ProtectedCustomerRoute>} />
         <Route path="/callback/:social" element={<CallbackApi />} />
         <Route
           path="/admin/*"
           element={
-            <ProtectedRoute>
+            <ProtectedAdminRoute>
               <Admin />
-            </ProtectedRoute>
+            </ProtectedAdminRoute>
           }
         >
           <Route index element={<DashBoardIndex />} />
-          <Route path="category" element={<CategoryManagementIndex />} />
+          <Route path="category/*" element={<CategoryManagementIndex />} />
           <Route path="product" element={<ProductManagementIndex />} />
           <Route path="order" element={<OrderManagementIndex />} />
+          <Route path="voucher" element={<VoucherManagementIndex/>} />
+          <Route path="user" element={<UserManagementIndex/>} />
         </Route>
       </Routes>
     </AppContainer>

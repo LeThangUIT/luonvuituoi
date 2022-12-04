@@ -94,9 +94,6 @@ function CategoryModal() {
                     type="text"
                     label=""
                     name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
                   ></FormikControl>
                   <ModalFooter>
                     <PinkButton disabled={loading} type="submit">

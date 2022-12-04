@@ -94,45 +94,30 @@ export default function RegisterPage() {
                     type="text"
                     label="Họ và tên"
                     name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
                   />
                   <FormikControl
                     control="input"
                     type="email"
                     label="Email"
                     name="email"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    onBlur={formik.handleBlur}
                   />
                   <FormikControl
                     control="input"
                     type="password"
                     label="Mật khẩu"
                     name="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    onBlur={formik.handleBlur}
                   />
                   <FormikControl
                     control="input"
                     type="password"
                     label="Nhập lại mật khẩu"
                     name="passwordConfirmation"
-                    onChange={formik.handleChange}
-                    value={formik.values.passwordConfirmation}
-                    onBlur={formik.handleBlur}
                   />
                   <FormikControl
                     control="input"
                     type="text"
                     label="Số điện thoại"
                     name="phone"
-                    onChange={formik.handleChange}
-                    value={formik.values.phone}
-                    onBlur={formik.handleBlur}
                   />
                   <PinkButton disabled={loading} type="submit">Đăng ký</PinkButton>
                 </FormContainer>

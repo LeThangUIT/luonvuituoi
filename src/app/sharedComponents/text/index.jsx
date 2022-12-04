@@ -29,6 +29,13 @@ export const Heading22 = styled.span`
         not-italic font-bold text-[20px] leading-[25px] text-blackColor 
     `}
 `;
+
+export const PinkHeading22 = styled.span`
+  ${tw`
+        not-italic font-bold text-[20px] leading-[25px] text-primaryColor 
+    `}
+`;
+
 export const PinkHeading26 = styled.span`
   ${tw`
         not-italic font-bold text-[26px] leading-[31px] text-primaryColor 

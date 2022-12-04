@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { RightIcon } from "../../../icon/rightIcon";
 import { Heading14 } from "../../../text";
-import { SubMenu1 } from "./subNav1";
 export const SubNav = styled.div`
     ${tw`
-        bg-white min-w-[200px] absolute top-[100%] left-0  py-3
+        bg-white min-w-[200px] absolute top-[100%] left-0  py-3 z-10
     `}
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `

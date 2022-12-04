@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { DropDownIcon } from "../../icon/dropDownIcon/DropDownIcon";
+import { UilAngleDown } from '@iconscout/react-unicons'
 import { Heading14 } from "../../text";
 import { listMenu } from "../data";
 import { SubMenu } from "./subNav";
@@ -56,10 +56,10 @@ export function Navbar() {
         <NavbarContent>
             {listMenu.map((item, index) => {
                 return(
-                    <MenuItem onClick={() => navigate(item.path) } onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
+                    <MenuItem key={index} onClick={() => navigate(item.path) } onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
                         <Heading14 key={index}>{item.name}</Heading14>
                         {item.subMenu.length>0 && 
-                            <DropDownIcon size="9" color="#818181"></DropDownIcon> 
+                            <UilAngleDown size="9" color="#818181"></UilAngleDown> 
                         }
                         {item.subMenu.length>0 && index1 == index &&
                             <SubMenu display={display} data={item.subMenu}></SubMenu> 

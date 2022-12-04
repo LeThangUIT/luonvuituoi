@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { DropDownIcon } from "../../../../icon/dropDownIcon/DropDownIcon";
-import { IconUser } from "../../../rightHeader/IconUser";
-import { RightIcon } from "../../../../icon/rightIcon";
-import { UpIcon } from "../../../../icon/upIcon/UpIcon";
+import { UilAngleDown } from '@iconscout/react-unicons'
+import { UilAngleUp } from '@iconscout/react-unicons'
 
-interface ISubMenuProps {item: {name1: string, subMenu1: string[]}}
 
 const SubMenu = styled.div`
     ${tw` `}
@@ -30,7 +27,7 @@ const SubMenuText1 = styled.div`
        ml-12 not-italic text-base leading-[17px] text-white flex-1
     `}
 `;
-export const SubMenuResponsive2:React.FC<ISubMenuProps> = ({item}) => {
+export const SubMenuResponsive2= ({item}) => {
     const [subnav, setSubnav] = useState(false)
     const showSubnav = () => {
         setSubnav(!subnav)
@@ -41,9 +38,9 @@ export const SubMenuResponsive2:React.FC<ISubMenuProps> = ({item}) => {
                 <SubMenuText>{item.name1}</SubMenuText>
                 <div onTouchStart={item.subMenu1 && showSubnav}>
                     {item.subMenu1 && subnav 
-                     ? <UpIcon size="17" color="white"></UpIcon>
+                     ? <UilAngleUp size="17" color="white"></UilAngleUp>
                      : item.subMenu1.length > 0
-                     ? <DropDownIcon size="17" color="white"></DropDownIcon> : null
+                     ? <UilAngleDown size="17" color="white"></UilAngleDown> : null
                     }
                 </div>
             </SubMenuItem>

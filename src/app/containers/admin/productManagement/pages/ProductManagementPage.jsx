@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { AddButton } from '../../../../sharedComponents/button';
+import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent';
 import { Heading30 } from '../../../../sharedComponents/text';
+import { getAllCategoriesByAdmin } from '../../categoryManagement/categorySlice';
 import { MainDash } from '../../components/MainDash/MainDash';
 import ProductModal from '../components/ProductModal';
 import ProductTable from '../components/ProductTable';
@@ -19,7 +21,8 @@ function ProductManagementPage() {
   );
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getAllProductsByAdmin(adminToken))
+    dispatch(getAllProductsByAdmin({page:"1", perPage:"2", adminToken}))
+    dispatch(getAllCategoriesByAdmin({adminToken, noPagination: "0"}))
   }, [])
   
   const handleAdd = () => {
@@ -36,6 +39,7 @@ function ProductManagementPage() {
           </AddButton>
         </FlexContainer>
         <ProductTable listProducts={listProducts}></ProductTable>
+        <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage}></PagingComponent>
       </MainDash>
     {isShow && <ProductModal></ProductModal>}
     

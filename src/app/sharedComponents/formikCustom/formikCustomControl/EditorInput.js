@@ -24,7 +24,7 @@ const ErrorContainer = styled.div`
   ${tw` h-7`}
 `;
 const MyInput = ({form, field, ...props}) => {
-  const {value} = field;
+  // const {value} = field;
   const {setFieldValue} = form
   return (
     <CKEditor

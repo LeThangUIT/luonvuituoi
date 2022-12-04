@@ -67,9 +67,6 @@ function VerifyEmail({ closeModal, email }) {
                                                 type="text"
                                                 label=""
                                                 name="codeVerify"
-                                                onChange={formik.handleChange}
-                                                value={formik.values.codeVerify}
-                                                onBlur={formik.handleBlur}
                                             ></FormikControl>
                                             <ModalFooter>
                                                 <PinkButton disabled={loading} type="submit">Xác thực</PinkButton>

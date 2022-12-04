@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { AddToCartIcon } from "../../../../sharedComponents/icon/addToCartIcon";
 import { Heading14 } from "../../../../sharedComponents/text";
+import { UilShoppingCart } from '@iconscout/react-unicons'
+
 
 const ProductContainer = styled.div`
   ${tw`
@@ -65,7 +66,7 @@ function ProductCard({data}) {
         <Heading14 onClick={() => handProductDetail(data.id)}>{data.name}</Heading14>
         <PriceContainer>
           <Price>đ {formatter.format(data.price)}</Price>
-          <AddToCartIcon></AddToCartIcon>
+          <UilShoppingCart></UilShoppingCart>
         </PriceContainer>
       </DescribesBox2>
     </ProductContainer>

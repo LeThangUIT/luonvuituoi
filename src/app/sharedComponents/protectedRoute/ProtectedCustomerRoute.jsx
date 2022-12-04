@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import AuthApi from '../../api/authApi';
 
-const ProtectedRoute = ({ children }) => {
-    const adminToken = localStorage.getItem("adminToken")
+const ProtectedCustomerRoute = ({ children }) => {
+    const userToken = localStorage.getItem("userToken")
     // const [isAuthenticated, setIsAuthenticated] = useState(false)
     // useEffect( () => {
     //  async () => {
     //   try {
-    //     await AuthApi.apiMe(adminToken)
+    //     await AuthApi.apiMe(userToken)
     //     console.log("success")
     //     setIsAuthenticated(true)
     //   } catch (err){
@@ -18,8 +18,8 @@ const ProtectedRoute = ({ children }) => {
     //  }
     // }, [isAuthenticated])
     
-    if(!adminToken) {
-      return <Navigate to="/adminLogin" replace />;
+    if(!userToken) {
+      return <Navigate to="/userLogin" replace />;
     }
     else {
       return children;
@@ -27,4 +27,4 @@ const ProtectedRoute = ({ children }) => {
   };
 
 
-export default ProtectedRoute
+export default ProtectedCustomerRoute
