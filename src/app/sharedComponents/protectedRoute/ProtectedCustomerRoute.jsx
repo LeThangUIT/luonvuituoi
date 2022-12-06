@@ -19,7 +19,7 @@ const ProtectedCustomerRoute = ({ children }) => {
     // }, [isAuthenticated])
     
     if(!userToken) {
-      return <Navigate to="/userLogin" replace />;
+      return <Navigate to="/login" replace />;
     }
     else {
       return children;

@@ -24,15 +24,16 @@ import FormikControl from "../../../../sharedComponents/formikCustom/FormikContr
 import { PinkButton } from "../../../../sharedComponents/button";
 import { Image, ImageBox } from "../../../../sharedComponents/table";
 import AddressApi from "../../../../api/addressApi";
+import { useSelector } from "react-redux";
 
 const GridBox = styled.div`
   ${tw`
-        grid grid-cols-7 gap-10 
+        grid grid-cols-8 gap-10 
     `}
 `;
 
 const FormContainer = styled.div`
-  ${tw` w-full col-span-4 bg-white rounded p-5`}
+  ${tw` w-full col-span-5 bg-white rounded p-5`}
 `;
 
 const FlexContainer = styled.div`
@@ -61,6 +62,7 @@ const ItemInfo = styled.div`
 //   return null;
 // };
 function CheckoutPage() {
+  const {userInfo} = useSelector( state => state.auth)
   const [provinces, setProvinces] = useState([{id: 0, name:"Chọn tỉnh/thành"}])
   const [districts, setDistricts] = useState([{id: 0, name:"Chọn quận/huyện"}])
   const [wards, setWards] = useState([{id: 0, name:"chọn phường/xã"}])
@@ -68,7 +70,7 @@ function CheckoutPage() {
   // const [districtId, setDistrictId] = useState()
   // const [wardId, setWardId] = useState()
   const initialValues = {
-    name: "",
+    name: userInfo?.name,
     phone: "",
     email: "",
     provinceId: "",
@@ -139,25 +141,20 @@ function CheckoutPage() {
                         <FlexContainer>
                           <FormikControl
                             control="dependentSelect"
-                            // label="Chọn Tỉnh/thành"
                             name="provinceId"
                             options={provinces}
                             setDistricts={setDistricts}
                           />
-                          {/* <GetProvinceId></GetProvinceId> */}
                           <FormikControl
                             control="dependentSelect"
-                            // label="Chọn Quận/huyện"
                             name="districtId"
                             options={districts}
                             setWards={setWards}
                           />
                           <FormikControl
                             control="dependentSelect"
-                            // label="Chọn Phường/xã"
                             name="wardId"
                             options={wards}
-                            // setWards={setWards}
                           />
                         </FlexContainer>
                         <FormikControl
@@ -165,9 +162,6 @@ function CheckoutPage() {
                           type="text"
                           label="Địa chỉ"
                           name="address"
-                          onChange={formik.handleChange}
-                          value={formik.values.address}
-                          onBlur={formik.handleBlur}
                         />
                          <FormikControl
                           control="radio"

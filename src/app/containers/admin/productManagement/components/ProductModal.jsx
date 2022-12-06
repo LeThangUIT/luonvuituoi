@@ -88,6 +88,7 @@ function ProductModal() {
   });
 
   const onSubmit = async (values) => {
+    console.log(values)
     dispatch(setLoading());
     if (values.images.length != 4) {
       //ko cho them
@@ -101,14 +102,12 @@ function ProductModal() {
         let URL = await getDownloadURL(imageRef);
         if (i == 0) {
           values.imageMain = URL;
-          console.log(values.imageMain);
         } else {
           values.imageDescription += `${URL} `;
         }
       }
       const { images, ...rest } = values;
       let data = { variants, options, ...rest };
-      console.log(data);
       dispatch(addProduct({ data, adminToken }));
     }
   };
