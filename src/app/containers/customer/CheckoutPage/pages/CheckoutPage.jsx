@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Footer } from "../../../../sharedComponents/footer";
@@ -18,11 +18,12 @@ import {
 import { ContentContainer } from "../../HomePage/components/content";
 import { PageContainer } from "../../HomePage/pages/HomePage";
 import { Body } from "../../ProductPage/pages/ProductPage";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import { PinkButton } from "../../../../sharedComponents/button";
 import { Image, ImageBox } from "../../../../sharedComponents/table";
+import AddressApi from "../../../../api/addressApi";
 
 const GridBox = styled.div`
   ${tw`
@@ -49,15 +50,30 @@ const ItemInfo = styled.div`
   ${tw`w-full flex-1 flex flex-col gap-2`}
 `
 
-
+// const GetProvinceId = () => {
+//   // Grab values and submitForm from context
+//   const { values } = useFormikContext();
+//   console.log(values.provinceId)
+//   React.useEffect(() => {
+//     console.log("first")
+//     console.log(values.provinceId)
+//   }, [values.provinceId]);
+//   return null;
+// };
 function CheckoutPage() {
+  const [provinces, setProvinces] = useState([{id: 0, name:"Chọn tỉnh/thành"}])
+  const [districts, setDistricts] = useState([{id: 0, name:"Chọn quận/huyện"}])
+  const [wards, setWards] = useState([{id: 0, name:"chọn phường/xã"}])
+  // const [provinceId, setProvinceId] = useState()
+  // const [districtId, setDistrictId] = useState()
+  // const [wardId, setWardId] = useState()
   const initialValues = {
     name: "",
     phone: "",
     email: "",
-    province: "",
-    district: "",
-    ward: "",
+    provinceId: "",
+    districtId: "",
+    wardId: "",
     address: ""
   };
   const validationSchema = Yup.object({
@@ -70,13 +86,17 @@ function CheckoutPage() {
     { key: "option3", value: "Option 3" },
   ];
 
-
   const onSubmit = (values) => {
     console.log(values)
   };
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
+
+  useEffect(async () => {
+    const res = await AddressApi.getProvince()
+    setProvinces(prev => [prev[0], ...res.data.data])
+  }, [])
   return (
     <PageContainer>
       <Header></Header>
@@ -102,44 +122,42 @@ function CheckoutPage() {
                           type="text"
                           label="Họ tên"
                           name="name"
-                          onChange={formik.handleChange}
-                          value={formik.values.name}
-                          onBlur={formik.handleBlur}
                         />
                         <FormikControl
                           control="input"
                           type="email"
                           label="Email"
                           name="email"
-                          onChange={formik.handleChange}
-                          value={formik.values.email}
-                          onBlur={formik.handleBlur}
                         />
                         <FormikControl
                           control="input"
                           type="text"
                           label="Số điện thoại"
                           name="phone"
-                          onChange={formik.handleChange}
-                          value={formik.values.phone}
-                          onBlur={formik.handleBlur}
                         />
 
                         <FlexContainer>
                           <FormikControl
-                            control="select"
-                            label="Chọn Tỉnh/thành"
-                            name="province"
+                            control="dependentSelect"
+                            // label="Chọn Tỉnh/thành"
+                            name="provinceId"
+                            options={provinces}
+                            setDistricts={setDistricts}
+                          />
+                          {/* <GetProvinceId></GetProvinceId> */}
+                          <FormikControl
+                            control="dependentSelect"
+                            // label="Chọn Quận/huyện"
+                            name="districtId"
+                            options={districts}
+                            setWards={setWards}
                           />
                           <FormikControl
-                            control="select"
-                            label="Chọn Quận/huyện"
-                            name="district"
-                          />
-                          <FormikControl
-                            control="select"
-                            label="Chọn Phường/xã"
-                            name="ward"
+                            control="dependentSelect"
+                            // label="Chọn Phường/xã"
+                            name="wardId"
+                            options={wards}
+                            // setWards={setWards}
                           />
                         </FlexContainer>
                         <FormikControl

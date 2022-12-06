@@ -1,5 +1,6 @@
 import React from "react";
 import Checkbox from "./formikCustomControl/CheckBox";
+import DependentSelect from "./formikCustomControl/DependentSelect";
 import EditorInput from "./formikCustomControl/EditorInput";
 import ImagesInput from "./formikCustomControl/ImagesInput";
 import Input from "./formikCustomControl/Input";
@@ -20,6 +21,8 @@ const FormikControl = (props) => {
       return <Textarea {...rest} />;
     case "select":
       return <Select {...rest} />;
+    case "dependentSelect":
+      return <DependentSelect {...rest} />
     case "radio":
       return <Radiobutton {...rest} />;
     case "checkbox":

@@ -13,7 +13,6 @@ ${tw`border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:o
 `
 const CustomSelect = (props) => {
     const {field, form, ...rest} = props
-
     return (
       <SelectBox {...field} {...rest}>
       </SelectBox>
@@ -23,16 +22,16 @@ const CustomSelect = (props) => {
     let {label, name, options, ...rest} = props
     return (
         <FormControl>
-            <Label htmlFor={name}>{label}</Label>
+            {label && <Label htmlFor={name}>{label}</Label>}
             <SelectBox as="select" id={name} name={name} {...rest}>
             {
-                    options?.map((option, index) => {
-                        return (
-                            <option key={option.id} value={option.id}>
-                                {option.name}
-                            </option>
-                        )
-                    })
+                options?.map((option, index) => {
+                    return (
+                        <option key={option.id} value={option.id}>
+                            {option.name}
+                        </option>
+                    )
+                })
                 }
             </SelectBox>
             <ErrorContainer>
