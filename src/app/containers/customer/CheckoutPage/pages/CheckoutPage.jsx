@@ -24,7 +24,8 @@ import FormikControl from "../../../../sharedComponents/formikCustom/FormikContr
 import { PinkButton } from "../../../../sharedComponents/button";
 import { Image, ImageBox } from "../../../../sharedComponents/table";
 import AddressApi from "../../../../api/addressApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserInfo } from "../../Auth/authSlice";
 
 const GridBox = styled.div`
   ${tw`
@@ -42,63 +43,76 @@ const FlexContainer = styled.div`
 
 const RightContainer = styled.div`
   ${tw`col-span-3 flex flex-col gap-y-4 `}
-`
+`;
 const TotalContainer = styled.div`
   ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 h-fit-content`}
 `;
 
 const ItemInfo = styled.div`
   ${tw`w-full flex-1 flex flex-col gap-2`}
-`
+`;
 
-// const GetProvinceId = () => {
-//   // Grab values and submitForm from context
-//   const { values } = useFormikContext();
-//   console.log(values.provinceId)
-//   React.useEffect(() => {
-//     console.log("first")
-//     console.log(values.provinceId)
-//   }, [values.provinceId]);
-//   return null;
-// };
 function CheckoutPage() {
-  const {userInfo} = useSelector( state => state.auth)
-  const [provinces, setProvinces] = useState([{id: 0, name:"Chọn tỉnh/thành"}])
-  const [districts, setDistricts] = useState([{id: 0, name:"Chọn quận/huyện"}])
-  const [wards, setWards] = useState([{id: 0, name:"chọn phường/xã"}])
-  // const [provinceId, setProvinceId] = useState()
-  // const [districtId, setDistrictId] = useState()
-  // const [wardId, setWardId] = useState()
+  const { userInfo } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const [provinces, setProvinces] = useState([
+    { id: "", name: "Chọn tỉnh/thành" },
+  ]);
+  const [districts, setDistricts] = useState([
+    { id: "", name: "Chọn quận/huyện" },
+  ]);
+  const [wards, setWards] = useState([{ id: "", name: "chọn phường/xã" }]);
+  const [fee, setFee] = useState(0)
+  const userToken = localStorage.getItem("userToken");
+  const checkoutOptions = [
+    {
+      key: "cod",
+      value: "Thanh toán khi nhận hàng",
+    },
+    {
+      key: "momo",
+      value: "Thanh toán MoMo",
+    },
+    {
+      key: "zaloPay",
+      value: "Thanh toán ZaloPay",
+    },
+    {
+      key: "vnPay",
+      value: "Thanh toán VNPay",
+    },
+  ];
   const initialValues = {
     name: userInfo?.name,
-    phone: "",
-    email: "",
+    phone: userInfo?.phone,
+    email: userInfo?.email,
     provinceId: "",
     districtId: "",
     wardId: "",
-    address: ""
+    address: "",
+    payments: "cod",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("Bạn cần phải nhập trường này!"),
     phone: Yup.string().required("Bạn cần phải nhập trường này!"),
   });
-  const radioOptions = [
-    { key: "option1", value: "Option 1" },
-    { key: "option2", value: "Option 2" },
-    { key: "option3", value: "Option 3" },
-  ];
 
   const onSubmit = (values) => {
-    console.log(values)
+    console.log(values);
   };
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
+  // const dispatch = useDispatch()
+  useEffect(() => {
+    async function fetchData() {
+      const res = await AddressApi.getProvince(userToken);
+      setProvinces((prev) => [prev[0], ...res.data.data]);
+      // dispatch(fetchUserInfo(userToken))
+    }
+    fetchData();
+  }, []);
 
-  useEffect(async () => {
-    const res = await AddressApi.getProvince()
-    setProvinces(prev => [prev[0], ...res.data.data])
-  }, [])
   return (
     <PageContainer>
       <Header></Header>
@@ -155,6 +169,7 @@ function CheckoutPage() {
                             control="dependentSelect"
                             name="wardId"
                             options={wards}
+                            setFee={setFee}
                           />
                         </FlexContainer>
                         <FormikControl
@@ -163,14 +178,11 @@ function CheckoutPage() {
                           label="Địa chỉ"
                           name="address"
                         />
-                         <FormikControl
+                        <FormikControl
                           control="radio"
                           label="Phương thức thanh toán"
                           name="payments"
-                          onChange={formik.handleChange}
-                          value={formik.values.payments}
-                          onBlur={formik.handleBlur}
-                          options={radioOptions}
+                          options={checkoutOptions}
                         />
                         <PinkButton type="submit">Thanh toán</PinkButton>
                       </FormContainer>
@@ -182,32 +194,48 @@ function CheckoutPage() {
             <RightContainer>
               <TotalContainer>
                 <Heading16>Giỏ hàng</Heading16>
-                <FlexContainer>
-                  <ImageBox>
-                    <Image></Image>
-                  </ImageBox>
-                  <ItemInfo>
-                    <Heading16>Teen sanr pham efdsfs fsd fsdfs dfsd fsf ds fd sfsfsdf</Heading16>
-                    <Text14>Xanh / M</Text14>
-                    <PinkHeading22>{formatter.format(100000)} đ</PinkHeading22>
-                    <Text14>x2</Text14>
-                  </ItemInfo>
-                </FlexContainer>
+                {cart.map((item, index) => {
+                  return (
+                    <FlexContainer key={index}>
+                      <ImageBox>
+                        <Image src={item.imageMain}></Image>
+                      </ImageBox>
+                      <ItemInfo>
+                        <Heading16>{item.name}</Heading16>
+                        {item.optionValues && (
+                          <Text14>
+                            {item.optionValues.map((option, index) => {
+                              if (index == 0) {
+                                return <>{option.value}</>;
+                              } else {
+                                return <> / {option.value}</>;
+                              }
+                            })}
+                          </Text14>
+                        )}
+                        <PinkHeading22>
+                          {formatter.format(item.price)} đ
+                        </PinkHeading22>
+                      </ItemInfo>
+                      <Text14>x{item.quantity}</Text14>
+                    </FlexContainer>
+                  );
+                })}
               </TotalContainer>
               <TotalContainer>
-                  <Heading16>Tổng tiền giỏ hàng</Heading16>
-                  <FlexContainer>
-                    <Text14>Tạm tính</Text14>
-                    <Heading14>{formatter.format(100000)} đ</Heading14>
-                  </FlexContainer>
-                  <FlexContainer>
-                    <Text14>Phí giao hàng</Text14>
-                    <Heading14>+{formatter.format(25000)} đ</Heading14>
-                  </FlexContainer>
-                  <FlexContainer>
-                    <Text14>Tổng</Text14>
-                    <PinkHeading26>{formatter.format(125000)} đ</PinkHeading26>
-                  </FlexContainer>
+                <Heading16>Tổng tiền giỏ hàng</Heading16>
+                <FlexContainer>
+                  <Text14>Tạm tính</Text14>
+                  <Heading14>{formatter.format(100000)} đ</Heading14>
+                </FlexContainer>
+                <FlexContainer>
+                  <Text14>Phí giao hàng</Text14>
+                  <Heading14>+{formatter.format(fee)} đ</Heading14>
+                </FlexContainer>
+                <FlexContainer>
+                  <Text14>Tổng</Text14>
+                  <PinkHeading26>{formatter.format(125000)} đ</PinkHeading26>
+                </FlexContainer>
               </TotalContainer>
             </RightContainer>
           </GridBox>

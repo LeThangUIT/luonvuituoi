@@ -13,17 +13,25 @@ const SelectField = styled.input`
 ${tw`border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none`}
 `
 const CustomSelect = (props) => {
-    const {field, form, options, setDistricts, setWards, ...rest} = props
+  const userToken = localStorage.getItem("userToken")
+    const {field, form, options, setDistricts, setWards,setFee, ...rest} = props
     const {value, name, onBlur} = field
     const handleChange = async (value) => {
         form.setFieldValue(name, value)
         if(setDistricts) {
-            const res = await AddressApi.getDistrict(value)
+            const res = await AddressApi.getDistrict({provinceId: value, userToken})
             setDistricts(prev => [prev[0], ...res.data.data])
+            form.setFieldValue("districtId", "")
+            form.setFieldValue("wardId", "")
         }
         if(setWards) {
-            const res = await AddressApi.getWard(value)
-            setDistricts(prev => [prev[0], ...res.data.data])
+            const res = await AddressApi.getWard({districtId: value, userToken})
+            setWards(prev => [prev[0], ...res.data.data])
+            form.setFieldValue("wardId", "")
+        }
+        if(setFee) {
+            const res = await AddressApi.getTransportFee({wardId: value, userToken})
+            setFee(res.data.data)
         }
     }
     return (

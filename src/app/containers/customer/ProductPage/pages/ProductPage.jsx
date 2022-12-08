@@ -20,7 +20,7 @@ export const Body = styled.div`
 export default function ProductPage() {
     const dispatch = useDispatch()
     const {listProducts} = useSelector(state => state.product)
-    useEffect(() => {
+    useEffect( () => {
         dispatch(getAllProducts({page:"1", perPage:"2"}))
     }, [])
     

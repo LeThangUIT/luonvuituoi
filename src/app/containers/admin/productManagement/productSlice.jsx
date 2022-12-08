@@ -113,6 +113,7 @@ const ProductSlice = createSlice({
             state.loading = true
         },
         [addProduct.fulfilled](state, action) {
+            console.log(action.payload.data)
             state.listProducts.items.push(action.payload.data.data)
             state.loading = false
             state.isShow = false

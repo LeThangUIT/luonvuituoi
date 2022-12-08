@@ -232,7 +232,7 @@ function DetailPage() {
                     <QuantityComponent quantity={quantity} setQuantity={setQuantity}></QuantityComponent>
                   </Container>
                   <ButtonGroup>
-                    {variantId && productDetail.options.length != 0 ? (
+                    {variantId && productDetail.options.length != 0 || productDetail.options.length == 0 ? (
                       <WhiteButton onClick={() => handleAddToCart({variantId, quantity,productId: productDetail.id, imageMain: productDetail.imageMain, name: productDetail.name, price: productDetail.price})}>
                         <UilShoppingCart />
                         Thêm vào giỏ hàng

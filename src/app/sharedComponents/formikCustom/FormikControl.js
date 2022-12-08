@@ -1,5 +1,6 @@
 import React from "react";
 import Checkbox from "./formikCustomControl/CheckBox";
+import Datetimepicker from "./formikCustomControl/DatetimePicker";
 import DependentSelect from "./formikCustomControl/DependentSelect";
 import EditorInput from "./formikCustomControl/EditorInput";
 import ImagesInput from "./formikCustomControl/ImagesInput";
@@ -27,6 +28,8 @@ const FormikControl = (props) => {
       return <Radiobutton {...rest} />;
     case "checkbox":
       return <Checkbox {...rest} />;
+    case "time":
+      return <Datetimepicker {...rest} />
     default:
       return null;
   }

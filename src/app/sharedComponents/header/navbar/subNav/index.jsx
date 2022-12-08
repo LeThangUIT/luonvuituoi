@@ -22,7 +22,7 @@ export const SubMenu = ({display, data}) => {
         <SubNav className={display}>
             {data.map((item, index) => {
                 return(
-                    <SubMenuItem>
+                    <SubMenuItem key={index}>
                         <Heading14>{item.name}</Heading14>
                     </SubMenuItem>
                 )

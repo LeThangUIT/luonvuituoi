@@ -121,28 +121,32 @@ function CartPage() {
             <ListProductContainer>
               <Table>
                 <TableHead>
-                  <TableHeading>
-                    <Heading14>Sản phẩm</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Tên sản phẩm</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Biến thể</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Đơn giá</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Số lượng</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Số tiền</Heading14>
-                  </TableHeading>
-                  <TableHeading>
-                    <Heading14>Xóa</Heading14>
-                  </TableHeading>
+                  <TableRow>
+                    <TableHeading>
+                      <Heading14>Sản phẩm</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Tên sản phẩm</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Biến thể</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Đơn giá</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Số lượng</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Số tiền</Heading14>
+                    </TableHeading>
+                    <TableHeading>
+                      <Heading14>Xóa</Heading14>
+                    </TableHeading>
+                  </TableRow>
                 </TableHead>
+                <TableBody>
+
                 {cart.map((item, index) => {
                   TotalPrice += item.quantity*item.price
                   QuantityProduct += 1
@@ -158,11 +162,11 @@ function CartPage() {
                       </TableNameData>
                       <TableData>
                         {item?.optionValues?.map((op, index) => (
-                          <>
+                          <div key={index}>
                             <Heading14>{op.option}: </Heading14>
                             <Text14>{op.value}</Text14>
                             <br />
-                          </>
+                          </div>
                         ))}
                       </TableData>
                       <TableData>
@@ -210,7 +214,7 @@ function CartPage() {
                     </TableRow>
                   );
                 })}
-                <TableBody></TableBody>
+                </TableBody>
               </Table>
               <TotalContainer>
                 <Heading14>Tổng tiền giỏ hàng</Heading14>

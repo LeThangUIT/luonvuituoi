@@ -88,7 +88,6 @@ function ProductModal() {
   });
 
   const onSubmit = async (values) => {
-    console.log(values)
     dispatch(setLoading());
     if (values.images.length != 4) {
       //ko cho them
@@ -107,7 +106,14 @@ function ProductModal() {
         }
       }
       const { images, ...rest } = values;
-      let data = { variants, options, ...rest };
+      let data
+      if(isChecked) {
+         data = { variants, options, ...rest };
+      }
+      else {
+         data = rest
+      }
+      console.log(data)
       dispatch(addProduct({ data, adminToken }));
     }
   };
