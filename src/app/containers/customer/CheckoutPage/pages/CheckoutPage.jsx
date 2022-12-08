@@ -112,7 +112,7 @@ function CheckoutPage() {
     }
     fetchData();
   }, []);
-
+  let totalPrice = 0
   return (
     <PageContainer>
       <Header></Header>
@@ -195,6 +195,7 @@ function CheckoutPage() {
               <TotalContainer>
                 <Heading16>Giỏ hàng</Heading16>
                 {cart.map((item, index) => {
+                  totalPrice += item.price*item.quantity
                   return (
                     <FlexContainer key={index}>
                       <ImageBox>
@@ -214,7 +215,7 @@ function CheckoutPage() {
                           </Text14>
                         )}
                         <PinkHeading22>
-                          {formatter.format(item.price)} đ
+                          {formatter.format(item.price*item.quantity)} đ
                         </PinkHeading22>
                       </ItemInfo>
                       <Text14>x{item.quantity}</Text14>
@@ -226,7 +227,7 @@ function CheckoutPage() {
                 <Heading16>Tổng tiền giỏ hàng</Heading16>
                 <FlexContainer>
                   <Text14>Tạm tính</Text14>
-                  <Heading14>{formatter.format(100000)} đ</Heading14>
+                  <Heading14>{formatter.format(totalPrice)} đ</Heading14>
                 </FlexContainer>
                 <FlexContainer>
                   <Text14>Phí giao hàng</Text14>
@@ -234,7 +235,7 @@ function CheckoutPage() {
                 </FlexContainer>
                 <FlexContainer>
                   <Text14>Tổng</Text14>
-                  <PinkHeading26>{formatter.format(125000)} đ</PinkHeading26>
+                  <PinkHeading26>{formatter.format(totalPrice+fee)} đ</PinkHeading26>
                 </FlexContainer>
               </TotalContainer>
             </RightContainer>
