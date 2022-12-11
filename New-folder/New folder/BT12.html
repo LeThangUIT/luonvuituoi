@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/BT12.css">
+    <script src="script/BT12.js"></script>
+    <title>Phiếu đăng ký</title>
+</head>
+<body>
+    <h1>Phiếu đăng ký</h1>
+    <form action="" method="post" name="form_km">
+        <table cellpadding="5" cellspacing="5">
+            <tr>
+                <td class="label"><label>Họ tên</label></td>
+                <td><input type="text" name="ten" id="ten" class="txt" size="30" autofocus required onInvalid="setCustomValidity('Bạn chưa nhập tên')" oninput="setCustomValidity('')"></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Địa chỉ</label></td>
+                <td><textarea name="dia_chi" id="dia_chi" class="txt" cols="30" rows="5" maxlength="50" required oninvalid="setCustomValidity('Bạn chưa nhập địa chỉ')" oninput="setCustomValidity('')"></textarea></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Email</label></td>
+                <td><input type="email" id="email" class="txt" required oninvalid="setCustomValidity('Bạn chưa nhập hoặc email không hợp lệ')" oninput="setCustomValidity('')"></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Điện thoại</label></td>
+                <td><input type="tel" id="dt" class="txt" required oninvalid="setCustomValidity('Bạn chưa nhập số điện thoại')" oninput="setCustomValidity('')"></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Giới tính</label></td>
+                <td><input type="radio" name="Gioitinh" id="Nam" value="1" checked>
+                    <label for="Nam">Nam</label>
+                    <input type="radio" name="Gioitinh" id="Nu" value="0">
+                    <label for="Nu">Nữ</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label>Nghề nghiệp</label></td>
+                <td><select name="Nghe" id="Nghe" class="txt">
+                    <option value="1">Giáo viên</option>
+                    <option value="2" selected>Sinh viên</option>
+                    <option value="3">Công nhân</option>
+                    <option value="4">Khác</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Chọn sản phẩm</label></td>
+                <td><select name="SP" id="SP" class="txt" multiple>
+                    <option value="1">Kem đánh răng</option>
+                    <option value="2">Bột giặt</option>
+                    <option value="3">Dầu gội</option>
+                    <option value="4">Sữa tắm</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Dự đoán số người tham gia</label></td>
+                <td><input type="number" id="join_member" class="txt"></td>
+            </tr>
+            <tr>
+                <td class="btn_cell" colspan="2"><input class="btn" type="submit" value="Đăng ký">
+                <input class="btn" type="button" value="Làm lại" onclick="redo()"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

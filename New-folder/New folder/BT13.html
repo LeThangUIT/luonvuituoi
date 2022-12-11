@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/BT13.css">
+    <title>Đăng ký du lịch</title>
+</head>
+
+<body>
+    <h1>ĐĂNG KÝ DU LỊCH</h1>
+    <form action="" method="post" name="form_km">
+        <table cellpadding="5" cellspacing="5">
+            <tr>
+                <td class="label"><label>Họ tên</label></td>
+                <td><input type="text" name="ten" id="ten" size="35" autofocus required
+                        onInvalid="setCustomValidity('Bạn chưa nhập tên')" oninput="setCustomValidity('')"></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Địa chỉ</label></td>
+                <td><textarea name="dia_chi" id="dia_chi" cols="40" rows="5" maxlength="50" required
+                        oninvalid="setCustomValidity('Bạn chưa nhập địa chỉ')"
+                        oninput="setCustomValidity('')"></textarea></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Điện thoại</label></td>
+                <td><input type="tel" id="dt" required
+                        oninvalid="setCustomValidity('Bạn chưa nhập số điện thoại')" oninput="setCustomValidity('')">
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label>Khách Việt Nam</label></td>
+                <td><input type="checkbox" id="vietnam"></td>
+            </tr>
+            <tr>
+                <td class="label"><label>Chọn tour</label></td>
+                <td>
+                    <select name="tour" id="tour">
+                        <option value="1">Hà Nội - Hạ Long - Sapa</option>
+                        <option value="2">Hà Nội - Chùa Hương - Ninh Bình</option>
+                        <option value="3">Hà Nội - Cát Bà - Tuần Châu</option>
+                        <option value="4">Huế - Bạch Mã - Đà Nẵng</option>
+                        <option value="5">Nha Trang - Đà Lạt</option>
+                        <option value="6">Buôn Mê Thuột - Gia Lai - Kontum</option>
+                        <option value="7">TpHCM - Cần Thơ - Cà Mau</option>
+                        <option value="8" selected>Phú Quốc - Côn Đảo</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label>Phương tiện</label></td>
+                <td>
+                    <input type="radio" name="phuong_tien" id="may_bay" value="1" checked>
+                    <label for="may_bay">Máy bay</label>
+                    <input type="radio" name="phuong_tien" id="xe_du_lich" value="0">
+                    <label for="xe_du_lich">Xe du lịch</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="doan_khach" colspan="2">
+                    <fieldset style="width:350px; margin: auto;">
+                        <legend>Số lượng đoàn khách</legend>
+                        Người lớn <input id="nguoi_lon" type="text" size="10" maxlength="15" />
+                        Trẻ em <input id="tre_em" type="text" size="10" maxlength="15" />
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label>Ghi chú thêm</label></td>
+                <td><textarea name="note" id="note" cols="40" rows="5" maxlength="50"></textarea></td>
+            </tr>
+            <tr class="center">
+                <td colspan="2"><input id="done" type="button" value="Đồng ý" ></td>
+            </tr>
+            <tr class="center">
+                <td id="thong_bao" colspan="2">Bạn đã đăng ký thành công!!!</td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+<script src="script/BT13.js"></script>
+
+</html>

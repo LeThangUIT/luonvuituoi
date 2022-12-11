@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import VerifyEmail from "../../RegisterPage/components/VerifyEmail";
 import AuthApi from "../../../../api/authApi";
+import { Logo } from "../../../../sharedComponents/header/logo";
 
 export const PageContainer = styled.div`
   ${tw`
@@ -129,7 +130,9 @@ export default function LoginPage() {
   const { pathname } = useLocation();
   const pathBeforeLogin = localStorage.getItem("currentPath")
   const deviceId = uuidv4();
-  const { userToken, adminToken, loading } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
+  const userToken = localStorage.getItem("userToken")
+  const adminToken = localStorage.getItem("adminToken")
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -173,6 +176,7 @@ export default function LoginPage() {
     } catch (e) {}
   };
   useEffect(() => {
+    console.log(userToken)
     if (userToken && pathname === "/login") {
       navigate(pathBeforeLogin);
     }
@@ -182,6 +186,9 @@ export default function LoginPage() {
   }, [navigate, userToken, adminToken]);
   return (
     <PageContainer>
+      <div onClick={() => navigate("/")}>
+        <Logo></Logo>
+      </div>
       <Content>
         <LoginFrame>
           {pathname === "/login" ? (

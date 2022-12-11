@@ -48,7 +48,6 @@ const TopSection = styled.div`
         justify-between
         py-4
         px-4
-
     `}
 `;
 
@@ -88,18 +87,11 @@ export function Header() {
     }
     window.addEventListener("scroll", handleScroll)
   }, [])
-  const userToken = localStorage.getItem("userToken");
   const currentPath = useLocation()
+  const userToken = localStorage.getItem("userToken");
   if(!userToken) {
     localStorage.setItem("currentPath", currentPath.pathname)
   }
-  const dispatch = useDispatch()
-  useEffect(() => {
-      dispatch(getAllCategories())
-      if(userToken) {
-          dispatch(fetchUserInfo(userToken))
-      }
-  }, [])
   const isMobile = useMediaQuery({ maxWidth: SCREENS.md });
   const [showSearch, setShowSearch] = useState(false);
   if (isMobile) {

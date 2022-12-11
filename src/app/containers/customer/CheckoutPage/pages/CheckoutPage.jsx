@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { Footer } from "../../../../sharedComponents/footer";
-import { Header } from "../../../../sharedComponents/header";
 import {
   Heading14,
   Heading16,
-  Heading22,
   Heading26,
-  Heading30,
   PinkHeading14,
-  PinkHeading16,
-  PinkHeading22,
   PinkHeading26,
   Text14,
 } from "../../../../sharedComponents/text";
 import { ContentContainer } from "../../HomePage/components/content";
-import { PageContainer } from "../../HomePage/pages/HomePage";
-import { Body } from "../../ProductPage/pages/ProductPage";
-import { Form, Formik, useFormikContext } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
-import { PinkButton } from "../../../../sharedComponents/button";
-import { Image, ImageBox } from "../../../../sharedComponents/table";
+import { PinkButton, WhiteButton } from "../../../../sharedComponents/button";
 import AddressApi from "../../../../api/addressApi";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo } from "../../Auth/authSlice";
+import {  useSelector } from "react-redux";
+import CartMini from "../components/CartMini";
+import { Body } from "../../../../sharedComponents/body";
+import { BoxText } from "../../../../sharedComponents/formikCustom/formikCustomControl/Input";
 
 const GridBox = styled.div`
   ${tw`
@@ -37,8 +30,8 @@ const FormContainer = styled.div`
   ${tw` w-full col-span-5 bg-white rounded p-5`}
 `;
 
-const FlexContainer = styled.div`
-  ${tw` flex flex-row items-center justify-between gap-x-4`}
+export const FlexContainer = styled.div`
+  ${tw` flex flex-row items-center justify-between gap-x-4 `}
 `;
 
 const RightContainer = styled.div`
@@ -48,13 +41,12 @@ const TotalContainer = styled.div`
   ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 h-fit-content`}
 `;
 
-const ItemInfo = styled.div`
-  ${tw`w-full flex-1 flex flex-col gap-2`}
-`;
+
+
 
 function CheckoutPage() {
   const { userInfo } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart);
+  const { selectedCart } = useSelector((state) => state.cart);
   const [provinces, setProvinces] = useState([
     { id: "", name: "Chọn tỉnh/thành" },
   ]);
@@ -112,10 +104,8 @@ function CheckoutPage() {
     }
     fetchData();
   }, []);
-  let totalPrice = 0
+  let totalPrice = selectedCart.reduce((currentValue, item) => (item.price * item.quantity + currentValue), 0)
   return (
-    <PageContainer>
-      <Header></Header>
       <Body>
         <ContentContainer>
           <GridBox>
@@ -193,37 +183,11 @@ function CheckoutPage() {
             </FormContainer>
             <RightContainer>
               <TotalContainer>
-                <Heading16>Giỏ hàng</Heading16>
-                {cart.map((item, index) => {
-                  totalPrice += item.price*item.quantity
-                  return (
-                    <FlexContainer key={index}>
-                      <ImageBox>
-                        <Image src={item.imageMain}></Image>
-                      </ImageBox>
-                      <ItemInfo>
-                        <Heading16>{item.name}</Heading16>
-                        {item.optionValues && (
-                          <Text14>
-                            {item.optionValues.map((option, index) => {
-                              if (index == 0) {
-                                return <>{option.value}</>;
-                              } else {
-                                return <> / {option.value}</>;
-                              }
-                            })}
-                          </Text14>
-                        )}
-                        <PinkHeading22>
-                          {formatter.format(item.price*item.quantity)} đ
-                        </PinkHeading22>
-                      </ItemInfo>
-                      <Text14>x{item.quantity}</Text14>
-                    </FlexContainer>
-                  );
-                })}
+                <CartMini cart={selectedCart}></CartMini>
               </TotalContainer>
               <TotalContainer>
+                  <BoxText></BoxText>
+                  <WhiteButton>Áp dụng</WhiteButton>
                 <Heading16>Tổng tiền giỏ hàng</Heading16>
                 <FlexContainer>
                   <Text14>Tạm tính</Text14>
@@ -241,9 +205,7 @@ function CheckoutPage() {
             </RightContainer>
           </GridBox>
         </ContentContainer>
-        <Footer></Footer>
       </Body>
-    </PageContainer>
   );
 }
 

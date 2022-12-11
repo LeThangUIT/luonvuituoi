@@ -53,6 +53,17 @@ export const PinkHeading16 = styled.span`
     `}
 `;
 
+export const Heading18 = styled.span`
+  ${tw`
+        not-italic font-bold text-[18px] leading-[21px] text-blackColor 
+    `}
+`;
+export const PinkHeading18 = styled.span`
+  ${tw`
+        not-italic font-bold text-[18px] leading-[21px] text-primaryColor 
+    `}
+`;
+
 export const ErrorText = styled.span`
   ${tw`
         not-italic font-bold text-[16px] leading-[19px] text-[red] 

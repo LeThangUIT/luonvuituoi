@@ -6,6 +6,8 @@ import { SidebarData } from "../../Data/Data";
 import { motion } from 'framer-motion';
 import { Logo } from "../../../../sharedComponents/header/logo/index";
 import { useNavigate } from "react-router-dom";
+import { adminLogout } from "../../../customer/Auth/authSlice";
+import { useDispatch } from "react-redux";
 const Sidebar = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
@@ -19,6 +21,12 @@ const Sidebar = () => {
       left: "-60%",
     },
   };
+
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    dispatch(adminLogout())
+    navigate('/adminLogin')
+  }
   return (
     <>
       <div
@@ -50,7 +58,7 @@ const Sidebar = () => {
             );
           })}
 
-          <div className="menuItem">
+          <div className="menuItem" onClick={handleLogout}>
             <UilLeftArrowFromLeft className="icon"></UilLeftArrowFromLeft>
           </div>
         </div>

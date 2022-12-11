@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import tw from "twin.macro";
-import { Footer } from "../../../../sharedComponents/footer";
-import { Header } from "../../../../sharedComponents/header";
 import {
   Heading14,
   PinkHeading16,
@@ -13,9 +11,13 @@ import {
   ContentContainer,
   ListProductContainer,
 } from "../../HomePage/components/content";
-import { PageContainer } from "../../HomePage/pages/HomePage";
-import { UilTrashAlt } from '@iconscout/react-unicons'
-import QuantityComponent, { Decrease, Increase, Number, Quantity } from "../../DetailPage/components/Quantity";
+import { UilTrashAlt } from "@iconscout/react-unicons";
+import {
+  Decrease,
+  Increase,
+  Number,
+  Quantity,
+} from "../../DetailPage/components/Quantity";
 import { PinkButton } from "../../../../sharedComponents/button";
 import {
   Image,
@@ -30,14 +32,18 @@ import {
   TableRow,
 } from "../../../../sharedComponents/table";
 import { useDispatch, useSelector } from "react-redux";
-import { changeNumber, changeQuantity, deleleCartLocal, deleteCart, deleteCartLocal, getCart, getCartFromLocal } from "../CartSlice";
+import {
+  changeNumber,
+  changeQuantity,
+  deleleCartLocal,
+  deleteCart,
+  deleteCartLocal,
+  getCart,
+  getCartFromLocal,
+  setSelectedCart,
+} from "../CartSlice";
 import { useNavigate } from "react-router-dom";
-
-const Body = styled.div`
-  ${tw`
-        flex flex-col items-start absolute top-[40px] md:top-[137px] left-0 right-0 w-full
-    `}
-`;
+import { Body } from "../../../../sharedComponents/body";
 
 const TotalContainer = styled.div`
   ${tw`  w-full height[fit-content] box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6`}
@@ -47,26 +53,33 @@ const FlexContainer = styled.div`
 `;
 function CartPage() {
   const userToken = localStorage.getItem("userToken");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // if(!userToken) {
   //   var cartLocal = localStorage.getItem("cart")
   //   var storedCart = JSON.parse(cartLocal)
   // }
-  const { loading, cart } = useSelector((state) => state.cart);
+  const { loading, cart, selectedCart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   useEffect(() => {
     //if(userToken) {
-      dispatch(getCart(userToken));
+    dispatch(getCart(userToken));
     //}
     // else {
     //   dispatch(getCartFromLocal(storedCart))
     // }
   }, []);
 
-  const handleIncrease = ({quantity, productId, variantId}) => {
-    dispatch(changeNumber({quantity: quantity + 1, variantId, productId}))
+  const handleIncrease = ({ quantity, productId, variantId }) => {
+    dispatch(changeNumber({ quantity: quantity + 1, variantId, productId }));
     //if(userToken) {
-      dispatch(changeQuantity({userToken, quantity: quantity + 1, productId, variantId})) 
+    dispatch(
+      changeQuantity({
+        userToken,
+        quantity: quantity + 1,
+        productId,
+        variantId,
+      })
+    );
     //}
     // else {
     //   storedCart.map(item => {
@@ -76,12 +89,19 @@ function CartPage() {
     //   })
     //   localStorage.setItem("cart", JSON.stringify(storedCart))
     // }
-  }
-  const handleDecrease = ({quantity, productId, variantId}) => {
-    if(quantity > 1) {
-      dispatch(changeNumber({quantity: quantity - 1, variantId, productId}))
+  };
+  const handleDecrease = ({ quantity, productId, variantId }) => {
+    if (quantity > 1) {
+      dispatch(changeNumber({ quantity: quantity - 1, variantId, productId }));
       //if(userToken) {
-        dispatch(changeQuantity({userToken, quantity: quantity - 1, productId, variantId}))
+      dispatch(
+        changeQuantity({
+          userToken,
+          quantity: quantity - 1,
+          productId,
+          variantId,
+        })
+      );
       //}
       // else {
       //   storedCart.map(item => {
@@ -92,66 +112,103 @@ function CartPage() {
       //   localStorage.setItem("cart", JSON.stringify(storedCart))
       // }
     }
-  }
+  };
 
   const handleDeleteCart = (data) => {
     //if(userToken) {
-      dispatch(deleteCart({userToken, ...data}))
+    dispatch(deleteCart({ userToken, ...data }));
     //}
     // else {
     //   localStorage.setItem("cart", JSON.stringify(storedCart.filter(item => item.variantId !== data.variantId && item.productId !== data.productId)))
     //   dispatch(deleteCartLocal(data))
     // }
-  }
+  };
 
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
 
-  let TotalPrice = 0
-  let QuantityProduct = 0
-  return (
-    <PageContainer>
-      <Header></Header>
-      <Body>
-        <ContentContainer>
-          {loading ? (
-            <span>Đang tải</span>
-          ) : cart.length > 0 ? (
-            <ListProductContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableHeading>
-                      <Heading14>Sản phẩm</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Tên sản phẩm</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Biến thể</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Đơn giá</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Số lượng</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Số tiền</Heading14>
-                    </TableHeading>
-                    <TableHeading>
-                      <Heading14>Xóa</Heading14>
-                    </TableHeading>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+  let TotalPrice = 0;
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const list = [...cart];
+  const handleSelectAll = (e) => {
+    setIsCheckAll(!isCheckAll);
+    dispatch(setSelectedCart(
+      list.map((item, index) => {
+        return item;
+      })
+    ));
+    if (isCheckAll) {
+      dispatch(setSelectedCart([]));
+    }
+  };
 
+  const handleClick = ({e, cartItem}) => {
+    const { id, checked } = e.target;
+    if(selectedCart.length == list.length-1) {
+      setIsCheckAll(true)
+    }
+    dispatch(setSelectedCart([...selectedCart, cartItem]));
+    if (!checked) {
+      setIsCheckAll(false)
+      dispatch(setSelectedCart(selectedCart.filter((item, index) => item != cartItem)));
+    }
+  };
+  return (
+    <Body>
+      <ContentContainer>
+        {loading ? (
+          <span>Đang tải</span>
+        ) : cart.length > 0 ? (
+          <ListProductContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableHeading>
+                    <input
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      onChange={handleSelectAll}
+                      checked={isCheckAll}
+                    />
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Sản phẩm</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Tên sản phẩm</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Biến thể</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Đơn giá</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Số lượng</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Số tiền</Heading14>
+                  </TableHeading>
+                  <TableHeading>
+                    <Heading14>Xóa</Heading14>
+                  </TableHeading>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {cart.map((item, index) => {
-                  TotalPrice += item.quantity*item.price
-                  QuantityProduct += 1
+                  TotalPrice += item.quantity * item.price;
                   return (
                     <TableRow key={index}>
+                      <TableData>
+                        <input
+                          type="checkbox"
+                          id={index}
+                          onChange={e => handleClick({e, cartItem: item})}
+                          checked={selectedCart.some(element =>  JSON.stringify(element) === JSON.stringify(item)) }
+                        />
+                      </TableData>
                       <TableData>
                         <ImageBox>
                           <Image src={item.imageMain}></Image>
@@ -175,7 +232,13 @@ function CartPage() {
                       <TableData>
                         <Quantity>
                           <Decrease
-                            onClick={() => handleDecrease({quantity: item.quantity, productId: item.productId, variantId: item.variantId})}
+                            onClick={() =>
+                              handleDecrease({
+                                quantity: item.quantity,
+                                productId: item.productId,
+                                variantId: item.variantId,
+                              })
+                            }
                             width="20"
                             height="20"
                             viewBox="0 0 12 2"
@@ -189,7 +252,13 @@ function CartPage() {
                           </Decrease>
                           <Number>{item.quantity}</Number>
                           <Increase
-                            onClick={() => handleIncrease({quantity: item.quantity, productId: item.productId, variantId: item.variantId})}
+                            onClick={() =>
+                              handleIncrease({
+                                quantity: item.quantity,
+                                productId: item.productId,
+                                variantId: item.variantId,
+                              })
+                            }
                             width="12"
                             height="12"
                             viewBox="0 0 12 12"
@@ -205,41 +274,48 @@ function CartPage() {
                       </TableData>
                       <TableData>
                         <PinkHeading16>
-                          {formatter.format(item.quantity*item.price)} đ
+                          {formatter.format(item.quantity * item.price)} đ
                         </PinkHeading16>
                       </TableData>
                       <TableData>
-                        <UilTrashAlt onClick={() => handleDeleteCart({productId: item.productId, variantId: item.variantId})}></UilTrashAlt>
+                        <UilTrashAlt
+                          onClick={() =>
+                            handleDeleteCart({
+                              productId: item.productId,
+                              variantId: item.variantId,
+                            })
+                          }
+                        ></UilTrashAlt>
                       </TableData>
                     </TableRow>
                   );
                 })}
-                </TableBody>
-              </Table>
-              <TotalContainer>
-                <Heading14>Tổng tiền giỏ hàng</Heading14>
-                <FlexContainer>
-                  <Text14>Số sản phẩm</Text14>
-                  <Heading14>{QuantityProduct}</Heading14>
-                </FlexContainer>
-                <FlexContainer>
-                  <Text14>Thành tiền</Text14>
-                  <Heading14>{formatter.format(TotalPrice)} đ</Heading14>
-                </FlexContainer>
-                <FlexContainer>
-                  <Text14>Tạm tính</Text14>
-                  <Heading14>{formatter.format(TotalPrice)} đ</Heading14>
-                </FlexContainer>
-                <PinkButton onClick={() => navigate("/checkout")}>Đặt hàng</PinkButton>
-              </TotalContainer>
-            </ListProductContainer>
-          ) : (
-            <span>Không có sản phẩm</span>
-          )}
-        </ContentContainer>
-        <Footer></Footer>
-      </Body>
-    </PageContainer>
+              </TableBody>
+            </Table>
+            <TotalContainer>
+              <Heading14>Tổng tiền giỏ hàng</Heading14>
+              <FlexContainer>
+                <Text14>Số sản phẩm</Text14>
+                <Heading14>{selectedCart.length}</Heading14>
+              </FlexContainer>
+              <FlexContainer>
+                <Text14>Tổng tiền giỏ</Text14>
+                <Heading14>{formatter.format(TotalPrice)} đ</Heading14>
+              </FlexContainer>
+              <FlexContainer>
+                <Text14>Đã chọn</Text14>
+                <Heading14>{formatter.format(selectedCart.reduce((currentValue, item) => (item.price * item.quantity + currentValue), 0))} đ</Heading14>
+              </FlexContainer>
+              <PinkButton disabled={selectedCart.length==0} onClick={() => navigate("/checkout")}>
+                Đặt hàng
+              </PinkButton>
+            </TotalContainer>
+          </ListProductContainer>
+        ) : (
+          <span>Không có sản phẩm</span>
+        )}
+      </ContentContainer>
+    </Body>
   );
 }
 

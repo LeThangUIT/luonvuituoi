@@ -45,13 +45,15 @@ class propductApi {
     });
   };
 
-  getProductDetail = (id) => {
-    const url = `${API_URL}/product/${id}`
-    return axios.get(url)
+  getProductDetail = ({userToken, productId}) => {
+    const url = `${API_URL}/product/${productId}`
+    return axios.get(url,  {
+      headers: {
+        Authorization: "Bearer " + userToken, }
+      },)
   }
 
   getOption = (optionValues) => {
-    console.log(optionValues)
     const url = `${API_URL}/option/GetByAnother`
     return axios.post(url, optionValues)
   }

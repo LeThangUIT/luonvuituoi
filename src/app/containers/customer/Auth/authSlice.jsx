@@ -2,13 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthApi from "../../../api/authApi";
 import { HTTP_STATUS } from "../../../constant";
 
-const userToken = localStorage.getItem('userToken')
-  ? localStorage.getItem('userToken')
-  : null
-
-const adminToken = localStorage.getItem('adminToken')
-? localStorage.getItem('adminToken')
-: null
 
 export const admin = createAsyncThunk(
     'auth/admin', 
@@ -90,14 +83,27 @@ const AuthSlice = createSlice({
     initialState: {
         loading: false,
         isAdmin: false,
-        userToken,
-        adminToken,
-        userInfo: null,
+        userToken: "",
+        adminToken: "",
+        userInfo: "",
         beforeLogin: "/"
     },
     reducers: {
         setBeforeLoginRoute: (state, action) => {
             state.beforeLogin = action.payload
+        },
+        logout: (state, action) => {
+            state.userInfo = ""
+            state.userToken = ""
+            localStorage.removeItem("userToken")
+
+        },
+
+        adminLogout: (state, action) => {
+            state.adminToken = ""
+            state.adminToken = ""
+            localStorage.removeItem("adminToken")
+
         }
     },
     extraReducers: {
@@ -171,5 +177,5 @@ const AuthSlice = createSlice({
 })
 
 export const { reducer: AuthReducer, actions} = AuthSlice
-export const {setBeforeLoginRoute} = actions
+export const {setBeforeLoginRoute, logout, adminLogout} = actions
 export default AuthReducer

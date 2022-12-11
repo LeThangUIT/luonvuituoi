@@ -16,7 +16,13 @@ export const getAllVouchersByAdmin = createAsyncThunk(
         return allVoucher;
     }
 )
-
+export const getAllVouchers = createAsyncThunk(
+    "voucher/getAllVouchers",
+    async() => {
+        const allVoucher = await VoucherApi.getAllVouchers();
+        return allVoucher;
+    }
+)
 export const deleteVoucher = createAsyncThunk(
     "voucher/deleteVoucher",
     async( {id, adminToken}) => {
@@ -76,6 +82,17 @@ const VoucherSlice = createSlice({
             state.loading = false
         },
         [getAllVouchersByAdmin.rejected](state) {
+            state.loading = false
+        },
+
+        [getAllVouchers.pending](state) {
+            state.loading = true
+        },
+        [getAllVouchers.fulfilled](state, action) {
+            state.listVoucher = action.payload.data.data
+            state.loading = false
+        },
+        [getAllVouchers.rejected](state) {
             state.loading = false
         },
 

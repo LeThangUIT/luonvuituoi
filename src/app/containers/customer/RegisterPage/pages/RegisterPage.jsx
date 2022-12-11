@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import VerifyEmail from "../components/VerifyEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../Auth/authSlice";
+import { Logo } from "../../../../sharedComponents/header/logo";
 
 const initialValues = {
   name: "",
@@ -77,6 +78,9 @@ export default function RegisterPage() {
   
   return (
     <PageContainer>
+      <div onClick={() => navigate("/")}>
+        <Logo></Logo>
+      </div>
     <Content>
       <LoginFrame>
         <Label>Đăng ký</Label>

@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Body } from "../../../../sharedComponents/body";
-import { Footer } from "../../../../sharedComponents/footer";
-import { Header } from "../../../../sharedComponents/header";
 import { HeadingTitle } from "../../HomePage/components/content";
-import { PageContainer } from "../../HomePage/pages/HomePage";
 import { UilAngleRightB } from '@iconscout/react-unicons'
 import { DisableButton, WhiteButton } from "../../../../sharedComponents/button";
 import { UilShoppingCart } from '@iconscout/react-unicons'
@@ -118,7 +115,7 @@ function DetailPage() {
   const userToken = localStorage.getItem("userToken")
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProductDetail(productId));
+    dispatch(fetchProductDetail({userToken: userToken, productId}));
   }, []);
   let listImages = [];
   if (productDetail != null) {
@@ -167,8 +164,6 @@ function DetailPage() {
     // }
   }
   return (
-    <PageContainer>
-      <Header></Header>
       <Body>
         {productDetail ? (
           <>
@@ -335,9 +330,7 @@ function DetailPage() {
         ) : (
           <span>loading</span>
         )}
-        <Footer></Footer>
       </Body>
-    </PageContainer>
   );
 }
 

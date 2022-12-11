@@ -35,8 +35,8 @@ export const deleteProduct = createAsyncThunk(
 
 export const fetchProductDetail = createAsyncThunk(
     "product/fetchProductDetail",
-    async(id) => {
-        const res = await ProductApi.getProductDetail(id);
+    async(data) => {
+        const res = await ProductApi.getProductDetail(data);
         return res.data;
     }
 )

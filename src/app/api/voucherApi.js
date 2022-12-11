@@ -13,10 +13,10 @@ class voucherApi {
     });
   };
 
-//   getAllCategories = () => {
-//     const url = `${API_URL}/category`;
-//     return axios.get(url);
-//   };
+  getAllVouchers = () => {
+    const url = `${API_URL}/coupon`;
+    return axios.get(url);
+  };
 
   deleteVoucher = ({id, adminToken}) => {
     const url = `${ADMIN_API_URL}/coupon/${id}`;

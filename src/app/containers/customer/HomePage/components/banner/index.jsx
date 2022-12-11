@@ -5,6 +5,7 @@ import lambor from "../../../../../assets/images/lambor.png"
 
 const BannerContainer = styled.div`
   ${tw`
+        pt-10
         w-full 
         lg:px-40
         md:px-10

@@ -7,29 +7,35 @@ import { Heading16, Heading22 } from '../../../../sharedComponents/text'
 import { FormContainer } from '../../LoginPage/pages/LoginPage';
 import { PinkButton } from '../../../../sharedComponents/button';
 import FormikControl from '../../../../sharedComponents/formikCustom/FormikControl';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   ${tw` flex flex-col gap-y-4 h-fit-content`}
-`
+  `
 function Info() {
+  const { userInfo } = useSelector((state) => state.auth);
   const initialValues = {
-    email: "",
-    name: "",
-    phone: "",
+    name: userInfo.name,
+    email: userInfo.email,
+    phone: userInfo.phone,
   };
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Bạn cần phải nhập trường này!")
-      .email("Định dạng email chưa đúng!"),
+      .email("Định dạng email chưa đúng!")
+      .nullable("Bạn cần phải nhập trường này!"),
     name: Yup.string()
-      .required("Bạn cần phải nhập trường này!"),
+      .required("Bạn cần phải nhập trường này!")
+      .nullable("Bạn cần phải nhập trường này!"),
     phone: Yup.string()
       .required("Bạn cần phải nhập trường này!")
+      .nullable("Bạn cần phải nhập trường này!")
 
   });
   const onSubmit = () => {
 
   }
+
   return (
     <Container>
       <Heading16>Thông tin tài khoản</Heading16>
@@ -47,27 +53,18 @@ function Info() {
                       type="text"
                       label="Họ tên"
                       name="name"
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                      onBlur={formik.handleBlur}
                     />
                     <FormikControl
                       control="input"
                       type="email"
                       label="Email"
                       name="email"
-                      onChange={formik.handleChange}
-                      value={formik.values.email}
-                      onBlur={formik.handleBlur}
                     />
                     <FormikControl
                       control="input"
                       type="text"
                       label="Số điện thoại"
                       name="phone"
-                      onChange={formik.handleChange}
-                      value={formik.values.phone}
-                      onBlur={formik.handleBlur}
                     />
                     <PinkButton type="submit">
                       Cập nhật tài khoản

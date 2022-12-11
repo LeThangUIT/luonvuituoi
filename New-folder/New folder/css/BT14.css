@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+#main_body {
+    background-color: black;
+}
+
+.container {
+    width: 700px;
+    margin: auto;
+    padding: 0px 15px;
+    background-color: white;
+}
+
+.left {
+    width: 150px;
+    height: 700px;
+    background-color: white;
+    background-image: url(../images/logo_globe_a.gif);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.left a img {
+    padding-top: 60px;
+    float: right;
+}
+
+.mid {
+    width: 250px;
+    height: 700px;
+    float: left;
+    padding: 0px 65px 0px 15px;
+    background-color: goldenrod;
+    background-image: url(../images/logo_globe_b.gif);
+    background-position: left bottom;
+    background-repeat: no-repeat;
+}
+
+.mid iframe {
+    height: 84%;
+    background-color: goldenrod;
+}
+
+.home {
+    background-color: goldenrod;
+    font-size: large;
+    font-weight: bold;
+}
+
+.detail {
+    background-color: goldenrod;
+    padding-right: 40px;
+}
+
+#welcome {
+    font-size: xx-large;
+    margin: 0px;
+}
+
+a {
+    color: rgb(0, 94, 94);
+}
+
+.right {
+    width: 220px;
+    float: right;
+    background-color: goldenrod;
+    height: 700px;
+}
+
+.right img {
+    padding-top: 20px;
+}
+
+.clr {
+    clear: both;
+}

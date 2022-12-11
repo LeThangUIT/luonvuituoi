@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-import { Footer } from "../../../../sharedComponents/footer";
-import { Header } from "../../../../sharedComponents/header";
+
 import { Avatar } from "../../../../sharedComponents/header/rightHeader/RightHeader";
 import { Heading22, Text14 } from "../../../../sharedComponents/text";
 import {
   ContentContainer,
   HeadingTitle,
 } from "../../HomePage/components/content";
-import { PageContainer } from "../../HomePage/pages/HomePage";
 import { UilUser, UilStore, UilGift, UilSignInAlt } from "@iconscout/react-unicons";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Body } from "../../ProductPage/pages/ProductPage";
+import { logout } from "../../Auth/authSlice";
+import { useDispatch } from "react-redux";
+import { Body } from "../../../../sharedComponents/body";
 
   const GridBox = styled.div`
     ${tw`
@@ -32,10 +32,14 @@ import { Body } from "../../ProductPage/pages/ProductPage";
   `;
 
 const ProfilePage = () => {
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate('/login')
+  }
   return (
-    <PageContainer>
-      <Header></Header>
       <Body>
       <ContentContainer>
           <GridBox>
@@ -57,7 +61,7 @@ const ProfilePage = () => {
                   <UilGift></UilGift>
                   <Text14>Ví voucher</Text14>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={handleLogout}>
                   <UilSignInAlt></UilSignInAlt>
                   <Text14>Đăng xuất</Text14>
                 </MenuItem>
@@ -65,13 +69,10 @@ const ProfilePage = () => {
             </LeftContainer>
             <RightContainer>
               <Outlet></Outlet>
-            </RightContainer>
-           
+            </RightContainer> 
           </GridBox>
         </ContentContainer>
-        <Footer></Footer>
       </Body>
-    </PageContainer>
   );
 }
 

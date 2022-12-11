@@ -49,16 +49,30 @@ const CartSlice = createSlice({
     initialState: {
         loading: null,
         cart: [],
+        selectedCart: []
+        
     },
     reducers:{
         changeNumber: (state, action) => {
             state.cart.forEach((item) => {
                 if(item.variantId == action.payload.variantId && item.productId == action.payload.productId) {
-                    console.log("first")
+                    item.quantity = action.payload.quantity
+                }
+            })
+            state.selectedCart.forEach((item) => {
+                if(item.variantId == action.payload.variantId && item.productId == action.payload.productId) {
                     item.quantity = action.payload.quantity
                 }
             })
         },
+
+        setSelectedCart: (state, action) => {
+            state.selectedCart = action.payload
+        }
+
+
+
+        
 
         // deleteCartLocal: (state, action) => {
         //     state.cart = state.cart.filter(item => item.variantId !== action.payload.variantId && item.productId !== action.payload.productId)
@@ -123,5 +137,5 @@ const CartSlice = createSlice({
 })
 
 export const { reducer: CartReducer, actions } = CartSlice;
-export const {changeNumber, deleteCartLocal, addCartLocal} = actions;
+export const {changeNumber, deleteCartLocal, addCartLocal, setSelectedCart} = actions;
 export default CartReducer;

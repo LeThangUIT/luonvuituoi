@@ -13,13 +13,13 @@ export let listMenu = [
     path: "/product"
   },
   {
-    name: "Giới thiệu",
+    name: "Khuyến mãi",
     subMenu: [
     ],
-    path: "/product"
+    path: "/voucher"
   },
   {
-    name: "Liên hệ",
+    name: "Giới thiệu",
     subMenu: [
     ],
     path: "/product"

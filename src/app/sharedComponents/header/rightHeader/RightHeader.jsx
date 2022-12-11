@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { PinkButton } from "../../button";
-import { Heading14 } from "../../text";
-import { UilUser, UilShoppingCart} from '@iconscout/react-unicons'
-
-
+import { Heading14, Text14 } from "../../text";
+import {
+  UilUser,
+  UilShoppingCart,
+  UilStore,
+  UilSignInAlt,
+} from "@iconscout/react-unicons";
+import { logout } from "../../../containers/customer/Auth/authSlice";
+import CartMini from "../../../containers/customer/CheckoutPage/components/CartMini";
 const RightContainer = styled.div`
   ${tw`
-        flex justify-between items-center gap-x-6
+        flex justify-between items-center gap-x-6 z-50
     `}
 `;
 const ShoppingCartIcon = styled(UilShoppingCart)`
@@ -19,11 +24,11 @@ const ShoppingCartIcon = styled(UilShoppingCart)`
     `}
 `;
 export const Avatar = styled.img`
-  ${tw` align-middle w-10 h-10 rounded-full hover:cursor-pointer`}
+  ${tw` align-middle w-10 h-10 rounded-full hover:cursor-pointer z-50`}
 `;
 export const SubNav = styled.div`
   ${tw`
-        bg-white min-w-[175px] absolute top-[100%]right-0  py-2 rounded 
+         bg-white absolute top-[100%]right-0  py-2 rounded z-50 min-w-[200px]
     `}
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
@@ -32,11 +37,18 @@ export const SubMenuItem = styled.div`
         flex flex-row items-center  hover:bg-[#F8F8F8] py-3 px-3 hover:cursor-pointer gap-2
     `}
 `;
+const CartContainer = styled.div`
+  ${tw`
+         bg-white absolute top-[100%]right-0  p-4 rounded z-50 min-w-[350px] flex flex-col gap-y-6
+    `}
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
 const RelativeDiv = styled.div`
   ${tw` relative`}
 `;
 export function RightHeader() {
   const { userInfo } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
   const [color, setColor] = useState("white");
   const handleMouseEvent = () => {
     setColor("#EE4C7E");
@@ -47,30 +59,41 @@ export function RightHeader() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const showSubMenu = () => {
-    console.log("first");
     setShow(true);
   };
   const hideSubMenu = () => {
-    console.log("second");
     setShow(false);
   };
 
+  const [showCart, setShowCart] = useState(false);
+  const showCartModal = () => {
+    setShowCart(true);
+  };
+  const hideCartModal = () => {
+    setShowCart(false);
+  };
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
   return (
     <RightContainer>
-      <ShoppingCartIcon size={40} onClick={() => {navigate('/cart')}}></ShoppingCartIcon>
       {userInfo ? (
         <RelativeDiv onMouseOver={showSubMenu} onMouseLeave={hideSubMenu}>
           <Avatar src={userInfo.avatar}></Avatar>
           {show && (
             <SubNav>
-              <SubMenuItem>
+              <SubMenuItem onClick={() => navigate("/profile")}>
                 <UilUser size={17}></UilUser>
                 <Heading14>Thông tin cá nhân</Heading14>
               </SubMenuItem>
-              <SubMenuItem>
+              <SubMenuItem onClick={() => navigate("/profile/orders")}>
+                <UilStore size={17}></UilStore>
                 <Heading14>Danh sách đơn hàng</Heading14>
               </SubMenuItem>
-              <SubMenuItem>
+              <SubMenuItem onClick={handleLogout}>
+                <UilSignInAlt size={17}></UilSignInAlt>
                 <Heading14>Đăng xuất</Heading14>
               </SubMenuItem>
             </SubNav>
@@ -86,6 +109,23 @@ export function RightHeader() {
           Đăng nhập
         </PinkButton>
       )}
+      <RelativeDiv onMouseOver={showCartModal} onMouseLeave={hideCartModal}>
+        <ShoppingCartIcon
+          size={36}
+          onClick={() => {
+            navigate("/cart");
+          }}
+        ></ShoppingCartIcon>
+        {showCart && (
+          <CartContainer>
+            {cart.length == 0 ? (
+              <Text14>Chưa có sản phẩm nào, mua hàng đi bạn ơi!</Text14>
+            ) : (
+              <CartMini cart={cart}></CartMini>
+            )}
+          </CartContainer>
+        )}
+      </RelativeDiv>
     </RightContainer>
   );
 }
