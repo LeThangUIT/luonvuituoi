@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { Footer } from '../../sharedComponents/footer';
 import { Header } from '../../sharedComponents/header';
 import { getAllCategories } from '../admin/categoryManagement/categorySlice';
+import { getAllVouchers } from '../admin/voucherManagement/VoucherSlice';
 import { fetchUserInfo } from './Auth/authSlice';
 import { getCart } from './CartPage/CartSlice';
 
@@ -15,6 +16,7 @@ function Customer() {
       if(userToken) {
         dispatch(fetchUserInfo(userToken))
         dispatch(getCart(userToken))
+        dispatch(getAllVouchers())
       }
   }, [])
   return (

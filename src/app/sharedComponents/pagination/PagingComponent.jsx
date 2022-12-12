@@ -20,13 +20,13 @@ const PagingComponent = ({type, pageCount}) => {
     let pageNumber = data.selected + 1
     switch (type) {
         case "product":
-            await dispatch(getAllProducts({page:pageNumber, perPage:"2"})) 
+            await dispatch(getAllProducts({page:pageNumber, perPage:"16"})) 
             break;
         case "productByAdmin":
-            await dispatch(getAllProductsByAdmin({page:pageNumber, perPage:"2", adminToken})) 
+            await dispatch(getAllProductsByAdmin({page:pageNumber, perPage:"8", adminToken})) 
             break;
         case "categoryByAdmin":
-            await dispatch(getAllCategoriesByAdmin({page:pageNumber, perPage:"2", adminToken})) 
+            await dispatch(getAllCategoriesByAdmin({page:pageNumber, perPage:"8", adminToken})) 
             break;
         case "coupon":
           break;

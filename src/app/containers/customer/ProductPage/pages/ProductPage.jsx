@@ -14,7 +14,7 @@ export default function ProductPage() {
     const dispatch = useDispatch()
     const {listProducts} = useSelector(state => state.product)
     useEffect( () => {
-        dispatch(getAllProducts({page:"1", perPage:"2"}))
+        dispatch(getAllProducts({page:"1", perPage:"16"}))
     }, [])
     
     const formatter = new Intl.NumberFormat("en-US", {

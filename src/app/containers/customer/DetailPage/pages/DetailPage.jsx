@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { toast } from "react-toastify";
 import { Body } from "../../../../sharedComponents/body";
 import { HeadingTitle } from "../../HomePage/components/content";
 import { UilAngleRightB } from '@iconscout/react-unicons'
-import { DisableButton, WhiteButton } from "../../../../sharedComponents/button";
+import { DisableButton, PinkButton, WhiteButton } from "../../../../sharedComponents/button";
 import { UilShoppingCart } from '@iconscout/react-unicons'
 import {
   Heading14,
@@ -112,6 +113,7 @@ function DetailPage() {
   });
   let { productId } = useParams();
   const { productDetail, variantId } = useSelector((state) => state.product);
+  const {loading} = useSelector(state => state.cart)
   const userToken = localStorage.getItem("userToken")
   const dispatch = useDispatch();
   useEffect(() => {
@@ -140,9 +142,19 @@ function DetailPage() {
     setOptionValues([...optionValues]);
   };
   const [quantity, setQuantity] = useState(1)
-  const handleAddToCart = (data) => {
+  const handleAddToCart = async (data) => {
     if(userToken) {
-      dispatch(addToCart({...data, userToken}))
+      const {payload} = await dispatch(addToCart({...data, userToken}))
+      if(payload.res.data.success) {
+        toast.success(payload.res.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+      else {
+        toast.error(payload.res.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     }
     else {
       // dispatch(setBeforeLoginRoute(currentPath.pathname))
@@ -228,10 +240,10 @@ function DetailPage() {
                   </Container>
                   <ButtonGroup>
                     {variantId && productDetail.options.length != 0 || productDetail.options.length == 0 ? (
-                      <WhiteButton onClick={() => handleAddToCart({variantId, quantity,productId: productDetail.id, imageMain: productDetail.imageMain, name: productDetail.name, price: productDetail.price})}>
+                      <PinkButton disabled={loading} onClick={() => handleAddToCart({variantId, quantity,productId: productDetail.id, imageMain: productDetail.imageMain, name: productDetail.name, price: productDetail.price})}>
                         <UilShoppingCart />
                         Thêm vào giỏ hàng
-                      </WhiteButton>
+                      </PinkButton>
                     ) : (
                       <DisableButton >
                         <UilShoppingCart />
@@ -239,7 +251,7 @@ function DetailPage() {
                       </DisableButton>
                     )}
 
-                    <WhiteButton>Mua ngay</WhiteButton>
+                    {/* <WhiteButton>Mua ngay</WhiteButton> */}
                   </ButtonGroup>
                 </ContentSection>
               </GridContainer>

@@ -14,7 +14,7 @@ ${tw`border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:o
 `
 const CustomSelect = (props) => {
   const userToken = localStorage.getItem("userToken")
-    const {field, form, options, setDistricts, setWards,setFee, ...rest} = props
+    const {field, form, options, setDistricts, setWards,setFee, setLoading, ...rest} = props
     const {value, name, onBlur} = field
     const handleChange = async (value) => {
         form.setFieldValue(name, value)
@@ -30,8 +30,15 @@ const CustomSelect = (props) => {
             form.setFieldValue("wardId", "")
         }
         if(setFee) {
+            setLoading(true)
             const res = await AddressApi.getTransportFee({wardId: value, userToken})
-            setFee(res.data.data)
+            if(res.data.success) {
+                setLoading(false)
+                setFee(res.data.data)
+            }
+            else{
+                setLoading(false)
+            }
         }
     }
     return (

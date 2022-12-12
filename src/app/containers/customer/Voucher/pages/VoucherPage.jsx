@@ -53,11 +53,7 @@ const ExpText = styled.span`
 
 function VoucherPage() {
   const { listVoucher, loading } = useSelector((state) => state.voucher);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllVouchers());
-  }, []);
+  
 
   const [copy, setCopy] = useState(-1);
   const copyCode = ({ index, code }) => {

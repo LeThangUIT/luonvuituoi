@@ -40,7 +40,7 @@ export const changeQuantity = createAsyncThunk(
     "product/changeQuantity",
     async( data ) => {
         const res = await CartApi.changeQuantity(data);
-        return data;
+        return data.data;
     }
 )
 
@@ -67,6 +67,7 @@ const CartSlice = createSlice({
         },
 
         setSelectedCart: (state, action) => {
+            console.log(action.payload)
             state.selectedCart = action.payload
         }
 
@@ -120,8 +121,20 @@ const CartSlice = createSlice({
             state.loading = true
         },
         [deleteCart.fulfilled](state, action) {
+            console.log(state.cart)
+            console.log(action.payload)
             state.loading = false
-            state.cart = state.cart.filter((item, index) => item.variantId !== action.payload.variantId && item.productId !== action.payload.productId)
+            state.cart = state.cart.filter((item, index) => {
+                if(item.variantId == null && action.payload.variantId == null) {
+                    return (
+                        item.productId !== action.payload.productId
+                    )
+                }
+                else {
+                    return (
+                        item.variantId !== action.payload.variantId && item.productId !== action.payload.productId
+                    )
+                }})
         },
         [deleteCart.rejected](state) {
             state.loading = false

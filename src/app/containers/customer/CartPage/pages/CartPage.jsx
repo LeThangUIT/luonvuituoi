@@ -60,15 +60,6 @@ function CartPage() {
   // }
   const { loading, cart, selectedCart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  useEffect(() => {
-    //if(userToken) {
-    dispatch(getCart(userToken));
-    //}
-    // else {
-    //   dispatch(getCartFromLocal(storedCart))
-    // }
-  }, []);
-
   const handleIncrease = ({ quantity, productId, variantId }) => {
     dispatch(changeNumber({ quantity: quantity + 1, variantId, productId }));
     //if(userToken) {
@@ -145,15 +136,20 @@ function CartPage() {
 
   const handleClick = ({e, cartItem}) => {
     const { id, checked } = e.target;
-    if(selectedCart.length == list.length-1) {
-      setIsCheckAll(true)
+    if(checked) {
+      if(selectedCart.length == list.length-1) {
+        setIsCheckAll(true)
+      }
+      dispatch(setSelectedCart([...selectedCart, cartItem]));
     }
-    dispatch(setSelectedCart([...selectedCart, cartItem]));
     if (!checked) {
+      let payload = selectedCart.filter((item, index) => item !== cartItem)
+      dispatch(setSelectedCart(payload));
       setIsCheckAll(false)
-      dispatch(setSelectedCart(selectedCart.filter((item, index) => item != cartItem)));
     }
   };
+
+  
   return (
     <Body>
       <ContentContainer>

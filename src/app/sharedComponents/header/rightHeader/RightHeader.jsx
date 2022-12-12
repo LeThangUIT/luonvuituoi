@@ -46,6 +46,13 @@ const CartContainer = styled.div`
 const RelativeDiv = styled.div`
   ${tw` relative`}
 `;
+
+const Quantity = styled.div`
+  ${tw`absolute top-[-2px] right-[-2px] p-[2px] bg-[ #300F19] rounded-full flex justify-center`}
+`;
+const QuantityText = styled.div`
+  ${tw` not-italic font-semibold text-[10px] leading-[13px] text-[#ffffff] min-w-[13px] flex justify-center`}
+`;
 export function RightHeader() {
   const { userInfo } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
@@ -115,7 +122,13 @@ export function RightHeader() {
           onClick={() => {
             navigate("/cart");
           }}
-        ></ShoppingCartIcon>
+        >
+        </ShoppingCartIcon>
+        {cart.length != 0 && 
+          <Quantity>
+            <QuantityText>{cart.length}</QuantityText>
+          </Quantity>
+        }
         {showCart && (
           <CartContainer>
             {cart.length == 0 ? (
