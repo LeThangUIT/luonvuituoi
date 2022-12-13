@@ -226,7 +226,6 @@ function ProductModal() {
       <ModalContainer>
         <DeleteIcon onClick={() => handleClose()}>
         </DeleteIcon>
-
         <ModalTitle>
           {isUpdate ? (
             <Heading22>Cập nhật sản phẩm</Heading22>

@@ -9,7 +9,7 @@ import { deleteCategory, showCategoryModal } from '../categorySlice';
 
 
 export const ButtonGroup = styled.div`
-  ${tw` flex flex-row gap-[10px] flex-wrap`}
+  ${tw` flex flex-row gap-1 flex-wrap`}
 `;
 function TableCategory({listCategories}) {
   const adminToken = localStorage.getItem("adminToken");

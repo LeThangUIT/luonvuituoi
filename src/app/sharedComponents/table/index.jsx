@@ -2,13 +2,15 @@ import styled from "styled-components";
 import tw from "twin.macro";
 
 export const Table = styled.table`
-  ${tw` w-full col-span-3 table-auto  box-border shadow-sm`}
+  ${tw` w-full col-span-3 table-auto  box-border shadow-sm 
+  `}
 `;
 export const TableHead = styled.thead`
   ${tw` h-[57px] bg-white border border-[#EEEEEE] rounded-lg `}
 `;
 export const TableBody = styled.tbody`
-  ${tw``}
+  ${tw` overflow-auto max-h-[40px] ` }
+ 
 `;
 export const TableRow = styled.tr`
   ${tw` border border-[#EEEEEE] bg-white content-center`}

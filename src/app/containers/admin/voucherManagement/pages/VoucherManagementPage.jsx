@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { AddButton } from '../../../../sharedComponents/button';
+import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent';
 import { Heading30 } from '../../../../sharedComponents/text';
 import { MainDash } from '../../components/MainDash/MainDash';
+import { ScrollContainer } from '../../productManagement/pages/ProductManagementPage';
 import VoucherModal from '../component/VoucherModal';
 import VoucherTable from '../component/VoucherTable';
 import { getAllVouchersByAdmin, showVoucherModal } from '../VoucherSlice';
@@ -21,7 +23,7 @@ function VoucherManagementPage() {
     dispatch(showVoucherModal({ isUpdate: false, data: null }));
   };
   useEffect(() => {
-    dispatch(getAllVouchersByAdmin(adminToken))
+    dispatch(getAllVouchersByAdmin({page:"1", perPage:"8", adminToken}))
   }, [])
   
   return (
@@ -32,8 +34,10 @@ function VoucherManagementPage() {
         <span>Hiển thị 4 trên 10 dòng</span>
         <AddButton onClick={handleAdd}>Thêm voucher</AddButton>
       </FlexContainer>
-      <VoucherTable listVoucher={listVoucher}></VoucherTable>
-      {/* <PagingComponent type={"categoryByAdmin"} pageCount={listCategories?.totalPage}></PagingComponent> */}
+      <ScrollContainer>
+        <VoucherTable listVoucher={listVoucher}></VoucherTable>
+      </ScrollContainer>
+      <PagingComponent type={"voucherByAdmin"} pageCount={listVoucher?.totalPage}></PagingComponent>
     </MainDash>
     {isShow && <VoucherModal></VoucherModal>}
   </>

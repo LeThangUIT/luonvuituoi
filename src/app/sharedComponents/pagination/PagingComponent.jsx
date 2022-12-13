@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { getAllCategoriesByAdmin } from '../../containers/admin/categoryManagement/categorySlice'
+import { getAllInvoiceByAdmin } from '../../containers/admin/invoiceManagement/InvoiceSlice'
 import { getAllProducts, getAllProductsByAdmin } from '../../containers/admin/productManagement/productSlice'
+import { getAllUsers } from '../../containers/admin/userManagement/UserSlice'
+import { getAllVouchersByAdmin } from '../../containers/admin/voucherManagement/VoucherSlice'
 
 const Paginate = styled(ReactPaginate)`
     ${tw` flex w-full gap-3 justify-center`}
@@ -28,11 +31,14 @@ const PagingComponent = ({type, pageCount}) => {
         case "categoryByAdmin":
             await dispatch(getAllCategoriesByAdmin({page:pageNumber, perPage:"8", adminToken})) 
             break;
-        case "coupon":
+        case "voucherByAdmin":
+          await dispatch(getAllVouchersByAdmin({page:pageNumber, perPage:"8", adminToken})) 
           break;
-        case "user":
+        case "userByAdmin":
+          await dispatch(getAllUsers({page:pageNumber, perPage:"8", adminToken})) 
           break;
-        case "invoice":
+        case "invoiceByAdmin":
+          await dispatch(getAllInvoiceByAdmin({page:pageNumber, perPage:"8", adminToken})) 
           break;
         case "notification":
           break;

@@ -4,9 +4,14 @@ import { ADMIN_API_URL, API_URL } from "../constant";
 
 class voucherApi {
 
-  getAllVouchersByAdmin = async (adminToken) => {
+  getAllVouchersByAdmin = async ({page, perPage, adminToken}) => {
+    
     const url = `${ADMIN_API_URL}/coupon`;
     return await axios.get(url, {
+      params: {
+        page,
+        perPage
+      },
       headers: {
         Authorization: "Bearer " + adminToken,
       },

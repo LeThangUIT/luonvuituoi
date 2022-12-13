@@ -18,7 +18,7 @@ import {
   Number,
   Quantity,
 } from "../../DetailPage/components/Quantity";
-import { PinkButton } from "../../../../sharedComponents/button";
+import { PinkButton, WhiteButton } from "../../../../sharedComponents/button";
 import {
   Image,
   ImageBox,
@@ -44,9 +44,10 @@ import {
 } from "../CartSlice";
 import { useNavigate } from "react-router-dom";
 import { Body } from "../../../../sharedComponents/body";
+import { formatter } from "../../../../sharedComponents/format";
 
 const TotalContainer = styled.div`
-  ${tw`  w-full height[fit-content] box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6`}
+  ${tw`  w-full height[fit-content] box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm`}
 `;
 const FlexContainer = styled.div`
   ${tw` w-full flex flex-row items-center justify-between`}
@@ -114,10 +115,6 @@ function CartPage() {
     //   dispatch(deleteCartLocal(data))
     // }
   };
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 0,
-  });
 
   let TotalPrice = 0;
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -302,9 +299,9 @@ function CartPage() {
                 <Text14>Đã chọn</Text14>
                 <Heading14>{formatter.format(selectedCart.reduce((currentValue, item) => (item.price * item.quantity + currentValue), 0))} đ</Heading14>
               </FlexContainer>
-              <PinkButton disabled={selectedCart.length==0} onClick={() => navigate("/checkout")}>
+              <WhiteButton disabled={selectedCart.length==0} onClick={() => navigate("/checkout")}>
                 Đặt hàng
-              </PinkButton>
+              </WhiteButton>
             </TotalContainer>
           </ListProductContainer>
         ) : (

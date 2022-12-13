@@ -27,7 +27,6 @@ class propductApi {
 
   getAllProducts = ({page, perPage, keyWord}) => {
     const url = `${API_URL}/product`;
-    console.log(perPage)
     return axios.get(url, {
       params : {
         page,

@@ -10,10 +10,8 @@ import CartIndex from "./app/containers/customer/CartPage/CartIndex";
 import CheckoutIndex from "./app/containers/customer/CheckoutPage/CheckoutIndex";
 import Admin from "./app/containers/admin/Admin";
 import ProductManagementIndex from "./app/containers/admin/productManagement/ProductManagementIndex";
-import OrderManagementIndex from "./app/containers/admin/orderManagement/OrderManagementIndex";
 import DashBoardIndex from "./app/containers/admin/dashBoard/DashBoardIndex";
 import CategoryManagementIndex from "./app/containers/admin/categoryManagement/CategoryManagementIndex";
-import ProtectedRoute from "./app/sharedComponents/protectedRoute/ProtectedAdminRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductIndex from "./app/containers/customer/ProductPage/ProductIndex";
@@ -25,6 +23,7 @@ import ProtectedAdminRoute from "./app/sharedComponents/protectedRoute/Protected
 import ProtectedCustomerRoute from "./app/sharedComponents/protectedRoute/ProtectedCustomerRoute";
 import Customer from "./app/containers/customer/Customer";
 import VoucherIndex from "./app/containers/customer/Voucher/VoucherIndex";
+import InvoiceManagementIndex from "./app/containers/admin/invoiceManagement/InvoiceManagementIndex";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -62,7 +61,7 @@ function App() {
           <Route index element={<DashBoardIndex />} />
           <Route path="category/*" element={<CategoryManagementIndex />} />
           <Route path="product" element={<ProductManagementIndex />} />
-          <Route path="order" element={<OrderManagementIndex />} />
+          <Route path="invoice" element={<InvoiceManagementIndex />} />
           <Route path="voucher" element={<VoucherManagementIndex/>} />
           <Route path="user" element={<UserManagementIndex/>} />
         </Route>

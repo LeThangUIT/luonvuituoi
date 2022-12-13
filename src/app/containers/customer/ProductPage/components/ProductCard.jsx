@@ -5,11 +5,12 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { Heading14 } from "../../../../sharedComponents/text";
 import { UilShoppingCart } from '@iconscout/react-unicons'
+import { formatter } from "../../../../sharedComponents/format";
 
 
 const ProductContainer = styled.div`
   ${tw`
-       h-10 col-span-1 bg-[#FFFFFF] rounded-lg h-auto 
+       col-span-1 bg-[#FFFFFF] rounded-lg h-auto shadow-lg
     `}
 `;
 const ImageContainer = styled.div`
@@ -48,9 +49,6 @@ const Price = styled.span`
   `}
 `;
 function ProductCard({data}) {
-  const formatter = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 0,
-  });
   const navigate = useNavigate()
   const handProductDetail = (id) => {
     navigate(`/detail/${id}`)

@@ -2,12 +2,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import { DeleteButton, UpdateButton } from '../../../../sharedComponents/button'
+import { formatDate, formatter } from '../../../../sharedComponents/format';
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory'
 import { deleteVoucher, showVoucherModal } from '../VoucherSlice'
 
 function VoucherTable( {listVoucher}) {
-    console.log(listVoucher)
     const adminToken = localStorage.getItem("adminToken")
     const dispatch = useDispatch()
     const handleDelete = async (id) =>{
@@ -31,9 +31,7 @@ function VoucherTable( {listVoucher}) {
     <Table>
     <TableHead>
       <TableRow>
-        <TableHeading>Tiêu đề</TableHeading>
         <TableHeading>Mã</TableHeading>
-        <TableHeading>Mô tả</TableHeading>
         <TableHeading>Loại voucher</TableHeading>
         <TableHeading>Điều kiện</TableHeading>
         <TableHeading>Giá trị</TableHeading>
@@ -46,14 +44,16 @@ function VoucherTable( {listVoucher}) {
       {listVoucher.map((item, index) => {
         return (
         <TableRow key={index}>
-            <TableData>{item.title}</TableData>
             <TableData>{item.code}</TableData>
-            <TableData>{item.description}</TableData>
             <TableData>{item.discountType}</TableData>
+            {item.discountType=="money" ? <TableData>{formatter.format(item.condition)}</TableData> : 
             <TableData>{item.condition}</TableData>
+            }
+            {item.discountType=="money" ? <TableData>{formatter.format(item.value)}</TableData> : 
             <TableData>{item.value}</TableData>
-            <TableData>{item.beginDate}</TableData>
-            <TableData>{item.endDate}</TableData>
+            }
+            <TableData>{formatDate(item.beginDate)}</TableData>
+            <TableData>{formatDate(item.endDate)}</TableData>
             <TableData>
               <ButtonGroup>
                     <UpdateButton onClick={() => handleUpdate(item)}>Cập nhật</UpdateButton>

@@ -28,8 +28,12 @@ const GridBox = styled.div`
     `}
 `;
 
+const LeftContainer = styled.div`
+  ${tw` w-full col-span-5 bg-white rounded p-5 shadow-sm`}
+`;
+
 const FormContainer = styled.div`
-  ${tw` w-full col-span-5 bg-white rounded p-5`}
+  ${tw` w-full  bg-white rounded p-5`}
 `;
 
 export const FlexContainer = styled.div`
@@ -40,7 +44,7 @@ const RightContainer = styled.div`
   ${tw`col-span-3 flex flex-col gap-y-4 `}
 `;
 const TotalContainer = styled.div`
-  ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 h-fit-content`}
+  ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 h-fit-content shadow-sm`}
 `;
 
 function CheckoutPage() {
@@ -213,7 +217,7 @@ function CheckoutPage() {
     <Body>
       <ContentContainer>
         <GridBox>
-          <FormContainer>
+          <LeftContainer>
             <FlexContainer>
               <Heading26>Thông tin vận chuyển</Heading26>
               <PinkHeading14>Đăng nhập ngay</PinkHeading14>
@@ -279,7 +283,7 @@ function CheckoutPage() {
                 );
               }}
             </Formik>
-          </FormContainer>
+          </LeftContainer>
           <RightContainer>
             <TotalContainer>
               <CartMini cart={selectedCart}></CartMini>

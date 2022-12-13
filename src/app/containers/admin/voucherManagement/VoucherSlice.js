@@ -11,8 +11,8 @@ export const addVoucher = createAsyncThunk(
 
 export const getAllVouchersByAdmin = createAsyncThunk(
     "voucher/getAllVouchersByAdmin",
-    async(adminToken) => {
-        const allVoucher = await VoucherApi.getAllVouchersByAdmin(adminToken);
+    async(data) => {
+        const allVoucher = await VoucherApi.getAllVouchersByAdmin(data);
         return allVoucher;
     }
 )

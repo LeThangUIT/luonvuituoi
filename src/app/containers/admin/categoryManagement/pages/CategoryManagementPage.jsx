@@ -12,6 +12,7 @@ import {
 import TableBrand from "../components/TableCategory";
 import CategoryModal from "../components/CategoryModal";
 import PagingComponent from "../../../../sharedComponents/pagination/PagingComponent";
+import { ScrollContainer } from "../../productManagement/pages/ProductManagementPage";
 
 const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between`}
@@ -23,7 +24,7 @@ function CategoryManagementPage() {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllCategoriesByAdmin({adminToken, page:"1", perPage:"2"}))
+    dispatch(getAllCategoriesByAdmin({adminToken, page:"1", perPage:"8"}))
   }, [])
   
   const handleAdd = () => {
@@ -39,7 +40,9 @@ function CategoryManagementPage() {
             Thêm danh mục
           </AddButton>
         </FlexContainer>
-        <TableBrand listCategories={listCategories}></TableBrand>
+        <ScrollContainer>
+          <TableBrand listCategories={listCategories}></TableBrand>
+        </ScrollContainer>
         <PagingComponent type={"categoryByAdmin"} pageCount={listCategories?.totalPage}></PagingComponent>
       </MainDash>
       {isShow && <CategoryModal></CategoryModal>}

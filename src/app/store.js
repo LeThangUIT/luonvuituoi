@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import CategoryReducer from "./containers/admin/categoryManagement/categorySlice";
-import { OrderReducer } from "./containers/admin/orderManagement/OrderSlice";
+import { InvoiceReducer } from "./containers/admin/invoiceManagement/InvoiceSlice";
 import ProductReducer from "./containers/admin/productManagement/productSlice";
 import { UserReducer } from "./containers/admin/userManagement/UserSlice";
 import { VoucherReducer } from "./containers/admin/voucherManagement/VoucherSlice";
@@ -13,7 +13,7 @@ const store = configureStore({
     category: CategoryReducer,
     product: ProductReducer,
     cart: CartReducer,
-    order: OrderReducer,
+    invoice: InvoiceReducer,
     voucher: VoucherReducer,
     user: UserReducer,
   },

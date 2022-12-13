@@ -14,6 +14,25 @@ import { getAllProductsByAdmin, showProductModal } from '../productSlice';
 const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between`}
 `;
+export const ScrollContainer = styled.div`
+  overflow: auto;
+  max-height: 65vh;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 20px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+    border: 1px solid #fdedf2;
+  }
+`;
 function ProductManagementPage() {
   const adminToken = localStorage.getItem("adminToken");
   const { listProducts, isShow, loading } = useSelector(
@@ -21,7 +40,7 @@ function ProductManagementPage() {
   );
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getAllProductsByAdmin({page:"1", perPage:"2", adminToken}))
+    dispatch(getAllProductsByAdmin({page:"1", perPage:"8", adminToken}))
     dispatch(getAllCategoriesByAdmin({adminToken, noPagination: "0"}))
   }, [])
   
@@ -38,7 +57,9 @@ function ProductManagementPage() {
             Thêm sản phẩm
           </AddButton>
         </FlexContainer>
-        <ProductTable listProducts={listProducts}></ProductTable>
+        <ScrollContainer>
+          <ProductTable listProducts={listProducts}></ProductTable>
+        </ScrollContainer>
         <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage}></PagingComponent>
       </MainDash>
     {isShow && <ProductModal></ProductModal>}

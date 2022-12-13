@@ -24,8 +24,8 @@ export const SidebarData = [
   },
   {
     icon: UilBill,
-    heading: "Orders",
-    path: "order"
+    heading: "Invoices",
+    path: "invoice"
   },
   {
     icon: UilTicket,
