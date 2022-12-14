@@ -17,6 +17,15 @@ class userApi {
     });
   };
 
+  lockUser = ({id, isLocked, adminToken}) => {
+    const url = `${ADMIN_API_URL}/user/${id}`;
+    return axios.put(url, {isLocked: isLocked}, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+
 }
 
 const UserApi = new userApi();

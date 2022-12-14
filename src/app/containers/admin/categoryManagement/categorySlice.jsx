@@ -28,7 +28,7 @@ export const addCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
     "category/updateCategory",
-    async( {category, adminToken}) => {
+    async({category, adminToken}) => {
         const res = await CategoryApi.updateCategory({id: category.id,name: category.name, adminToken});
         const data = {category, res}
         return data;

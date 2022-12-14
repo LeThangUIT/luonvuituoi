@@ -4,9 +4,13 @@ import tw from "twin.macro";
 import { toast } from "react-toastify";
 import { Body } from "../../../../sharedComponents/body";
 import { HeadingTitle } from "../../HomePage/components/content";
-import { UilAngleRightB } from '@iconscout/react-unicons'
-import { DisableButton, PinkButton, WhiteButton } from "../../../../sharedComponents/button";
-import { UilShoppingCart } from '@iconscout/react-unicons'
+import { UilAngleRightB } from "@iconscout/react-unicons";
+import {
+  DisableButton,
+  PinkButton,
+  WhiteButton,
+} from "../../../../sharedComponents/button";
+import { UilShoppingCart } from "@iconscout/react-unicons";
 import {
   Heading14,
   Heading16,
@@ -27,9 +31,14 @@ import {
   fetchProductDetail,
   getByOptionAnother,
 } from "../../../admin/productManagement/productSlice";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import ProductApi from "../../../../api/productApi";
-import { addCartLocal, addToCart } from "../../CartPage/CartSlice";
+import { addCartLocal, addToCart, changeNumber, changeQuantity } from "../../CartPage/CartSlice";
 import { setBeforeLoginRoute } from "../../Auth/authSlice";
 
 const ContentContainer = styled.div`
@@ -107,17 +116,17 @@ const StarGroup = styled.div`
   ${tw` flex flex-row items-center gap-1`}
 `;
 function DetailPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
   let { productId } = useParams();
   const { productDetail, variantId } = useSelector((state) => state.product);
-  const {loading} = useSelector(state => state.cart)
-  const userToken = localStorage.getItem("userToken")
+  const { loading } = useSelector((state) => state.cart);
+  const userToken = localStorage.getItem("userToken");
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProductDetail({userToken: userToken, productId}));
+    dispatch(fetchProductDetail({ userToken: userToken, productId }));
   }, []);
   let listImages = [];
   if (productDetail != null) {
@@ -141,30 +150,59 @@ function DetailPage() {
     dispatch(getByOptionAnother(optionValues));
     setOptionValues([...optionValues]);
   };
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
+  const { cart } = useSelector((state) => state.cart);
+  const duplicateCheck = (cart, data) => {
+    let i = -1;
+    cart.map((item, index) => {
+      if (item.productId == data.productId) {
+        if (item.variantId == data.variantId) {
+          i = index;
+        }
+      }
+    });
+    return i;
+  };
   const handleAddToCart = async (data) => {
-    if(userToken) {
-      const {payload} = await dispatch(addToCart({...data, userToken}))
-      if(payload.res.data.success) {
-        toast.success(payload.res.data.message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+    if (userToken) {
+      let index = duplicateCheck(cart, data);
+      if (index == -1) {
+        const { payload } = await dispatch(addToCart({ ...data, userToken }));
+        if (payload.res.data.success) {
+          toast.success(payload.res.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          toast.error(payload.res.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      } else {
+        dispatch(
+          changeNumber({
+            quantity: data.quantity + cart[index].quantity,
+            variantId: data.variantId,
+            productId: data.productId,
+          })
+        );
+        dispatch(
+          changeQuantity({
+            userToken,
+            quantity: data.quantity + cart[index].quantity,
+            variantId: data.variantId,
+            productId: data.productId,
+          })
+        );
       }
-      else {
-        toast.error(payload.res.data.message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-    }
-    else {
+    } else {
       // dispatch(setBeforeLoginRoute(currentPath.pathname))
-      navigate("/login")
+      navigate("/login");
     }
     // else {
     //   dispatch(addCartLocal(data))
     //   let cartLocal = localStorage.getItem("cart")
     //   const {productId, variantId, quantity, ...rest} = data
-    //   let newItem = {productId, variantId, quantity} 
+    //   let newItem = {productId, variantId, quantity}
     //   if(!cartLocal) {
     //     localStorage.setItem("cart", JSON.stringify([newItem]))
     //   }
@@ -174,175 +212,191 @@ function DetailPage() {
     //     localStorage.setItem("cart", JSON.stringify(storedCart))
     //   }
     // }
-  }
+  };
   return (
-      <Body>
-        {productDetail ? (
-          <>
-            <ContentContainer>
-              <GridContainer>
-                <ImageSection>
-                  <ProductImageSlider images={listImages}></ProductImageSlider>
-                </ImageSection>
-                <ContentSection>
-                  <NameProduct>{productDetail.name}</NameProduct>
-                  <EvaluationFrame>
-                    <StartFrame>
-                      <StarIcon size="20" color="#F0A500"></StarIcon>
-                      <StarIcon size="20" color="#F0A500"></StarIcon>
-                      <StarIcon size="20" color="#F0A500"></StarIcon>
-                      <StarIcon size="20" color="#F0A500"></StarIcon>
-                      <StarIcon size="20" color="#818181"></StarIcon>
-                    </StartFrame>
-                    <Line></Line>
-                    <LightText14>Xem 21 đánh giá</LightText14>
-                    <Line></Line>
-                    <LightText14>Đã bán 16</LightText14>
-                  </EvaluationFrame>
-                  <Price>đ {formatter.format(productDetail.price)}</Price>
-                  {productDetail.options.map((option, index) => (
-                    <Container key={index}>
-                      <Label>{option.name}</Label>
-                      <ButtonGroup>
-                        {option.values.map((item, index) => {
-                          if (
-                            optionValues.findIndex(
-                              (optionValue) =>
-                                optionValue.optionId == option.id &&
-                                optionValue.valueId == item.id
-                            ) == -1
-                          ) {
-                            return (
-                              <Size
-                                onClick={() =>
-                                  handleOnclickOption({
-                                    optionId: option.id,
-                                    valueId: item.id,
-                                  })
-                                }
-                                key={index}
-                              >
-                                {item.name}
-                              </Size>
-                            );
-                          } else {
-                            return (
-                              <ActiveSize key={index}>{item.name}</ActiveSize>
-                            );
-                          }
-                        })}
-                      </ButtonGroup>
-                    </Container>
-                  ))}
-                  <Container>
-                    <Label>Số lượng</Label>
-                    <QuantityComponent quantity={quantity} setQuantity={setQuantity}></QuantityComponent>
+    <Body>
+      {productDetail ? (
+        <>
+          <ContentContainer>
+            <GridContainer>
+              <ImageSection>
+                <ProductImageSlider images={listImages}></ProductImageSlider>
+              </ImageSection>
+              <ContentSection>
+                <NameProduct>{productDetail.name}</NameProduct>
+                <EvaluationFrame>
+                  <StartFrame>
+                    <StarIcon size="20" color="#F0A500"></StarIcon>
+                    <StarIcon size="20" color="#F0A500"></StarIcon>
+                    <StarIcon size="20" color="#F0A500"></StarIcon>
+                    <StarIcon size="20" color="#F0A500"></StarIcon>
+                    <StarIcon size="20" color="#818181"></StarIcon>
+                  </StartFrame>
+                  <Line></Line>
+                  <LightText14>Xem 21 đánh giá</LightText14>
+                  <Line></Line>
+                  <LightText14>Đã bán 16</LightText14>
+                </EvaluationFrame>
+                <Price>đ {formatter.format(productDetail.price)}</Price>
+                {productDetail.options.map((option, index) => (
+                  <Container key={index}>
+                    <Label>{option.name}</Label>
+                    <ButtonGroup>
+                      {option.values.map((item, index) => {
+                        if (
+                          optionValues.findIndex(
+                            (optionValue) =>
+                              optionValue.optionId == option.id &&
+                              optionValue.valueId == item.id
+                          ) == -1
+                        ) {
+                          return (
+                            <Size
+                              onClick={() =>
+                                handleOnclickOption({
+                                  optionId: option.id,
+                                  valueId: item.id,
+                                })
+                              }
+                              key={index}
+                            >
+                              {item.name}
+                            </Size>
+                          );
+                        } else {
+                          return (
+                            <ActiveSize key={index}>{item.name}</ActiveSize>
+                          );
+                        }
+                      })}
+                    </ButtonGroup>
                   </Container>
-                  <ButtonGroup>
-                    {variantId && productDetail.options.length != 0 || productDetail.options.length == 0 ? (
-                      <PinkButton disabled={loading} onClick={() => handleAddToCart({variantId, quantity,productId: productDetail.id, imageMain: productDetail.imageMain, name: productDetail.name, price: productDetail.price})}>
-                        <UilShoppingCart />
-                        Thêm vào giỏ hàng
-                      </PinkButton>
-                    ) : (
-                      <DisableButton >
-                        <UilShoppingCart />
-                        Thêm vào giỏ hàng
-                      </DisableButton>
-                    )}
+                ))}
+                <Container>
+                  <Label>Số lượng</Label>
+                  <QuantityComponent
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                  ></QuantityComponent>
+                </Container>
+                <ButtonGroup>
+                  {(variantId && productDetail.options.length != 0) ||
+                  productDetail.options.length == 0 ? (
+                    <PinkButton
+                      disabled={loading}
+                      onClick={() =>
+                        handleAddToCart({
+                          variantId,
+                          quantity,
+                          productId: productDetail.id,
+                          imageMain: productDetail.imageMain,
+                          name: productDetail.name,
+                          price: productDetail.price,
+                        })
+                      }
+                    >
+                      <UilShoppingCart />
+                      Thêm vào giỏ hàng
+                    </PinkButton>
+                  ) : (
+                    <DisableButton>
+                      <UilShoppingCart />
+                      Thêm vào giỏ hàng
+                    </DisableButton>
+                  )}
 
-                    {/* <WhiteButton>Mua ngay</WhiteButton> */}
-                  </ButtonGroup>
-                </ContentSection>
-              </GridContainer>
-            </ContentContainer>
-            <ContentContainer>
-              <ContentSection>
-                <HeadingTitle>
-                  <Heading26>Chi tiết sản phẩm</Heading26>
-                  <UilAngleRightB></UilAngleRightB>
-                </HeadingTitle>
-                <DescriptionSection>
-                  <Heading14>Đặc điểm sản phẩm</Heading14>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: productDetail.description,
-                    }}
-                  ></div>
-                  <Heading14>Thông tin sản phẩm</Heading14>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: productDetail.details }}
-                  ></div>
-                </DescriptionSection>
+                  {/* <WhiteButton>Mua ngay</WhiteButton> */}
+                </ButtonGroup>
               </ContentSection>
-            </ContentContainer>
-            <ContentContainer>
-              <ContentSection>
-                <HeadingTitle>
-                  <Heading26>Đánh giá sản phẩm</Heading26>
-                  <UilAngleRightB></UilAngleRightB>
-                </HeadingTitle>
-                <DescriptionSection>
-                  <FilterEvaluationFrame>
-                    <RatingFrame>
-                      <PinkHeading48>5</PinkHeading48>
-                      <PinkHeading16>/</PinkHeading16>
-                      <PinkHeading16>5</PinkHeading16>
-                      <StarIcon size="16" color="#F0A500"></StarIcon>
-                    </RatingFrame>
-                    <RatingGroup>
-                      <RatingButton>
-                        <Text14>Tất cả</Text14>
-                      </RatingButton>
-                      <RatingButton>
-                        <Text14>5 sao</Text14>
-                      </RatingButton>{" "}
-                      <RatingButton>
-                        <Text14>4 sao</Text14>
-                      </RatingButton>{" "}
-                      <RatingButton>
-                        <Text14>3 sao</Text14>
-                      </RatingButton>{" "}
-                      <RatingButton>
-                        <Text14>2 sao</Text14>
-                      </RatingButton>
-                      <RatingButton>
-                        <Text14>1 sao</Text14>
-                      </RatingButton>
-                    </RatingGroup>
-                  </FilterEvaluationFrame>
-                  <CommentFrame>
-                    <Heading16>Le Duc Thang</Heading16>
-                    <StarGroup>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                    </StarGroup>
-                    <LightText12>2:06 11/10/2022</LightText12>
-                    <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-                  </CommentFrame>
-                  <CommentFrame>
-                    <Heading16>Bui Thanh Tra</Heading16>
-                    <StarGroup>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#F0A500"></StarIcon>
-                      <StarIcon size="12" color="#818181"></StarIcon>
-                    </StarGroup>
-                    <LightText12>2:06 11/10/2022</LightText12>
-                    <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-                  </CommentFrame>
-                </DescriptionSection>
-              </ContentSection>
-            </ContentContainer>
-          </>
-        ) : (
-          <span>loading</span>
-        )}
-      </Body>
+            </GridContainer>
+          </ContentContainer>
+          <ContentContainer>
+            <ContentSection>
+              <HeadingTitle>
+                <Heading26>Chi tiết sản phẩm</Heading26>
+                <UilAngleRightB></UilAngleRightB>
+              </HeadingTitle>
+              <DescriptionSection>
+                <Heading14>Đặc điểm sản phẩm</Heading14>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: productDetail.description,
+                  }}
+                ></div>
+                <Heading14>Thông tin sản phẩm</Heading14>
+                <div
+                  dangerouslySetInnerHTML={{ __html: productDetail.details }}
+                ></div>
+              </DescriptionSection>
+            </ContentSection>
+          </ContentContainer>
+          <ContentContainer>
+            <ContentSection>
+              <HeadingTitle>
+                <Heading26>Đánh giá sản phẩm</Heading26>
+                <UilAngleRightB></UilAngleRightB>
+              </HeadingTitle>
+              <DescriptionSection>
+                <FilterEvaluationFrame>
+                  <RatingFrame>
+                    <PinkHeading48>5</PinkHeading48>
+                    <PinkHeading16>/</PinkHeading16>
+                    <PinkHeading16>5</PinkHeading16>
+                    <StarIcon size="16" color="#F0A500"></StarIcon>
+                  </RatingFrame>
+                  <RatingGroup>
+                    <RatingButton>
+                      <Text14>Tất cả</Text14>
+                    </RatingButton>
+                    <RatingButton>
+                      <Text14>5 sao</Text14>
+                    </RatingButton>{" "}
+                    <RatingButton>
+                      <Text14>4 sao</Text14>
+                    </RatingButton>{" "}
+                    <RatingButton>
+                      <Text14>3 sao</Text14>
+                    </RatingButton>{" "}
+                    <RatingButton>
+                      <Text14>2 sao</Text14>
+                    </RatingButton>
+                    <RatingButton>
+                      <Text14>1 sao</Text14>
+                    </RatingButton>
+                  </RatingGroup>
+                </FilterEvaluationFrame>
+                <CommentFrame>
+                  <Heading16>Le Duc Thang</Heading16>
+                  <StarGroup>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                  </StarGroup>
+                  <LightText12>2:06 11/10/2022</LightText12>
+                  <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
+                </CommentFrame>
+                <CommentFrame>
+                  <Heading16>Bui Thanh Tra</Heading16>
+                  <StarGroup>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#F0A500"></StarIcon>
+                    <StarIcon size="12" color="#818181"></StarIcon>
+                  </StarGroup>
+                  <LightText12>2:06 11/10/2022</LightText12>
+                  <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
+                </CommentFrame>
+              </DescriptionSection>
+            </ContentSection>
+          </ContentContainer>
+        </>
+      ) : (
+        <span>loading</span>
+      )}
+    </Body>
   );
 }
 

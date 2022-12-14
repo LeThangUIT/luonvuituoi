@@ -6,6 +6,7 @@ import PagingComponent from '../../../../sharedComponents/pagination/PagingCompo
 import { Heading30 } from '../../../../sharedComponents/text';
 import { MainDash } from '../../components/MainDash/MainDash';
 import { ScrollContainer } from '../../productManagement/pages/ProductManagementPage';
+import InvoiceModal from '../component/InvoiceModal';
 import InvoiceTable from '../component/InvoiceTable';
 import { getAllInvoiceByAdmin } from '../InvoiceSlice';
 
@@ -34,6 +35,7 @@ function InvoiceManagementPage() {
       </ScrollContainer>
       <PagingComponent type={"invoiceByAdmin"} pageCount={listInvoice?.totalPage}></PagingComponent>
     </MainDash>
+    {isShow && <InvoiceModal></InvoiceModal>}
   </>
 );
 }

@@ -25,6 +25,14 @@ class invoiceApi {
     });
   };
 
+  updateInvoice = ({id, status, adminToken}) => {
+    const url = `${ADMIN_API_URL}/invoice/${id}`;
+    return axios.put(url, {status: status}, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
 }
 
 const InvoiceApi = new invoiceApi();

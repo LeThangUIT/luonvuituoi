@@ -9,6 +9,15 @@ export const getAllUsers = createAsyncThunk(
 
     }
 )
+
+export const lockUser = createAsyncThunk(
+    "user/lockUser",
+    async({user, adminToken}) => {
+        const res = await UserApi.lockUser({id: user.id, isLocked: user.isLocked, adminToken});
+        const data = {user, res}
+        return data;
+    }
+)
 const UserSlice = createSlice({
     name: "user",
     initialState: {
@@ -31,6 +40,21 @@ const UserSlice = createSlice({
             state.loading = false
         },
         [getAllUsers.rejected](state) {
+            state.loading = false
+        },
+
+        [lockUser.pending](state) {
+            state.loading = true
+        },
+        [lockUser.fulfilled](state, action) {
+            state.loading = false
+            state.listUser.items.forEach((item, index) => {
+                if(item.id == action.payload.user.id) {
+                    item.isLocked = action.payload.user.isLocked
+                }
+            })
+        },
+        [lockUser.rejected](state) {
             state.loading = false
         },
     }

@@ -19,7 +19,7 @@ const Radiobutton = (props) => {
                       id={option.key}
                       {...field}
                       value={option.key}
-                      checked={field.value === option.key}
+                      checked={field.value == option.key}
                     ></input>
                     <label htmlFor={option.key}>{option.value}</label>
                   </div>

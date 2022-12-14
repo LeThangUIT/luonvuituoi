@@ -40,7 +40,10 @@ import {
   deleteCartLocal,
   getCart,
   getCartFromLocal,
+  selectCart,
+  setSelectAll,
   setSelectedCart,
+  unSelectCart,
 } from "../CartSlice";
 import { useNavigate } from "react-router-dom";
 import { Body } from "../../../../sharedComponents/body";
@@ -59,7 +62,7 @@ function CartPage() {
   //   var cartLocal = localStorage.getItem("cart")
   //   var storedCart = JSON.parse(cartLocal)
   // }
-  const { loading, cart, selectedCart } = useSelector((state) => state.cart);
+  const { loading, cart, isCheckAll } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const handleIncrease = ({ quantity, productId, variantId }) => {
     dispatch(changeNumber({ quantity: quantity + 1, variantId, productId }));
@@ -117,36 +120,54 @@ function CartPage() {
   };
 
   let TotalPrice = 0;
-  const [isCheckAll, setIsCheckAll] = useState(false);
   const list = [...cart];
   const handleSelectAll = (e) => {
-    setIsCheckAll(!isCheckAll);
-    dispatch(setSelectedCart(
-      list.map((item, index) => {
-        return item;
-      })
-    ));
+    dispatch(setSelectAll(true));
+    dispatch(
+      setSelectedCart(
+        list.map((item, index) => {
+          return { checked: true, ...item };
+        })
+      )
+    );
     if (isCheckAll) {
-      dispatch(setSelectedCart([]));
+    dispatch(setSelectAll(false));
+      list.forEach((item) => {
+        dispatch(
+          unSelectCart({ productId: item.productId, variantId: item.variantId })
+        );
+      });
     }
   };
 
-  const handleClick = ({e, cartItem}) => {
+  const handleClick = ({ e, cartItem }) => {
     const { id, checked } = e.target;
-    if(checked) {
-      if(selectedCart.length == list.length-1) {
-        setIsCheckAll(true)
-      }
-      dispatch(setSelectedCart([...selectedCart, cartItem]));
+    if (checked) {
+      dispatch(
+        selectCart({
+          productId: cartItem.productId,
+          variantId: cartItem.variantId,
+        })
+      );
     }
     if (!checked) {
-      let payload = selectedCart.filter((item, index) => item !== cartItem)
-      dispatch(setSelectedCart(payload));
-      setIsCheckAll(false)
+      dispatch(
+        unSelectCart({
+          productId: cartItem.productId,
+          variantId: cartItem.variantId,
+        })
+      );
+      dispatch(setSelectAll(false));
     }
   };
-
-  
+  let selectedMoney =  cart.reduce((currentValue, item) => {
+    if (item.checked) {
+      return item.price * item.quantity + currentValue;
+    }
+    else {
+      return currentValue
+    }
+  }, 0)
   return (
     <Body>
       <ContentContainer>
@@ -198,8 +219,8 @@ function CartPage() {
                         <input
                           type="checkbox"
                           id={index}
-                          onChange={e => handleClick({e, cartItem: item})}
-                          checked={selectedCart.some(element =>  JSON.stringify(element) === JSON.stringify(item)) }
+                          onChange={(e) => handleClick({ e, cartItem: item })}
+                          checked={item.checked}
                         />
                       </TableData>
                       <TableData>
@@ -289,7 +310,7 @@ function CartPage() {
               <Heading14>Tổng tiền giỏ hàng</Heading14>
               <FlexContainer>
                 <Text14>Số sản phẩm</Text14>
-                <Heading14>{selectedCart.length}</Heading14>
+                <Heading14>{cart.length}</Heading14>
               </FlexContainer>
               <FlexContainer>
                 <Text14>Tổng tiền giỏ</Text14>
@@ -297,9 +318,16 @@ function CartPage() {
               </FlexContainer>
               <FlexContainer>
                 <Text14>Đã chọn</Text14>
-                <Heading14>{formatter.format(selectedCart.reduce((currentValue, item) => (item.price * item.quantity + currentValue), 0))} đ</Heading14>
+                <Heading14>
+                  {formatter.format(selectedMoney
+                  )}{" "}
+                  đ
+                </Heading14>
               </FlexContainer>
-              <WhiteButton disabled={selectedCart.length==0} onClick={() => navigate("/checkout")}>
+              <WhiteButton
+                disabled={selectedMoney == 0}
+                onClick={() => navigate("/checkout")}
+              >
                 Đặt hàng
               </WhiteButton>
             </TotalContainer>

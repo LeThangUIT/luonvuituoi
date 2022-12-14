@@ -1,9 +1,28 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { AddButton, DeleteButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory'
+import { lockUser } from '../UserSlice'
 
 function UserTable( {listUser}) {
+  const dispatch = useDispatch()
+  const adminToken = localStorage.getItem("adminToken")
+  const handleLock = async ({id, isLocked}) => {
+    if(window.confirm("Bạn có chắc chắn không?")) {
+      var {payload} = await dispatch(lockUser({user: {id, isLocked}, adminToken}))
+    }
+    console.log(payload)
+    // if (!payload.res.data.success) {
+    //   toast.error(payload.res.data.message, {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //   });
+    // } else {
+    //   toast.success(payload.res.data.message, {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //   });
+    // }
+  }
   return (
     <Table>
     <TableHead>
@@ -27,7 +46,7 @@ function UserTable( {listUser}) {
             <TableData>{!item.isLocked ? "Mở" : "Khóa"}</TableData>
             <TableData>
               <ButtonGroup>
-                {item.isLocked ? <AddButton>Mở khóa</AddButton> : <DeleteButton>Khóa</DeleteButton>}
+                {item.isLocked ? <AddButton onClick={() => handleLock({id: item.id, isLocked: false})}>Mở khóa</AddButton> : <DeleteButton onClick={() => handleLock({id: item.id, isLocked: true})}>Khóa</DeleteButton>}
                 <DetailButton>Chi tiết</DetailButton>
               </ButtonGroup>
             </TableData>

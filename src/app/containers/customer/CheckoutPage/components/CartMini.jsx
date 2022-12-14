@@ -9,6 +9,7 @@ const ItemInfo = styled.div`
   ${tw`w-full flex-1 flex flex-col gap-2`}
 `;
 function CartMini({cart}) {
+  console.log(cart)
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });

@@ -1,8 +1,10 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import { AddButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { formatDate, formatter } from '../../../../sharedComponents/format'
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory';
+import { showInvoiceModal } from '../InvoiceSlice';
 
 function InvoiceTable( {listInvoice}) {
   function DeliveryCase(props) {
@@ -33,6 +35,10 @@ function InvoiceTable( {listInvoice}) {
         return '';
     }
   }
+  const dispatch = useDispatch()
+  const handleUpdate = (item) => {
+    dispatch(showInvoiceModal({data: item}))
+  }
   return (
     <Table>
     <TableHead>
@@ -62,7 +68,7 @@ function InvoiceTable( {listInvoice}) {
             </TableData>
             <TableData>
               <ButtonGroup>
-                <UpdateButton>Cập nhật</UpdateButton>
+                <UpdateButton onClick={() => {handleUpdate(item)}}>Cập nhật</UpdateButton>
                 <DetailButton>Chi tiết</DetailButton>
               </ButtonGroup>
             </TableData>

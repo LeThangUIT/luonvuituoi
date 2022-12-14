@@ -45,7 +45,7 @@ const CartSlice = createSlice({
   initialState: {
     loading: null,
     cart: [],
-    selectedCart: [],
+    isCheckAll: false
   },
   reducers: {
     changeNumber: (state, action) => {
@@ -57,20 +57,33 @@ const CartSlice = createSlice({
           item.quantity = action.payload.quantity;
         }
       });
-      state.selectedCart.forEach((item) => {
-        if (
-          item.variantId == action.payload.variantId &&
-          item.productId == action.payload.productId
-        ) {
-          item.quantity = action.payload.quantity;
-        }
-      });
     },
 
-    setSelectedCart: (state, action) => {
-      console.log(action.payload);
-      state.selectedCart = action.payload;
+    setSelectAll: (state, action) => {
+      state.isCheckAll = action.payload
     },
+    setSelectedCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    selectCart: (state, action) => {
+      let item = action.payload
+      state.cart.forEach(element => {
+        if(element.productId == item.productId && element.variantId == item.variantId ) {
+           element.checked = true
+        }
+      });
+      if(state.cart.every(item => item.checked == true)) {
+        state.isCheckAll = true
+      }
+    },
+    unSelectCart: (state, action) => {
+      let item = action.payload
+      state.cart.forEach(element => {
+        if(element.productId == item.productId && element.variantId == item.variantId ) {
+          delete element.checked
+        }
+      });
+    }
 
     // deleteCartLocal: (state, action) => {
     //     state.cart = state.cart.filter(item => item.variantId !== action.payload.variantId && item.productId !== action.payload.productId)
@@ -129,16 +142,6 @@ const CartSlice = createSlice({
           );
         }
       });
-      state.selectedCart = state.selectedCart.filter((item, index) => {
-        if (item.variantId == null && action.payload.variantId == null) {
-          return item.productId !== action.payload.productId;
-        } else {
-          return (
-            item.variantId !== action.payload.variantId &&
-            item.productId !== action.payload.productId
-          );
-        }
-      });
     },
     [deleteCart.rejected](state) {
       state.loading = false;
@@ -151,6 +154,6 @@ const CartSlice = createSlice({
 });
 
 export const { reducer: CartReducer, actions } = CartSlice;
-export const { changeNumber, deleteCartLocal, addCartLocal, setSelectedCart } =
+export const { changeNumber, deleteCartLocal, addCartLocal,setSelectAll, setSelectedCart, unSelectCart, selectCart} =
   actions;
 export default CartReducer;

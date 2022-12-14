@@ -24,7 +24,7 @@ export const ModalContainer = styled.div`
 
 `;
 export const ButtonClose = styled.div`
-  ${tw` absolute z-10 w-3  top-4 right-4`}
+  ${tw` absolute z-10 w-3  top-4 right-4 hover:cursor-pointer`}
 `;
 export const ModalTitle = styled.div`
   ${tw` mt-2 flex justify-center`}
