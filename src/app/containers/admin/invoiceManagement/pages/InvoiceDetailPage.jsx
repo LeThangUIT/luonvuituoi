@@ -77,7 +77,7 @@ const InvoiceDetailPage = () => {
               </TableRowHead>
             </TableHead>
             <TableBody>
-              {invoiceDetail.map((item, index) => (
+              {invoiceDetail?.map((item, index) => (
                 <TableRow key={index}>
                   <TableData>{index+1}</TableData>
                   <TableNameData>{item.name}</TableNameData>
@@ -99,7 +99,7 @@ const InvoiceDetailPage = () => {
           <Cost>
             <CostItem>
                 <span>Sub-Total</span>
-                <span>{formatter.format(invoice.paid)}</span>
+                <span>{formatter.format(invoice.total)}</span>
             </CostItem>
             <CostItem>
                 <span>Delivery-Fee</span>
@@ -111,7 +111,7 @@ const InvoiceDetailPage = () => {
             </CostItem>
             <CostItem>
                 <b>Total</b>
-                <b>{formatter.format(invoice.total)}</b>
+                <b>{formatter.format(invoice.paid)}</b>
             </CostItem>
           </Cost>
         </InvoicePaper>
