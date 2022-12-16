@@ -33,6 +33,14 @@ class invoiceApi {
       },
     });
   };
+
+  getInvoiceDetailByAdmin = ({adminToken, invoiceId}) => {
+    const url = `${ADMIN_API_URL}/invoice/${invoiceId}`
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken, }
+      },)
+  }
 }
 
 const InvoiceApi = new invoiceApi();

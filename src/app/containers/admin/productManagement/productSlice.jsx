@@ -20,7 +20,6 @@ export const getAllProducts = createAsyncThunk(
     async({page, perPage, keyWord}) => {
         const allProduct = await ProductApi.getAllProducts({page, perPage, keyWord});
         return allProduct;
-
     }
 )
 
@@ -40,6 +39,15 @@ export const fetchProductDetail = createAsyncThunk(
         return res.data;
     }
 )
+
+export const fetchProductDetailByAdmin = createAsyncThunk(
+    "product/fetchProductDetailByAdmin",
+    async(data) => {
+        const res = await ProductApi.getProductDetailByAdmin(data);
+        return res.data;
+    }
+)
+
 export const getByOptionAnother = createAsyncThunk(
     "product/getByOptionAnother",
     async(optionValues) => {
@@ -97,6 +105,16 @@ const ProductSlice = createSlice({
             state.loading = false
         },
 
+        [fetchProductDetailByAdmin.pending](state) {
+            state.loading = true
+        },
+        [fetchProductDetailByAdmin.fulfilled](state, action) {
+            state.productDetail = action.payload.data
+            state.loading = false
+        },
+        [fetchProductDetailByAdmin.rejected](state) {
+            state.loading = false
+        },
 
         [getAllProducts.pending](state) {
             state.loading = true
@@ -113,7 +131,6 @@ const ProductSlice = createSlice({
             state.loading = true
         },
         [addProduct.fulfilled](state, action) {
-            console.log(action.payload.data)
             state.listProducts.items.push(action.payload.data.data)
             state.loading = false
             state.isShow = false

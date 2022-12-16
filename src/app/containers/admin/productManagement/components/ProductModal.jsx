@@ -63,7 +63,7 @@ const DeleteIcon = styled(UilTimes)`
 `
 function ProductModal() {
   const adminToken = localStorage.getItem("adminToken");
-  const { isUpdate, loading } = useSelector((state) => state.product);
+  const { loading } = useSelector((state) => state.product);
   const { listCategories } = useSelector((state) => state.category);
   let listCate = [{id: "", name: "Chọn danh mục"}, ...listCategories?.items]
   const dispatch = useDispatch();
@@ -227,11 +227,7 @@ function ProductModal() {
         <DeleteIcon onClick={() => handleClose()}>
         </DeleteIcon>
         <ModalTitle>
-          {isUpdate ? (
-            <Heading22>Cập nhật sản phẩm</Heading22>
-          ) : (
-            <Heading22>Thêm sản phẩm</Heading22>
-          )}
+          <Heading22>Thêm sản phẩm</Heading22>
         </ModalTitle>
         <Formik
           initialValues={initialValues}

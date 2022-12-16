@@ -10,7 +10,7 @@ function Admin() {
           <div className="AppGlass">
             <Sidebar />
             <Outlet />
-            <RightSide />
+            {/* <RightSide /> */}
           </div>
         </div>
   );

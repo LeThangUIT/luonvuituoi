@@ -15,8 +15,9 @@ const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between`}
 `;
 export const ScrollContainer = styled.div`
+  flex-grow: 1;
+  height: 40%;
   overflow: auto;
-  max-height: 65vh;
   ::-webkit-scrollbar {
     width: 8px;
     height: 20px;
@@ -45,7 +46,7 @@ function ProductManagementPage() {
   }, [])
   
   const handleAdd = () => {
-    dispatch(showProductModal({ isUpdate: false, data: null }));
+    dispatch(showProductModal({data: null }));
   };
   return (
     <>
@@ -61,7 +62,7 @@ function ProductManagementPage() {
           <ProductTable listProducts={listProducts}></ProductTable>
         </ScrollContainer>
         <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage}></PagingComponent>
-      </MainDash>
+    </MainDash>
     {isShow && <ProductModal></ProductModal>}
     
   </>

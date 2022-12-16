@@ -60,10 +60,10 @@ function App() {
         >
           <Route index element={<DashBoardIndex />} />
           <Route path="category/*" element={<CategoryManagementIndex />} />
-          <Route path="product" element={<ProductManagementIndex />} />
-          <Route path="invoice" element={<InvoiceManagementIndex />} />
+          <Route path="product/*" element={<ProductManagementIndex />} />
+          <Route path="invoice/*" element={<InvoiceManagementIndex />} />
           <Route path="voucher" element={<VoucherManagementIndex/>} />
-          <Route path="user" element={<UserManagementIndex/>} />
+          <Route path="user/*" element={<UserManagementIndex/>} />
         </Route>
       </Routes>
     </AppContainer>

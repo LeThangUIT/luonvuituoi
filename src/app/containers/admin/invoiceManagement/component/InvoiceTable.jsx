@@ -1,10 +1,11 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AddButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { formatDate, formatter } from '../../../../sharedComponents/format'
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory';
-import { showInvoiceModal } from '../InvoiceSlice';
+import { setInvoice, showInvoiceModal } from '../InvoiceSlice';
 
 function InvoiceTable( {listInvoice}) {
   function DeliveryCase(props) {
@@ -39,6 +40,12 @@ function InvoiceTable( {listInvoice}) {
   const handleUpdate = (item) => {
     dispatch(showInvoiceModal({data: item}))
   }
+
+  const handleDetail = (item) => {
+    dispatch(setInvoice({data: item}))
+    navigate(`${item.id}`)
+  }
+  const navigate = useNavigate()
   return (
     <Table>
     <TableHead>
@@ -69,7 +76,7 @@ function InvoiceTable( {listInvoice}) {
             <TableData>
               <ButtonGroup>
                 <UpdateButton onClick={() => {handleUpdate(item)}}>Cập nhật</UpdateButton>
-                <DetailButton>Chi tiết</DetailButton>
+                <DetailButton onClick={() => handleDetail(item)}>Chi tiết</DetailButton>
               </ButtonGroup>
             </TableData>
         </TableRow>

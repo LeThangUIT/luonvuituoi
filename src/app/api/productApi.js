@@ -53,6 +53,14 @@ class propductApi {
       },)
   }
 
+  getProductDetailByAdmin = ({adminToken, productId}) => {
+    const url = `${ADMIN_API_URL}/product/${productId}`
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken, }
+      },)
+  }
+
   getOption = (optionValues) => {
     const url = `${API_URL}/option/GetByAnother`
     return axios.post(url, optionValues)

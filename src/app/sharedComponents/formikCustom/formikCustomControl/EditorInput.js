@@ -30,13 +30,14 @@ const MyInput = ({form, field, ...props}) => {
     <CKEditor
           // {...field}
           // {...props}
-          // data = {value}      
+          data = {field.value}    
           editor={ClassicEditor}
           onChange={(event, editor) => {
             const data = (editor.getData());
             setFieldValue(field.name , data)
           }}
-    ></CKEditor>
+    >
+    </CKEditor>
   );
 };
 

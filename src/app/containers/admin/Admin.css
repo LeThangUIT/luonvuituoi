@@ -36,13 +36,13 @@
     border-radius: 2rem;
     background-color: var(--glass);
     overflow: hidden;
-    grid-template-columns: 11rem auto 20rem;  
+    grid-template-columns: 11rem auto;  
     gap: 10px;
   }
   
   @media screen and (max-width: 1200px) {
     .AppGlass {
-      grid-template-columns: 10% 50% auto;
+      grid-template-columns: 10% auto;
       overflow-y: scroll;
     }
   }

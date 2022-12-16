@@ -1,9 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import {
   DeleteButton,
+  DetailButton,
   UpdateButton,
 } from "../../../../sharedComponents/button";
 import {
@@ -38,7 +40,10 @@ function ProductTable({ listProducts }) {
     }
   };
   const handleUpdate = () => {};
-
+  const navigate = useNavigate()
+  const handProductDetail = (id) => {
+    navigate(`${id}`)
+  }
   return (
       <Table>
         <TableHead>
@@ -80,6 +85,7 @@ function ProductTable({ listProducts }) {
                     >
                       Xóa
                     </DeleteButton>
+                    <DetailButton onClick={() => handProductDetail(item.id)}>Chi tiết</DetailButton>
                   </ButtonGroup>
                 </TableData>
               </TableRow>

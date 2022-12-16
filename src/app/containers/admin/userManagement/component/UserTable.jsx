@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { AddButton, DeleteButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory'
@@ -12,7 +13,6 @@ function UserTable( {listUser}) {
     if(window.confirm("Bạn có chắc chắn không?")) {
       var {payload} = await dispatch(lockUser({user: {id, isLocked}, adminToken}))
     }
-    console.log(payload)
     // if (!payload.res.data.success) {
     //   toast.error(payload.res.data.message, {
     //     position: toast.POSITION.TOP_RIGHT,
@@ -23,6 +23,7 @@ function UserTable( {listUser}) {
     //   });
     // }
   }
+  const navigate = useNavigate()
   return (
     <Table>
     <TableHead>
@@ -47,7 +48,7 @@ function UserTable( {listUser}) {
             <TableData>
               <ButtonGroup>
                 {item.isLocked ? <AddButton onClick={() => handleLock({id: item.id, isLocked: false})}>Mở khóa</AddButton> : <DeleteButton onClick={() => handleLock({id: item.id, isLocked: true})}>Khóa</DeleteButton>}
-                <DetailButton>Chi tiết</DetailButton>
+                <DetailButton onClick={() => navigate(`${item.id}`)}>Chi tiết</DetailButton>
               </ButtonGroup>
             </TableData>
         </TableRow>

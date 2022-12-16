@@ -6,11 +6,14 @@ export const Table = styled.table`
   `}
 `;
 export const TableHead = styled.thead`
-  ${tw` h-[57px] bg-white border border-[#EEEEEE] rounded-lg `}
+  ${tw` h-[57px] border border-[#EEEEEE] rounded-lg `}
 `;
 export const TableBody = styled.tbody`
   ${tw` overflow-auto max-h-[40px] ` }
  
+`;
+export const TableRowHead = styled.tr`
+  ${tw` border border-[#EEEEEE] bg-primaryColor content-center text-white`}
 `;
 export const TableRow = styled.tr`
   ${tw` border border-[#EEEEEE] bg-white content-center`}

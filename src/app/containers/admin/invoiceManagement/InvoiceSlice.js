@@ -17,24 +17,37 @@ export const updateInvoice = createAsyncThunk(
         return data;
     }
 )
+
+export const fetchInvoiceDetailByAdmin = createAsyncThunk(
+    "invoice/fetchInvoiceDetailByAdmin",
+    async(data) => {
+        const res = await InvoiceApi.getInvoiceDetailByAdmin(data);
+        return res.data;
+    }
+)
+
 const InvoiceSlice = createSlice({
     name: "invoice",
     initialState: {
         loading: false,
         listInvoice: null,
         isShow: false,
-        newInvoice: null
-
+        invoice: null,
+        invoiceDetail: null,
     },
 
     reducers: {
         showInvoiceModal: (state, action) => {
             state.isShow = true;
-            state.newInvoice = action.payload.data;
+            state.invoice = action.payload.data;
         },
         hideInvoiceModal: (state, action) => {
             state.isShow = false;
-          },
+        },
+
+        setInvoice: (state, action) => {
+            state.invoice = action.payload.data;
+        },
     },
 
     extraReducers: {
@@ -63,9 +76,20 @@ const InvoiceSlice = createSlice({
         [updateInvoice.rejected](state) {
             state.loading = false
         },
+
+        [fetchInvoiceDetailByAdmin.pending](state) {
+            state.loading = true
+        },
+        [fetchInvoiceDetailByAdmin.fulfilled](state, action) {
+            state.invoiceDetail = action.payload.data
+            state.loading = false
+        },
+        [fetchInvoiceDetailByAdmin.rejected](state) {
+            state.loading = false
+        },
     }
 })
 
 export const { reducer: InvoiceReducer, actions } = InvoiceSlice;
-export const {showInvoiceModal, hideInvoiceModal} = actions;
+export const {showInvoiceModal, hideInvoiceModal, setInvoice} = actions;
 export default InvoiceSlice;

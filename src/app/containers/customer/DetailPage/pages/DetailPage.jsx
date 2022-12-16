@@ -109,10 +109,10 @@ const RatingGroup = styled.div`
 const RatingButton = styled.button`
   ${tw` bg-white rounded-lg px-5 py-2 border border-solid border-[#EEEEEE]`}
 `;
-const CommentFrame = styled.div`
+export const CommentFrame = styled.div`
   ${tw` flex flex-col items-start gap-2 pl-12 pb-8`}
 `;
-const StarGroup = styled.div`
+export const StarGroup = styled.div`
   ${tw` flex flex-row items-center gap-1`}
 `;
 function DetailPage() {

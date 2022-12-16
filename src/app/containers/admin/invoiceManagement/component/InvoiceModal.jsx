@@ -18,15 +18,15 @@ import { hideInvoiceModal, updateInvoice } from "../InvoiceSlice";
 
 function InvoiceModal() {
   const adminToken = localStorage.getItem("adminToken");
-  const { newInvoice, loading } = useSelector((state) => state.invoice);
+  const { invoice, loading } = useSelector((state) => state.invoice);
   let initialValues = {
-    status: newInvoice.status,
+    status: invoice.status,
   };  
   const dispatch = useDispatch();
   const onSubmit = async (values) => {
     console.log(values)
     var { payload } = await dispatch(
-      updateInvoice({ invoice: { id: newInvoice.id, ...values }, adminToken })
+      updateInvoice({ invoice: { id: invoice.id, ...values }, adminToken })
       );
       console.log(payload)
     if (!payload.res.data.success) {

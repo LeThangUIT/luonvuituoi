@@ -26,6 +26,22 @@ class userApi {
     });
   };
 
+  getProductDetailByAdmin = ({adminToken, productId}) => {
+    const url = `${ADMIN_API_URL}/product/${productId}`
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken, }
+      },)
+  }
+
+  getUserInfoByAdmin = ({adminToken, userId}) => {
+    const url = `${ADMIN_API_URL}/user/${userId}`
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken, }
+      },)
+  }
+
 }
 
 const UserApi = new userApi();

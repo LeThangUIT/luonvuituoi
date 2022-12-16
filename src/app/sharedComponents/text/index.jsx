@@ -80,9 +80,24 @@ export const PinkHeading14 = styled.span`
         not-italic font-semibold text-[14px] leading-[17px] text-primaryColor 
     `}
 `;
+export const Text20 = styled.span`
+  ${tw`
+        not-italic font-normal text-[20px] leading-[23px] text-blackColor 
+    `}
+`;
+export const Text16 = styled.span`
+  ${tw`
+        not-italic font-normal text-[16px] leading-[19px] text-blackColor 
+    `}
+`;
 export const Text14 = styled.span`
   ${tw`
-        not-italic font-normal text-[14px] leading-[17px] text-blackColor 
+        not-italic font-medium text-[14px] leading-[17px] text-blackColor 
+    `}
+`;
+export const BoldText14 = styled.span`
+  ${tw`
+        not-italic font-semibold text-[14px] leading-[17px] text-blackColor 
     `}
 `;
 export const PinkText14 = styled.span`

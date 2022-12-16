@@ -18,12 +18,22 @@ export const lockUser = createAsyncThunk(
         return data;
     }
 )
+
+export const fetchUserInfoByAdmin = createAsyncThunk(
+    "user/fetchUserInfoByAdmin",
+    async(data) => {
+        const res = await UserApi.getUserInfoByAdmin(data);
+        return res.data;
+    }
+)
+
 const UserSlice = createSlice({
     name: "user",
     initialState: {
         loading: false,
         listUser: [],
-        isShow: false
+        isShow: false,
+        userInfo: null
     },
 
     reducers: {
@@ -55,6 +65,17 @@ const UserSlice = createSlice({
             })
         },
         [lockUser.rejected](state) {
+            state.loading = false
+        },
+
+        [fetchUserInfoByAdmin.pending](state) {
+            state.loading = true
+        },
+        [fetchUserInfoByAdmin.fulfilled](state, action) {
+            state.userInfo = action.payload.data
+            state.loading = false
+        },
+        [fetchUserInfoByAdmin.rejected](state) {
             state.loading = false
         },
     }
