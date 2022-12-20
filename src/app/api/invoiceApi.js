@@ -62,6 +62,14 @@ class invoiceApi {
         Authorization: "Bearer " + userToken, }
       },)
   }
+
+  paymentApi = ({data, token}) => {
+    const url = `${API_URL}/payonline/vnpay-return` + data;
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + token, }
+      })
+  }
 }
 
 const InvoiceApi = new invoiceApi();

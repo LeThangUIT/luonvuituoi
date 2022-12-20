@@ -11,6 +11,8 @@ import styled from "styled-components";
 import logo from "../../../../assets/images/Lamborghini-Logo.png";
 import { useState } from "react";
 import { formatDate } from "../../../../sharedComponents/format";
+import LoadingComponent from "../../../../sharedComponents/loading";
+import EmptyComponent from "../../../../sharedComponents/empty";
 
 const ContentContainer = styled.div`
   ${tw`
@@ -70,7 +72,7 @@ function VoucherPage() {
           <UilAngleRightB></UilAngleRightB>
         </HeadingTitle>
         {loading ? (
-          <span>Đang tải</span>
+          <LoadingComponent></LoadingComponent>
         ) : listVoucher.length > 0 ? (
           <ListCoupons>
             {listVoucher.map((item, index) => {
@@ -105,7 +107,7 @@ function VoucherPage() {
             })}
           </ListCoupons>
         ) : (
-          <span>Không có voucher nào!</span>
+          <EmptyComponent></EmptyComponent>
         )}
       </ContentContainer>
     </Body>

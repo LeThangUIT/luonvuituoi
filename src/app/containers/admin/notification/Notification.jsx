@@ -5,7 +5,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { Avatar } from "../../../sharedComponents/header/rightHeader/RightHeader";
 import { useOnClickOutside } from "../../../sharedComponents/header/searchBox";
-import { LightText12, Text14 } from "../../../sharedComponents/text";
+import { LightText12, Text14, Text16 } from "../../../sharedComponents/text";
 import { ScrollContainer } from "../productManagement/pages/ProductManagementPage";
 import { getAllNotificationsByAdmin, getAllNotificationsByCustomer, hideNotification, markAsReadAllByAdmin, markAsReadAllByUser, markAsReadByAdmin, markAsReadByUser } from "./notificationSlice";
 import avatar from "../../../assets/images/avatar.png"
@@ -105,22 +105,26 @@ const Notification = () => {
   return (
     <Frame ref={resultBoxRef} >
       <ScrollContainer id="box">
-        <Header>
-          <Heading>Notification</Heading>
-          <Clear onClick={readAll}>Read All</Clear>
-        </Header>
-        <div className="h-[400px]">
-            {notifications?.items.map((item, index) => (
-            <Item onClick={() => handleClick(item)} key={index}>
-              {adminInfo ? <Avatar src={item.imageUrl || avatar}/> :  <Avatar src={logo}/>}    
-                <ContentFrame>
-                <Text14 >{item.content}</Text14>
-                <LightText12>{formatDate(item.createdAt)}</LightText12>
-                </ContentFrame>
-                {!item.readAt && <Mask></Mask>}     
-            </Item>
-            ))}
-        </div>
+        {notifications?.items.length > 0 ? <>
+        
+          <Header>
+            <Heading>Notification</Heading>
+            <Clear onClick={readAll}>Read All</Clear>
+          </Header>
+          <div className="h-[400px]">
+              {notifications?.items.map((item, index) => (
+              <Item onClick={() => handleClick(item)} key={index}>
+                {adminInfo ? <Avatar src={item.imageUrl || avatar}/> :  <Avatar src={logo}/>}    
+                  <ContentFrame>
+                  <Text14 >{item.content}</Text14>
+                  <LightText12>{formatDate(item.createdAt)}</LightText12>
+                  </ContentFrame>
+                  {!item.readAt && <Mask></Mask>}     
+              </Item>
+              ))}
+          </div> 
+          
+        </> : <Text16 className="whitespace-nowrap">Không có thông báo nào</Text16>}
       </ScrollContainer>
     </Frame>
   );

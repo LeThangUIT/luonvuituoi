@@ -48,6 +48,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Body } from "../../../../sharedComponents/body";
 import { formatter } from "../../../../sharedComponents/format";
+import LoadingComponent from "../../../../sharedComponents/loading";
+import EmptyComponent from "../../../../sharedComponents/empty";
 
 const TotalContainer = styled.div`
   ${tw`  w-full  box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm`}
@@ -172,7 +174,7 @@ function CartPage() {
     <Body>
       <ContentContainer>
         {loading ? (
-          <span>Đang tải</span>
+          <LoadingComponent></LoadingComponent>
         ) : cart.length > 0 ? (
           <ListProductContainer>
             <Table>
@@ -333,7 +335,7 @@ function CartPage() {
             </TotalContainer>
           </ListProductContainer>
         ) : (
-          <span>Không có sản phẩm</span>
+          <EmptyComponent>Không có sản phẩm</EmptyComponent>
         )}
       </ContentContainer>
     </Body>

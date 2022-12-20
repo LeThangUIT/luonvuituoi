@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent'
-import { Heading16 } from '../../../../sharedComponents/text'
+import { Heading16, Text16 } from '../../../../sharedComponents/text'
 import InvoiceTable from '../../../admin/invoiceManagement/component/InvoiceTable'
 import { getAllInvoiceByUser } from '../../../admin/invoiceManagement/InvoiceSlice'
 
@@ -23,8 +23,10 @@ function InvoicesList() {
   return (
     <Container>
       <Heading16>Danh sách hóa đơn</Heading16>
-      <InvoiceTable listInvoice={listInvoice}></InvoiceTable>
-      <PagingComponent type={"invoiceByUser"} pageCount={listInvoice?.totalPage}></PagingComponent>
+      {listInvoice?.items.length > 0 ? <>
+        <InvoiceTable listInvoice={listInvoice}></InvoiceTable>
+        <PagingComponent type={"invoiceByUser"} pageCount={listInvoice?.totalPage}></PagingComponent>
+      </> : <Text16>Chưa có hóa đơn nào!</Text16>}
     </Container>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Body } from "../../../../sharedComponents/body";
+import LoadingComponent from "../../../../sharedComponents/loading";
 import InvoicePaper from "../../../admin/invoiceManagement/component/InvoicePaper";
 import { fetchInvoiceDetailByUser } from "../../../admin/invoiceManagement/InvoiceSlice";
 import { ContentContainer } from "../../HomePage/components/content";
@@ -24,7 +25,7 @@ function InvoicePage() {
           </ContentContainer>
         </>
       ) : (
-        <span>loading</span>
+        <LoadingComponent></LoadingComponent>
       )}
     </Body>
   );

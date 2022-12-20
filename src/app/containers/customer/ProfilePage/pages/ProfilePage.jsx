@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-
+import avatar from "../../../../assets/images/avatar.png"
 import { Avatar } from "../../../../sharedComponents/header/rightHeader/RightHeader";
 import { Heading22, Text14 } from "../../../../sharedComponents/text";
 import {
@@ -45,7 +45,7 @@ const ProfilePage = () => {
           <GridBox>
             <LeftContainer>
               <HeadingTitle>
-                <Avatar src={userInfo.avatar}></Avatar>
+                <Avatar src={userInfo.avatar || avatar}></Avatar>
                 <Heading22>{userInfo.name}</Heading22>
               </HeadingTitle>
               <Menu>

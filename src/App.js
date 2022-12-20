@@ -25,6 +25,7 @@ import Customer from "./app/containers/customer/Customer";
 import VoucherIndex from "./app/containers/customer/Voucher/VoucherIndex";
 import InvoiceManagementIndex from "./app/containers/admin/invoiceManagement/InvoiceManagementIndex";
 import InvoiceIndex from "./app/containers/customer/InvoiceDetailPage/InvoiceIndex";
+import CallbackPayment from "./app/containers/CallbackPayment";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -42,6 +43,7 @@ function App() {
         <Route path="/adminLogin/*" element={<LoginIndex />} />
         <Route path="/register" element={<RegisterIndex />} />
         <Route path="/callback/:social" element={<CallbackApi />} />
+        <Route path="/payonline/vnpay-return" element={<CallbackPayment/>} />
         <Route path="/*" element={<Customer />} >
           <Route index element={<HomeIndex/>}/>
           <Route path="profile/*" element={<ProtectedCustomerRoute><ProfileIndex/></ProtectedCustomerRoute> }/>

@@ -23,6 +23,7 @@ import { BoxText } from "../../../../sharedComponents/formikCustom/formikCustomC
 import InvoiceApi from "../../../../api/invoiceApi";
 import { removeSelectedItem } from "../../CartPage/CartSlice";
 import { useNavigate } from "react-router-dom";
+import ThankPage from "../components/ThankPage";
 
 const GridBox = styled.div`
   ${tw`
@@ -100,6 +101,7 @@ function CheckoutPage() {
     address: Yup.string().required("Bạn cần phải nhập trường này!"),
   });
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const onSubmit = async (values) => {
     setLoading(true);
     let items = [];
@@ -127,11 +129,15 @@ function CheckoutPage() {
       },
     });
     if (res.data.success) {
+      if(res.data.data) {
+        const url = res.data.data;
+        window.location.href = url;
+      }
+      else {
+        navigate('thank')
+      }
       setLoading(false);
       dispatch(removeSelectedItem())
-      toast.success(res.data.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
     } else {
       setLoading(false);
       toast.error(res.data.message, {
@@ -225,7 +231,7 @@ function CheckoutPage() {
 
   return (
     <Body>
-      <ContentContainer>
+     <ContentContainer>
         <GridBox>
           <LeftContainer>
             <FlexContainer>
@@ -331,7 +337,7 @@ function CheckoutPage() {
             </TotalContainer>
           </RightContainer>
         </GridBox>
-      </ContentContainer>
+      </ContentContainer>       
     </Body>
   );
 }

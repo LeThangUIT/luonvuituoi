@@ -6,6 +6,7 @@ import tw from "twin.macro";
 import { UilBell } from '@iconscout/react-unicons'
 import { PinkButton } from "../../button";
 import { Heading14, Text14 } from "../../text";
+import avatar from "../../../assets/images/avatar.png"
 import {
   UilUser,
   UilShoppingCart,
@@ -98,7 +99,7 @@ export function RightHeader() {
       {userInfo ? (
         <>
           <RelativeDiv onMouseOver={showSubMenu} onMouseLeave={hideSubMenu}>
-            <Avatar src={userInfo.avatar}></Avatar>
+            <Avatar src={userInfo.avatar || avatar}></Avatar>
             {show && (
               <SubNav>
                 <SubMenuItem onClick={() => navigate("/profile")}>
