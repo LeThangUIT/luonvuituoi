@@ -25,6 +25,19 @@ class invoiceApi {
     });
   };
 
+  getAllInvoiceByUser = async ({page, perPage, userToken}) => {
+    const url = `${USER_API_URL}/invoice`;
+    return await axios.get(url, {
+      params: {
+        page, 
+        perPage,
+      },
+      headers: {
+        Authorization: "Bearer " + userToken,
+      },
+    });
+  };
+
   updateInvoice = ({id, status, adminToken}) => {
     const url = `${ADMIN_API_URL}/invoice/${id}`;
     return axios.put(url, {status: status}, {
@@ -39,6 +52,14 @@ class invoiceApi {
     return axios.get(url, {
       headers: {
         Authorization: "Bearer " + adminToken, }
+      },)
+  }
+
+  getInvoiceDetailByUser = ({userToken, invoiceId}) => {
+    const url = `${USER_API_URL}/invoice/${invoiceId}`
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + userToken, }
       },)
   }
 }

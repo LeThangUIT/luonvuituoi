@@ -92,7 +92,12 @@ export const Text16 = styled.span`
 `;
 export const Text14 = styled.span`
   ${tw`
-        not-italic font-medium text-[14px] leading-[17px] text-blackColor 
+       not-italic font-medium text-[14px] leading-[17px] text-blackColor 
+    `}
+`;
+export const BoldText16 = styled.span`
+  ${tw`
+        not-italic font-semibold text-[16px] leading-[19px] text-blackColor 
     `}
 `;
 export const BoldText14 = styled.span`

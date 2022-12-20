@@ -22,7 +22,7 @@ export const RowSpace = styled.tr`
   ${tw` h-3`}
 `;
 export const TableHeading = styled.th`
-  ${tw`text-left pl-4 px-4`}
+  ${tw`text-left pl-4 px-4 whitespace-nowrap`}
 `;
 export const TableData = styled.td`
   ${tw`p-4 whitespace-nowrap `}

@@ -8,9 +8,11 @@ import tw from "twin.macro";
 import { PinkButton } from "../../../../sharedComponents/button";
 import { formatDate } from "../../../../sharedComponents/format";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
+import { Avatar } from "../../../../sharedComponents/header/rightHeader/RightHeader";
 import { StarIcon } from "../../../../sharedComponents/icon/starIcon";
 import { ModalFooter } from "../../../../sharedComponents/modal";
 import ProductImageSlider from "../../../../sharedComponents/slider/ProductImageSlider";
+import avatar from "../../../../assets/images/avatar.png"
 import {
   Table,
   TableBody,
@@ -20,7 +22,7 @@ import {
   TableRow,
 } from "../../../../sharedComponents/table";
 import { Heading16, Heading30, LightText12, Text14 } from "../../../../sharedComponents/text";
-import { CommentFrame, StarGroup } from "../../../customer/DetailPage/pages/DetailPage";
+import { CommentFrame, FlexFrame, StarGroup } from "../../../customer/DetailPage/pages/DetailPage";
 import { FormContainer } from "../../../customer/LoginPage/pages/LoginPage";
 import { getAllCategoriesByAdmin } from "../../categoryManagement/categorySlice";
 import { MainDash } from "../../components/MainDash/MainDash";
@@ -216,23 +218,26 @@ const ProductDetailPage = () => {
                 {productDetail?.reviews.length == 0
                   ? <Text14>không có đánh giá nào.</Text14>
                   : productDetail?.reviews.map((item, index) => 
-                    <CommentFrame>
-                      <Heading16>{item?.user?.name}</Heading16>
-                      <StarGroup>
-                        {
-                            [...Array(item.rating)].map((i, index) => (
-                              <StarIcon size="12" color="#F0A500"></StarIcon>
-                            ))
-                        }
-                        {
-                            [...Array(5 - item.rating)].map((i, index) => (
-                              <StarIcon size="12" color="#818181"></StarIcon>
-                            ))
-                        }
-                      </StarGroup>
-                      <LightText12>{formatDate(item?.createdAt)}</LightText12>
-                      <Text14>{item?.content}</Text14>
-                  </CommentFrame>
+                  <FlexFrame className="pt-2">
+                    <Avatar src={item?.user?.avatar || avatar}/>
+                      <CommentFrame>
+                        <Heading16>{item?.user?.name}</Heading16>
+                        <StarGroup>
+                          {
+                              [...Array(item.rating)].map((i, index) => (
+                                <StarIcon size="12" color="#F0A500"></StarIcon>
+                              ))
+                          }
+                          {
+                              [...Array(5 - item.rating)].map((i, index) => (
+                                <StarIcon size="12" color="#818181"></StarIcon>
+                              ))
+                          }
+                        </StarGroup>
+                        <LightText12>{formatDate(item?.createdAt)}</LightText12>
+                        <Text14>{item?.content}</Text14>
+                    </CommentFrame>
+                  </FlexFrame>
                   )}
               </Label>
             </Group>

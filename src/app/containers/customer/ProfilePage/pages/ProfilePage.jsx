@@ -10,7 +10,7 @@ import {
 import { UilUser, UilStore, UilGift, UilSignInAlt } from "@iconscout/react-unicons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../../Auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Body } from "../../../../sharedComponents/body";
 
   const GridBox = styled.div`
@@ -32,7 +32,7 @@ import { Body } from "../../../../sharedComponents/body";
   `;
 
 const ProfilePage = () => {
-
+  const {userInfo} = useSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleLogout = () => {
@@ -45,15 +45,15 @@ const ProfilePage = () => {
           <GridBox>
             <LeftContainer>
               <HeadingTitle>
-                <Avatar></Avatar>
-                <Heading22>Lê Đức Thắng</Heading22>
+                <Avatar src={userInfo.avatar}></Avatar>
+                <Heading22>{userInfo.name}</Heading22>
               </HeadingTitle>
               <Menu>
                 <MenuItem onClick={() => navigate("info")}>
                   <UilUser></UilUser>
                   <Text14>Thông tin cá nhân</Text14>
                 </MenuItem>
-                <MenuItem onClick={() => navigate("orders")}>
+                <MenuItem onClick={() => navigate("invoices")}>
                   <UilStore></UilStore>
                   <Text14>Danh sách đơn hàng</Text14>
                 </MenuItem>

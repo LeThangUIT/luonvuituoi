@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { UilBell } from '@iconscout/react-unicons'
 import { PinkButton } from "../../button";
 import { Heading14, Text14 } from "../../text";
 import {
@@ -13,6 +14,8 @@ import {
 } from "@iconscout/react-unicons";
 import { logout } from "../../../containers/customer/Auth/authSlice";
 import CartMini from "../../../containers/customer/CheckoutPage/components/CartMini";
+import { showNotification } from "../../../containers/admin/notification/notificationSlice";
+import Notification from "../../../containers/admin/notification/Notification";
 const RightContainer = styled.div`
   ${tw`
         flex justify-between items-center gap-x-6 z-50
@@ -23,8 +26,13 @@ const ShoppingCartIcon = styled(UilShoppingCart)`
        cursor-pointer hover:opacity-80 text-primaryColor 
     `}
 `;
+const NotificationIcon = styled(UilBell)`
+  ${tw`
+       cursor-pointer hover:opacity-80 text-primaryColor 
+    `}
+`;
 export const Avatar = styled.img`
-  ${tw` align-middle w-10 h-10 rounded-full hover:cursor-pointer z-50`}
+  ${tw`align-middle w-10 h-10 rounded-full hover:cursor-pointer z-50`}
 `;
 export const SubNav = styled.div`
   ${tw`
@@ -47,15 +55,16 @@ const RelativeDiv = styled.div`
   ${tw` relative`}
 `;
 
-const Quantity = styled.div`
-  ${tw`absolute top-[-2px] right-[-2px] p-[2px] bg-[ #300F19] rounded-full flex justify-center`}
+export const Quantity = styled.div`
+  ${tw`absolute top-[-2px] right-[-2px] p-[3px] bg-[#E41E3F] rounded-full flex justify-center`}
 `;
-const QuantityText = styled.div`
+export const QuantityText = styled.div`
   ${tw` not-italic font-semibold text-[10px] leading-[13px] text-[#ffffff] min-w-[13px] flex justify-center`}
 `;
 export function RightHeader() {
   const { userInfo } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
+  const {isShow, notifications} = useSelector(state => state.notification)
   const [color, setColor] = useState("white");
   const handleMouseEvent = () => {
     setColor("#EE4C7E");
@@ -87,25 +96,36 @@ export function RightHeader() {
   return (
     <RightContainer>
       {userInfo ? (
-        <RelativeDiv onMouseOver={showSubMenu} onMouseLeave={hideSubMenu}>
-          <Avatar src={userInfo.avatar}></Avatar>
-          {show && (
-            <SubNav>
-              <SubMenuItem onClick={() => navigate("/profile")}>
-                <UilUser size={17}></UilUser>
-                <Heading14>Thông tin cá nhân</Heading14>
-              </SubMenuItem>
-              <SubMenuItem onClick={() => navigate("/profile/orders")}>
-                <UilStore size={17}></UilStore>
-                <Heading14>Danh sách đơn hàng</Heading14>
-              </SubMenuItem>
-              <SubMenuItem onClick={handleLogout}>
-                <UilSignInAlt size={17}></UilSignInAlt>
-                <Heading14>Đăng xuất</Heading14>
-              </SubMenuItem>
-            </SubNav>
-          )}
-        </RelativeDiv>
+        <>
+          <RelativeDiv onMouseOver={showSubMenu} onMouseLeave={hideSubMenu}>
+            <Avatar src={userInfo.avatar}></Avatar>
+            {show && (
+              <SubNav>
+                <SubMenuItem onClick={() => navigate("/profile")}>
+                  <UilUser size={17}></UilUser>
+                  <Heading14>Thông tin cá nhân</Heading14>
+                </SubMenuItem>
+                <SubMenuItem onClick={() => navigate("/profile/invoices")}>
+                  <UilStore size={17}></UilStore>
+                  <Heading14>Danh sách đơn hàng</Heading14>
+                </SubMenuItem>
+                <SubMenuItem onClick={handleLogout}>
+                  <UilSignInAlt size={17}></UilSignInAlt>
+                  <Heading14>Đăng xuất</Heading14>
+                </SubMenuItem>
+              </SubNav>
+            )}
+          </RelativeDiv>
+          <RelativeDiv>
+            <NotificationIcon size={36} onClick={() => dispatch(showNotification())}></NotificationIcon>
+            {isShow && <Notification></Notification>}
+            {notifications.notReadCount != 0 && 
+              <Quantity>
+                <QuantityText>{notifications.notReadCount}</QuantityText>
+              </Quantity>
+        }
+          </RelativeDiv>
+        </>
       ) : (
         <PinkButton
           onMouseOver={handleMouseEvent}

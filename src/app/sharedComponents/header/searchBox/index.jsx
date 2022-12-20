@@ -23,7 +23,7 @@ export const SearchIcon = styled.svg`
 `;
 
 // Hook
-function useOnClickOutside(ref, handler) {
+export function useOnClickOutside(ref, handler) {
   useEffect(
     () => {
       const listener = (event) => {

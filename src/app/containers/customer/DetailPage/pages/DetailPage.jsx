@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { Body } from "../../../../sharedComponents/body";
 import { HeadingTitle } from "../../HomePage/components/content";
 import { UilAngleRightB } from "@iconscout/react-unicons";
+import avatar from "../../../../assets/images/avatar.png"
 import {
   DisableButton,
   PinkButton,
@@ -14,6 +15,7 @@ import { UilShoppingCart } from "@iconscout/react-unicons";
 import {
   Heading14,
   Heading16,
+  Heading22,
   Heading26,
   LightText12,
   LightText14,
@@ -28,6 +30,7 @@ import Quantity from "../components/Quantity";
 import QuantityComponent from "../components/Quantity";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addReview,
   fetchProductDetail,
   getByOptionAnother,
 } from "../../../admin/productManagement/productSlice";
@@ -38,13 +41,25 @@ import {
   useParams,
 } from "react-router-dom";
 import ProductApi from "../../../../api/productApi";
-import { addCartLocal, addToCart, changeNumber, changeQuantity } from "../../CartPage/CartSlice";
+import {
+  addCartLocal,
+  addToCart,
+  changeNumber,
+  changeQuantity,
+} from "../../CartPage/CartSlice";
 import { setBeforeLoginRoute } from "../../Auth/authSlice";
+import { Avatar } from "../../../../sharedComponents/header/rightHeader/RightHeader";
+import { formatDate } from "../../../../sharedComponents/format";
+import { Form, Formik } from "formik";
+import { FormContainer } from "../../LoginPage/pages/LoginPage";
+import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
+import * as Yup from "yup";
+
 
 const ContentContainer = styled.div`
   ${tw`
         w-full 
-        lg:py-5
+        lg:py-10
         lg:px-40
         md:px-10
         px-2 
@@ -107,22 +122,28 @@ const RatingGroup = styled.div`
   ${tw` flex flex-row items-center gap-3`}
 `;
 const RatingButton = styled.button`
-  ${tw` bg-white rounded-lg px-5 py-2 border border-solid border-[#EEEEEE]`}
+  ${tw` bg-white rounded-lg px-5 py-2 border border-solid border-[#EEEEEE] disabled:opacity-50 disabled:border-primaryColor`}
 `;
+export const FlexFrame = styled.div`
+  ${tw` flex flex-row items-start gap-1`}
+`
 export const CommentFrame = styled.div`
-  ${tw` flex flex-col items-start gap-2 pl-12 pb-8`}
+  ${tw` flex flex-col items-start gap-2 pb-8`}
 `;
 export const StarGroup = styled.div`
   ${tw` flex flex-row items-center gap-1`}
 `;
+const ReviewFrame = styled.div`
+  ${tw` p-8 flex flex-col gap-8 border border-solid mt-8`}
+`
 function DetailPage() {
   const navigate = useNavigate();
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
   let { productId } = useParams();
-  const { productDetail, variantId } = useSelector((state) => state.product);
-  const { loading } = useSelector((state) => state.cart);
+  const { productDetail, variantId, loading } = useSelector((state) => state.product);
+  const { loading: loadingOption } = useSelector((state) => state.cart);
   const userToken = localStorage.getItem("userToken");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -213,6 +234,32 @@ function DetailPage() {
     //   }
     // }
   };
+  const [selected, setSelected] = useState(0)
+  console.log(productDetail)
+  const [listReview, setListReview] = useState(productDetail?.reviews)
+  useEffect(() => { setListReview(productDetail?.reviews)}, [productDetail] )
+  const setReviews = (number) => {
+    setSelected(number)
+    if(number) {
+      setListReview(productDetail.reviews.filter(item => item.rating == number))
+    }
+    else {
+      setListReview(productDetail.reviews)
+    }
+  }
+  const initialValues = {
+    content: "",
+    rating: "",
+  };
+  const validationSchema = Yup.object({
+    content: Yup.string()
+      .required("Bạn cần phải nhập trường này!"),
+    rating: Yup.string()
+      .required("Bạn cần phải nhập trường này!")
+  });
+  const onSubmit = (values) => {
+    dispatch(addReview({userToken, data: {productId: productDetail.id, ...values}}))
+  }
   return (
     <Body>
       {productDetail ? (
@@ -225,17 +272,37 @@ function DetailPage() {
               <ContentSection>
                 <NameProduct>{productDetail.name}</NameProduct>
                 <EvaluationFrame>
-                  <StartFrame>
-                    <StarIcon size="20" color="#F0A500"></StarIcon>
-                    <StarIcon size="20" color="#F0A500"></StarIcon>
-                    <StarIcon size="20" color="#F0A500"></StarIcon>
-                    <StarIcon size="20" color="#F0A500"></StarIcon>
-                    <StarIcon size="20" color="#818181"></StarIcon>
-                  </StartFrame>
+                  {productDetail.averageRating == null ? (
+                    <StartFrame>
+                      {[...Array(5)].map((i, index) => (
+                        <StarIcon size="20" color="#F0A500"></StarIcon>
+                      ))}
+                    </StartFrame>
+                  ) : (
+                    <StartFrame>
+                      {[...Array(productDetail.averageRating)].map(
+                        (i, index) => (
+                          <StarIcon size="20" color="#F0A500"></StarIcon>
+                        )
+                      )}
+                      {[...Array(5 - productDetail.averageRating)].map(
+                        (i, index) => (
+                          <StarIcon size="20" color="#818181"></StarIcon>
+                        )
+                      )}
+                    </StartFrame>
+                  )}
                   <Line></Line>
-                  <LightText14>Xem 21 đánh giá</LightText14>
+                  {productDetail.countReview == 0 ? (
+                    <LightText14>Chưa có đánh giá</LightText14>
+                  ) : (
+                    <LightText14>Xem 21 đánh giá</LightText14>
+                  )}
+
                   <Line></Line>
-                  <LightText14>Đã bán 16</LightText14>
+                  <LightText14>
+                    Đã bán {productDetail.countPurchased}
+                  </LightText14>
                 </EvaluationFrame>
                 <Price>đ {formatter.format(productDetail.price)}</Price>
                 {productDetail.options.map((option, index) => (
@@ -283,7 +350,7 @@ function DetailPage() {
                   {(variantId && productDetail.options.length != 0) ||
                   productDetail.options.length == 0 ? (
                     <PinkButton
-                      disabled={loading}
+                      disabled={loadingOption}
                       onClick={() =>
                         handleAddToCart({
                           variantId,
@@ -339,58 +406,94 @@ function DetailPage() {
               <DescriptionSection>
                 <FilterEvaluationFrame>
                   <RatingFrame>
-                    <PinkHeading48>5</PinkHeading48>
+                    <PinkHeading48>{productDetail.averageRating}</PinkHeading48>
                     <PinkHeading16>/</PinkHeading16>
                     <PinkHeading16>5</PinkHeading16>
                     <StarIcon size="16" color="#F0A500"></StarIcon>
                   </RatingFrame>
                   <RatingGroup>
-                    <RatingButton>
+                    <RatingButton onClick={() => setReviews(0)} disabled={selected == 0}>
                       <Text14>Tất cả</Text14>
                     </RatingButton>
-                    <RatingButton>
+                    <RatingButton onClick={() => setReviews(5)} disabled={selected == 5}>
                       <Text14>5 sao</Text14>
                     </RatingButton>{" "}
-                    <RatingButton>
+                    <RatingButton onClick={() => setReviews(4)} disabled={selected == 4}>
                       <Text14>4 sao</Text14>
                     </RatingButton>{" "}
-                    <RatingButton>
+                    <RatingButton onClick={() => setReviews(3)} disabled={selected == 3}>
                       <Text14>3 sao</Text14>
-                    </RatingButton>{" "}
-                    <RatingButton>
+                    </RatingButton >{" "}
+                    <RatingButton onClick={() => setReviews(2)} disabled={selected == 2}>
                       <Text14>2 sao</Text14>
                     </RatingButton>
-                    <RatingButton>
+                    <RatingButton onClick={() => setReviews(1)} disabled={selected == 1}>
                       <Text14>1 sao</Text14>
                     </RatingButton>
                   </RatingGroup>
                 </FilterEvaluationFrame>
-                <CommentFrame>
-                  <Heading16>Le Duc Thang</Heading16>
-                  <StarGroup>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                  </StarGroup>
-                  <LightText12>2:06 11/10/2022</LightText12>
-                  <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-                </CommentFrame>
-                <CommentFrame>
-                  <Heading16>Bui Thanh Tra</Heading16>
-                  <StarGroup>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#F0A500"></StarIcon>
-                    <StarIcon size="12" color="#818181"></StarIcon>
-                  </StarGroup>
-                  <LightText12>2:06 11/10/2022</LightText12>
-                  <Text14>Giao hàng nhanh, đẹp, bé nhà mình thích lắm</Text14>
-                </CommentFrame>
+                {listReview?.length == 0 ? <LightText14>Chưa có đánh giá</LightText14> :
+                <>
+                  {listReview?.map(item => (
+                    <FlexFrame>
+                      <Avatar src={item.user.avatar || avatar}/>
+                      <CommentFrame>
+                        <Heading16>{item.user.name}</Heading16>
+                        <StarGroup>
+                          {
+                              [...Array(item.rating)].map((i, index) => (
+                                <StarIcon size="12" color="#F0A500"></StarIcon>
+                              ))
+                          }
+                          {
+                              [...Array(5 - item.rating)].map((i, index) => (
+                                <StarIcon size="12" color="#818181"></StarIcon>
+                              ))
+                          }
+                        </StarGroup>
+                        <LightText12>{formatDate(item.createdAt)}</LightText12>
+                        <Text14>{item.content}</Text14>
+                      </CommentFrame>
+                    </FlexFrame>           
+                  ))}
+                </> 
+                }
               </DescriptionSection>
             </ContentSection>
+            {productDetail.isCanReview && 
+              <ReviewFrame>
+                <HeadingTitle>
+                <Heading22>Đánh giá của bạn</Heading22>
+                <UilAngleRightB></UilAngleRightB>
+              </HeadingTitle>
+              <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {(formik) => {
+              return (
+                <Form>
+                  <FormContainer>
+                    <FormikControl
+                      control="input"
+                      type="text"
+                      name="content"
+                    />
+                    <FormikControl
+                      control="stars"
+                      name="rating"
+                    />
+                    <PinkButton disabled={loading} type="submit">
+                      Gửi đánh giá
+                    </PinkButton>
+                  </FormContainer>
+                </Form>
+              );
+            }}
+          </Formik>
+              </ReviewFrame>
+            }
           </ContentContainer>
         </>
       ) : (

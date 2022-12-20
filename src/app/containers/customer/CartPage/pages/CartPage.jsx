@@ -50,7 +50,7 @@ import { Body } from "../../../../sharedComponents/body";
 import { formatter } from "../../../../sharedComponents/format";
 
 const TotalContainer = styled.div`
-  ${tw`  w-full height[fit-content] box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm`}
+  ${tw`  w-full  box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm`}
 `;
 const FlexContainer = styled.div`
   ${tw` w-full flex flex-row items-center justify-between`}

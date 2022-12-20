@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 
 const Star = styled.svg`
-  ${tw``}
+  ${tw` hover:cursor-pointer`}
 `;
 export function StarIcon( props) {
   return (

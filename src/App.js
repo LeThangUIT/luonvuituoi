@@ -24,6 +24,7 @@ import ProtectedCustomerRoute from "./app/sharedComponents/protectedRoute/Protec
 import Customer from "./app/containers/customer/Customer";
 import VoucherIndex from "./app/containers/customer/Voucher/VoucherIndex";
 import InvoiceManagementIndex from "./app/containers/admin/invoiceManagement/InvoiceManagementIndex";
+import InvoiceIndex from "./app/containers/customer/InvoiceDetailPage/InvoiceIndex";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -44,9 +45,10 @@ function App() {
         <Route path="/*" element={<Customer />} >
           <Route index element={<HomeIndex/>}/>
           <Route path="profile/*" element={<ProtectedCustomerRoute><ProfileIndex/></ProtectedCustomerRoute> }/>
-          <Route path="checkout" element={<ProtectedCustomerRoute><CheckoutIndex /></ProtectedCustomerRoute>} />
+          <Route path="checkout/*" element={<ProtectedCustomerRoute><CheckoutIndex /></ProtectedCustomerRoute>} />
           <Route path="cart" element={<ProtectedCustomerRoute><CartIndex /></ProtectedCustomerRoute>} />
           <Route path="detail/:productId" element={<DetailIndex />} />
+          <Route path="invoice/:invoiceId" element={<InvoiceIndex />} />
           <Route path="product/*" element={<ProductIndex />} />
           <Route path="voucher" element={<VoucherIndex />} />
         </Route>

@@ -17,9 +17,6 @@ export default function ProductPage() {
         dispatch(getAllProducts({page:"1", perPage:"16"}))
     }, [])
     
-    const formatter = new Intl.NumberFormat("en-US", {
-        minimumFractionDigits: 0,
-      });
     return (
             <Body>
                 <ContentContainer>

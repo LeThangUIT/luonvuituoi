@@ -38,6 +38,7 @@
     overflow: hidden;
     grid-template-columns: 11rem auto;  
     gap: 10px;
+    position: relative;
   }
   
   @media screen and (max-width: 1200px) {

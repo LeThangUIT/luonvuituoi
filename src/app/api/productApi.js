@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_API_URL, API_URL } from "../constant";
+import { ADMIN_API_URL, API_URL, USER_API_URL } from "../constant";
 
 class propductApi {
   addProduct = ({ data, adminToken }) => {
@@ -50,7 +50,7 @@ class propductApi {
     return axios.get(url,  {
       headers: {
         Authorization: "Bearer " + userToken, }
-      },)
+      })
   }
 
   getProductDetailByAdmin = ({adminToken, productId}) => {
@@ -64,6 +64,14 @@ class propductApi {
   getOption = (optionValues) => {
     const url = `${API_URL}/option/GetByAnother`
     return axios.post(url, optionValues)
+  }
+
+  addReview = ({userToken, data}) => {
+    const url = `${USER_API_URL}/review`
+    return axios.post(url, data,{
+      headers: {
+        Authorization: "Bearer " + userToken, }
+      })
   }
 }
 const ProductApi = new propductApi();

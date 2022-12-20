@@ -16,11 +16,13 @@ import * as Yup from "yup";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import { PinkButton, WhiteButton } from "../../../../sharedComponents/button";
 import AddressApi from "../../../../api/addressApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartMini from "../components/CartMini";
 import { Body } from "../../../../sharedComponents/body";
 import { BoxText } from "../../../../sharedComponents/formikCustom/formikCustomControl/Input";
 import InvoiceApi from "../../../../api/invoiceApi";
+import { removeSelectedItem } from "../../CartPage/CartSlice";
+import { useNavigate } from "react-router-dom";
 
 const GridBox = styled.div`
   ${tw`
@@ -48,6 +50,11 @@ const TotalContainer = styled.div`
 `;
 
 function CheckoutPage() {
+  // function navigateCart()
+  // {
+  //   window.location.href = "/cart"
+  // }
+  // window.onbeforeunload = navigateCart;
   const { userInfo } = useSelector((state) => state.auth);
   const { cart, isCheckAll } = useSelector((state) => state.cart);
   const [provinces, setProvinces] = useState([
@@ -92,7 +99,7 @@ function CheckoutPage() {
     wardId: Yup.string().required("Bạn cần phải nhập trường này!"),
     address: Yup.string().required("Bạn cần phải nhập trường này!"),
   });
-
+  const dispatch = useDispatch()
   const onSubmit = async (values) => {
     setLoading(true);
     let items = [];
@@ -119,9 +126,9 @@ function CheckoutPage() {
         items: items,
       },
     });
-    console.log(res);
     if (res.data.success) {
       setLoading(false);
+      dispatch(removeSelectedItem())
       toast.success(res.data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -135,12 +142,10 @@ function CheckoutPage() {
   const formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   });
-  // const dispatch = useDispatch()
   useEffect(() => {
     async function fetchData() {
       const res = await AddressApi.getProvince(userToken);
       setProvinces((prev) => [prev[0], ...res.data.data]);
-      // dispatch(fetchUserInfo(userToken))
     }
     fetchData();
   }, []);
@@ -163,6 +168,7 @@ function CheckoutPage() {
   const [code, setCode] = useState("");
   const handleChangeCode = (e) => {
     setCode(e.target.value);
+    setReduce(0)
   };
   const { listVoucher } = useSelector((state) => state.voucher);
   const [loading, setLoading] = useState(false);
@@ -178,7 +184,7 @@ function CheckoutPage() {
           switch (item.discountType) {
             case "money":
               if (item.condition <= totalPrice) {
-                setReduce(totalPrice - item.value);
+                setReduce(item.value);
                 message.text = "Áp dụng thành công!";
                 message.type = "success";
               } else {

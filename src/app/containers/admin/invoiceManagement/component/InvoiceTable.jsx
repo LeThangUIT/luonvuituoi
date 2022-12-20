@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AddButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { formatDate, formatter } from '../../../../sharedComponents/format'
@@ -8,6 +8,7 @@ import { ButtonGroup } from '../../categoryManagement/components/TableCategory';
 import { setInvoice, showInvoiceModal } from '../InvoiceSlice';
 
 function InvoiceTable( {listInvoice}) {
+  const {adminInfo} = useSelector(state => state.auth)
   function DeliveryCase(props) {
     switch(props.value) {
       case 0:
@@ -42,15 +43,20 @@ function InvoiceTable( {listInvoice}) {
   }
 
   const handleDetail = (item) => {
-    dispatch(setInvoice({data: item}))
-    navigate(`${item.id}`)
+    // dispatch(setInvoice({data: item}))
+    if(adminInfo) {
+      navigate(`${item.id}`)
+    }
+    else {
+      navigate(`/invoice/${item.id}`)
+    }
   }
   const navigate = useNavigate()
   return (
     <Table>
     <TableHead>
       <TableRow>
-        <TableHeading>Tên khách hàng</TableHeading>
+        {adminInfo && <TableHeading>Tên khách hàng</TableHeading>}
         <TableHeading>Thành tiền</TableHeading>
         <TableHeading>Ngày mua</TableHeading>
         <TableHeading>Hình thức</TableHeading>
@@ -63,7 +69,7 @@ function InvoiceTable( {listInvoice}) {
     {listInvoice?.items && listInvoice.items.map((item, index) => {
       return(
         <TableRow key={index}>
-            <TableData>{item.receiverName}</TableData>
+            {adminInfo && <TableData>{item.receiverName}</TableData>}
             <TableData>{formatter.format(item.total)}</TableData>
             <TableData>{formatDate(item.orderDate)}</TableData>
             <TableData>{item.payment}</TableData>
@@ -75,7 +81,7 @@ function InvoiceTable( {listInvoice}) {
             </TableData>
             <TableData>
               <ButtonGroup>
-                <UpdateButton onClick={() => {handleUpdate(item)}}>Cập nhật</UpdateButton>
+                {adminInfo && <UpdateButton onClick={() => {handleUpdate(item)}}>Cập nhật</UpdateButton>}
                 <DetailButton onClick={() => handleDetail(item)}>Chi tiết</DetailButton>
               </ButtonGroup>
             </TableData>

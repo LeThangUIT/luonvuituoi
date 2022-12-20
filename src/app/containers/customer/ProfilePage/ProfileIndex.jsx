@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Info from './pages/Info'
-import OrdersList from './pages/OrdersList'
+import InvoicesList from './pages/InvoicesList'
+
 import ProfilePage from './pages/ProfilePage'
 import VouchersList from './pages/VouchersList'
 
@@ -11,7 +12,7 @@ function ProfileIndex() {
               <Route path='/' element={<ProfilePage/>} >
                 <Route index element={<Info />} />
                 <Route path='info' element={<Info />} />
-                <Route path="orders" element={<OrdersList />} />
+                <Route path="invoices" element={<InvoicesList />} />
                 <Route path="vouchers" element={<VouchersList />} />
               </Route>
           </Routes>

@@ -83,6 +83,11 @@ const CartSlice = createSlice({
           delete element.checked
         }
       });
+    },
+
+    removeSelectedItem: (state, action) => {
+      state.cart = state.cart.filter(item => item.checked != true)
+      state.isCheckAll = false
     }
 
     // deleteCartLocal: (state, action) => {
@@ -154,6 +159,6 @@ const CartSlice = createSlice({
 });
 
 export const { reducer: CartReducer, actions } = CartSlice;
-export const { changeNumber, deleteCartLocal, addCartLocal,setSelectAll, setSelectedCart, unSelectCart, selectCart} =
+export const { changeNumber, deleteCartLocal, addCartLocal,setSelectAll, setSelectedCart, unSelectCart, selectCart, removeSelectedItem} =
   actions;
 export default CartReducer;

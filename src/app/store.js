@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import CategoryReducer from "./containers/admin/categoryManagement/categorySlice";
 import { InvoiceReducer } from "./containers/admin/invoiceManagement/InvoiceSlice";
+import NotificationReducer from "./containers/admin/notification/notificationSlice";
 import ProductReducer from "./containers/admin/productManagement/productSlice";
 import { UserReducer } from "./containers/admin/userManagement/UserSlice";
 import { VoucherReducer } from "./containers/admin/voucherManagement/VoucherSlice";
@@ -16,6 +17,7 @@ const store = configureStore({
     invoice: InvoiceReducer,
     voucher: VoucherReducer,
     user: UserReducer,
+    notification: NotificationReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

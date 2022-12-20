@@ -7,6 +7,7 @@ import ImagesInput from "./formikCustomControl/ImagesInput";
 import Input from "./formikCustomControl/Input";
 import Radiobutton from "./formikCustomControl/RadioButton";
 import Select from "./formikCustomControl/Select";
+import StarsInput from "./formikCustomControl/StarsInput";
 import Textarea from "./formikCustomControl/Textarea";
 
 const FormikControl = (props) => {
@@ -30,6 +31,8 @@ const FormikControl = (props) => {
       return <Checkbox {...rest} />;
     case "time":
       return <Datetimepicker {...rest} />
+    case "stars":
+      return <StarsInput {...rest} />
     default:
       return null;
   }

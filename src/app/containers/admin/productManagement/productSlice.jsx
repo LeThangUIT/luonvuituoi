@@ -57,6 +57,13 @@ export const getByOptionAnother = createAsyncThunk(
     }
 )
 
+export const addReview = createAsyncThunk(
+    "product/addReview",
+    async(data) => {
+        const res = await ProductApi.addReview(data);
+        return res.data;
+    }
+)
 const ProductSlice = createSlice({
     name: 'product',
     initialState: {
@@ -124,6 +131,17 @@ const ProductSlice = createSlice({
             state.loading = false
         },
         [getAllProducts.rejected](state) {
+            state.loading = false
+        },
+
+        [addReview.pending](state) {
+            state.loading = true
+        },
+        [addReview.fulfilled](state, action) {
+            state.productDetail.reviews = [action.payload.data, ...state.productDetail.reviews]
+            state.loading = false
+        },
+        [addReview.rejected](state) {
             state.loading = false
         },
 

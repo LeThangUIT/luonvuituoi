@@ -5,9 +5,9 @@ import { HTTP_STATUS } from "../../../constant";
 
 export const admin = createAsyncThunk(
     'auth/admin', 
-    async ( {rejectWithValue}) => {
+    async (adminToken, {rejectWithValue}) => {
         try{
-            const response = await AuthApi.apiMe()
+            const response = await AuthApi.apiMe(adminToken)
             return response.data
         } catch(error) {       
             return rejectWithValue(error.response.data)
@@ -86,6 +86,7 @@ const AuthSlice = createSlice({
         userToken: "",
         adminToken: "",
         userInfo: "",
+        adminInfo: "",
         beforeLogin: "/"
     },
     reducers: {
@@ -101,7 +102,7 @@ const AuthSlice = createSlice({
 
         adminLogout: (state, action) => {
             state.adminToken = ""
-            state.adminToken = ""
+            state.isAdmin = false
             localStorage.removeItem("adminToken")
 
         }
@@ -132,6 +133,7 @@ const AuthSlice = createSlice({
 
         [adminLogin.pending]: (state, action) => {
             state.loading = true
+            
         },
         [adminLogin.fulfilled]: (state, action) => {
             state.loading = false
@@ -167,7 +169,9 @@ const AuthSlice = createSlice({
         },
         [admin.fulfilled]: (state, action) => {
             state.loading = false
+            console.log(action)
             state.isAdmin = action.payload.data.success
+            state.adminInfo = action.payload.data
         },
         [admin.rejected]: (state, action) => {
             state.loading = false

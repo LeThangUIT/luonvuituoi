@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { getAllCategoriesByAdmin } from '../../containers/admin/categoryManagement/categorySlice'
-import { getAllInvoiceByAdmin } from '../../containers/admin/invoiceManagement/InvoiceSlice'
+import { getAllInvoiceByAdmin, getAllInvoiceByUser } from '../../containers/admin/invoiceManagement/InvoiceSlice'
 import { getAllProducts, getAllProductsByAdmin } from '../../containers/admin/productManagement/productSlice'
 import { getAllUsers } from '../../containers/admin/userManagement/UserSlice'
 import { getAllVouchersByAdmin } from '../../containers/admin/voucherManagement/VoucherSlice'
@@ -18,6 +18,7 @@ const Item = styled.button`
 
 const PagingComponent = ({type, pageCount}) => {
   const adminToken = localStorage.getItem("adminToken");
+  const userToken = localStorage.getItem("userToken");
   const dispatch = useDispatch()
   const handlePageClick = async (data) => {
     let pageNumber = data.selected + 1
@@ -39,6 +40,9 @@ const PagingComponent = ({type, pageCount}) => {
           break;
         case "invoiceByAdmin":
           await dispatch(getAllInvoiceByAdmin({page:pageNumber, perPage:"8", adminToken})) 
+          break;
+        case "invoiceByUser":
+          await dispatch(getAllInvoiceByUser({page:pageNumber, perPage:"8", userToken})) 
           break;
         case "notification":
           break;
