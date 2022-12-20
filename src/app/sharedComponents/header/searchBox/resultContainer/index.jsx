@@ -4,7 +4,7 @@ import tw from "twin.macro";
 
 const ResultBox = styled.div`
   ${tw`
-         shadow-md  bg-white min-w-full rounded-lg absolute top-full left-0 min-h-full flex flex-col 
+         shadow-md  bg-white min-w-full rounded-lg absolute top-full left-0 min-h-full flex flex-col z-50
     `}
 `;
 const ResultText = styled.span`

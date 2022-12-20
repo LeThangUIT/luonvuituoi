@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { UilAngleRightB } from '@iconscout/react-unicons'
-import { listProduct } from "./data";
 import { Heading26, LightText14, Heading14 } from "../../../../../sharedComponents/text";
 import { ProductsSlider } from "../../../../../sharedComponents/slider/ProductSlider";
+import { useSelector } from "react-redux";
 
 
 export const ContentContainer = styled.div`
@@ -65,6 +65,7 @@ const RelativeDiv = styled.div`
 `;
 
 export function Content() {
+  const {listProducts} = useSelector(state => state.product)
   const [gio, setGio] = useState(1);
   const [phut, setPhut] = useState(0);
   const [giay, setGiay] = useState(0);
@@ -140,7 +141,7 @@ export function Content() {
           <LightText14>135 khuyến mãi</LightText14>
         </Title>
         <RelativeDiv>
-          <ProductsSlider data={listProduct}></ProductsSlider>
+          {listProducts && <ProductsSlider data={listProducts.items}></ProductsSlider>}
         </RelativeDiv>
       </ContentContainer>
     </>

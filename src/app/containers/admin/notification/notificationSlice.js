@@ -62,6 +62,7 @@ const NotificationSlice = createSlice({
           },
         setNotifications: (state, action) => {
             state.notifications.items = [action.payload, ...state.notifications.items]
+            state.notifications.notReadCount += 1
         }
     },
     extraReducers: {

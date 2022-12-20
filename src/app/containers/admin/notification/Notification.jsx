@@ -11,6 +11,7 @@ import { getAllNotificationsByAdmin, getAllNotificationsByCustomer, hideNotifica
 import avatar from "../../../assets/images/avatar.png"
 import logo from "../../../assets/images/Lamborghini-Logo.png"
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../../sharedComponents/format";
 
 const Frame = styled.div`
   ${tw`bg-white z-50 flex flex-col gap-1 py-2 px-1 rounded-lg absolute top-[120%] right-0 shadow-lg`}
@@ -114,7 +115,7 @@ const Notification = () => {
               {adminInfo ? <Avatar src={item.imageUrl || avatar}/> :  <Avatar src={logo}/>}    
                 <ContentFrame>
                 <Text14 >{item.content}</Text14>
-                <LightText12>{item.createdAt}</LightText12>
+                <LightText12>{formatDate(item.createdAt)}</LightText12>
                 </ContentFrame>
                 {!item.readAt && <Mask></Mask>}     
             </Item>

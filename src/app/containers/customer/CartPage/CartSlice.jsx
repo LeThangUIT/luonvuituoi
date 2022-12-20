@@ -105,6 +105,7 @@ const CartSlice = createSlice({
     [addToCart.fulfilled](state, action) {
       state.loading = false;
       state.cart.push(action.payload.newCart);
+      state.isCheckAll = false
     },
     [addToCart.rejected](state) {
       state.loading = false;

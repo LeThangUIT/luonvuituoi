@@ -39,13 +39,12 @@ export function Footer() {
       <ColumnContainer>
         <HeaderColumnText>Về chúng tôi</HeaderColumnText>
         <BodyColumn>
-          <BodyColumnText>CÔNG TY CỔ PHẦN BẢO ANH ANH</BodyColumnText>
+          <BodyColumnText>Trường Đại học Công nghệ Thông tin</BodyColumnText>
           <BodyColumnText>
-            Địa chỉ: Số 6, Đường 22, Khu phố 2, Phường An Khánh, Thành phố Thủ
-            Đức, Thành phố Hồ Chí Minh, Việt Nam
+            Địa chỉ: Khu phố 6, Phường Linh Trung, TP. Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam
           </BodyColumnText>
-          <BodyColumnText>Điện thoại: 0768865858</BodyColumnText>
-          <BodyColumnText>Email: hello@baababy.com.vn</BodyColumnText>
+          <BodyColumnText>Điện thoại: 0123456789</BodyColumnText>
+          <BodyColumnText>Email: uit@gmail.com</BodyColumnText>
         </BodyColumn>
       </ColumnContainer>
       <ColumnContainer>
@@ -63,9 +62,9 @@ export function Footer() {
         <HeaderColumnText>Thông tin liên hệ</HeaderColumnText>
         <BodyColumn>
           <BodyColumnText>
-            CSKH 028 2262 5858 - Đơn hàng 07 6886 5858
+            CSKH 19522197 - Đơn hàng 19522226
           </BodyColumnText>
-          <BodyColumnText>Mua hàng 07 6886 5858</BodyColumnText>
+          <BodyColumnText>Mua hàng 0123456789</BodyColumnText>
           <BodyColumnText>Email</BodyColumnText>
         </BodyColumn>
       </ColumnContainer>

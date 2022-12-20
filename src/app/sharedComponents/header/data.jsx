@@ -30,16 +30,16 @@ export let listMenu = [
     ],
     path: "/product"
   },
-  {
-    name: "Tra cứu đơn hàng",
-    subMenu: [
-    ],
-    path: "/product"
-  },
-  {
-    name: "Theo dõi đơn hàng",
-    subMenu: [
-    ],
-    path: "/product"
-  },
+  // {
+  //   name: "Tra cứu đơn hàng",
+  //   subMenu: [
+  //   ],
+  //   path: "/product"
+  // },
+  // {
+  //   name: "Theo dõi đơn hàng",
+  //   subMenu: [
+  //   ],
+  //   path: "/product"
+  // },
 ];

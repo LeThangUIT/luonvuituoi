@@ -71,13 +71,13 @@ function ProductTable({ listProducts }) {
                 <TableData>{item.quantity}</TableData>
                 <TableData>
                   <ButtonGroup>
-                    <UpdateButton
+                    {/* <UpdateButton
                       onClick={() => {
                         handleUpdate(item);
                       }}
                     >
                       Cập nhật
-                    </UpdateButton>
+                    </UpdateButton> */}
                     <DeleteButton
                       onClick={() => {
                         handleDelete(item.id);
