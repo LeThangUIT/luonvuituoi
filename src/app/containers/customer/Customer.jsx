@@ -34,10 +34,10 @@ function Customer() {
   }
   useEffect(() => {
     dispatch(getAllCategories())
+    dispatch(getAllVouchers())
     if(userToken) {
       dispatch(fetchUserInfo(userToken))
       dispatch(getCart(userToken))
-      dispatch(getAllVouchers())
       dispatch(getAllNotificationsByCustomer({userToken, paging: 1, perPage:10}))
     }
   }, [])

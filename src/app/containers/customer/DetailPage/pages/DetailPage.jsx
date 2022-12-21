@@ -54,6 +54,7 @@ import { Form, Formik } from "formik";
 import { FormContainer } from "../../LoginPage/pages/LoginPage";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import * as Yup from "yup";
+import LoadingComponent from "../../../../sharedComponents/loading";
 
 
 const ContentContainer = styled.div`
@@ -199,21 +200,31 @@ function DetailPage() {
           });
         }
       } else {
-        dispatch(
-          changeNumber({
-            quantity: data.quantity + cart[index].quantity,
-            variantId: data.variantId,
-            productId: data.productId,
-          })
-        );
-        dispatch(
-          changeQuantity({
-            userToken,
-            quantity: data.quantity + cart[index].quantity,
-            variantId: data.variantId,
-            productId: data.productId,
-          })
-        );
+        if(data.quantity + cart[index].quantity <= 10) {
+          dispatch(
+            changeNumber({
+              quantity: data.quantity + cart[index].quantity,
+              variantId: data.variantId,
+              productId: data.productId,
+            })
+          );
+          dispatch(
+            changeQuantity({
+              userToken,
+              quantity: data.quantity + cart[index].quantity,
+              variantId: data.variantId,
+              productId: data.productId,
+            })
+          );
+          toast.success("Thêm giỏ hàng thành công", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+        else {
+          toast.error("Vui lòng giảm số lượng sản phẩm!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
       }
     } else {
       // dispatch(setBeforeLoginRoute(currentPath.pathname))
@@ -235,7 +246,6 @@ function DetailPage() {
     // }
   };
   const [selected, setSelected] = useState(0)
-  console.log(productDetail)
   const [listReview, setListReview] = useState(productDetail?.reviews)
   useEffect(() => { setListReview(productDetail?.reviews)}, [productDetail] )
   const setReviews = (number) => {
@@ -296,7 +306,7 @@ function DetailPage() {
                   {productDetail.countReview == 0 ? (
                     <LightText14>Chưa có đánh giá</LightText14>
                   ) : (
-                    <LightText14>Xem 21 đánh giá</LightText14>
+                    <LightText14>{productDetail.countReview} lượt đánh giá</LightText14>
                   )}
 
                   <Line></Line>
@@ -304,7 +314,10 @@ function DetailPage() {
                     Đã bán {productDetail.countPurchased}
                   </LightText14>
                 </EvaluationFrame>
-                <Price>đ {formatter.format(productDetail.price)}</Price>
+                {productDetail.priceMax == 0 || productDetail.price == productDetail.priceMax ? 
+                <Price>{formatter.format(productDetail.price)} đ</Price> : 
+                <Price>{formatter.format(productDetail.price)} ~ {formatter.format(productDetail.priceMax)} đ</Price>
+              }
                 {productDetail.options.map((option, index) => (
                   <Container key={index}>
                     <Label>{option.name}</Label>
@@ -359,6 +372,7 @@ function DetailPage() {
                           imageMain: productDetail.imageMain,
                           name: productDetail.name,
                           price: productDetail.price,
+                          // optionValues,
                         })
                       }
                     >
@@ -497,7 +511,7 @@ function DetailPage() {
           </ContentContainer>
         </>
       ) : (
-        <span>loading</span>
+        <LoadingComponent></LoadingComponent>
       )}
     </Body>
   );

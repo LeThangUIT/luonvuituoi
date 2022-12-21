@@ -17,6 +17,7 @@ export const Increase = styled.svg`
 
 function QuantityComponent({quantity, setQuantity}) {
   const handleIncrease = () => {
+    if(quantity < 10)
     setQuantity(++quantity)
   }
   const handleDecrease = () => {

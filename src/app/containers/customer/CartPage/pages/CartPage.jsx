@@ -52,7 +52,7 @@ import LoadingComponent from "../../../../sharedComponents/loading";
 import EmptyComponent from "../../../../sharedComponents/empty";
 
 const TotalContainer = styled.div`
-  ${tw`  w-full  box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm`}
+  ${tw`  w-full  box-border  bg-white rounded-lg  border border-[#EEEEEE] flex flex-col p-5 items-start gap-y-6 shadow-sm h-fit-content`}
 `;
 const FlexContainer = styled.div`
   ${tw` w-full flex flex-row items-center justify-between`}
@@ -67,16 +67,18 @@ function CartPage() {
   const { loading, cart, isCheckAll } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const handleIncrease = ({ quantity, productId, variantId }) => {
-    dispatch(changeNumber({ quantity: quantity + 1, variantId, productId }));
-    //if(userToken) {
-    dispatch(
-      changeQuantity({
-        userToken,
-        quantity: quantity + 1,
-        productId,
-        variantId,
-      })
-    );
+    if(quantity < 10) {
+      dispatch(changeNumber({ quantity: quantity + 1, variantId, productId }));
+      //if(userToken) {
+      dispatch(
+        changeQuantity({
+          userToken,
+          quantity: quantity + 1,
+          productId,
+          variantId,
+        })
+      );
+    }
     //}
     // else {
     //   storedCart.map(item => {

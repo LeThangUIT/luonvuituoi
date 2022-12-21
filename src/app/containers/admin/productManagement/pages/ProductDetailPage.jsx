@@ -154,7 +154,7 @@ const ProductDetailPage = () => {
               </div>
             </Group>
             <Group>
-              { productDetail?.variants != null ? (
+              { productDetail?.variants == null ? (
                 <Label>Biến thể: sản phẩm không có biến thể</Label>
               ) : (
                 <>

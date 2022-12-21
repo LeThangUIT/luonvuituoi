@@ -49,6 +49,7 @@ const Price = styled.span`
   `}
 `;
 function ProductCard({data}) {
+  console.log(data)
   const navigate = useNavigate()
   const handProductDetail = (id) => {
     navigate(`/detail/${id}`)
@@ -63,8 +64,10 @@ function ProductCard({data}) {
       <DescribesBox2>
         <Heading14 onClick={() => handProductDetail(data.id)}>{data.name}</Heading14>
         <PriceContainer>
-          <Price>đ {formatter.format(data.price)}</Price>
-          <UilShoppingCart></UilShoppingCart>
+          {data.priceMax == 0 || data.price == data.priceMax ? <Price>{formatter.format(data.price)} đ</Price>
+          : <Price>{formatter.format(data.price)} ~ {formatter.format(data.priceMax)} đ</Price>  
+        }
+        {data.priceMax == 0 ? <UilShoppingCart></UilShoppingCart> : <UilShoppingCart className="invisible"></UilShoppingCart>}
         </PriceContainer>
       </DescribesBox2>
     </ProductContainer>

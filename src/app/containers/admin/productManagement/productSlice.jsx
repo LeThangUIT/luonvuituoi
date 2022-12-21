@@ -116,6 +116,7 @@ const ProductSlice = createSlice({
             state.loading = true
         },
         [fetchProductDetailByAdmin.fulfilled](state, action) {
+            console.log(action.payload.data)
             state.productDetail = action.payload.data
             state.loading = false
         },
@@ -173,6 +174,7 @@ const ProductSlice = createSlice({
         },
         [getByOptionAnother.fulfilled](state, action) {
             state.loading = false
+            console.log(action.payload)
             if(action.payload.data[0].optionId != 0) {
                 state.productDetail.options.map(option => {
                     action.payload.data.map(item => {
@@ -183,7 +185,9 @@ const ProductSlice = createSlice({
                 })
             }
             else {
+                console.log(action.payload.data[0])
                 state.productDetail.price = action.payload.data[0].price
+                state.productDetail.priceMax = action.payload.data[0].price
                 state.variantId = action.payload.data[0].variantId
             }
         },

@@ -47,7 +47,7 @@ const RightContainer = styled.div`
   ${tw`col-span-3 flex flex-col gap-y-4 `}
 `;
 const TotalContainer = styled.div`
-  ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 h-fit-content shadow-sm`}
+  ${tw` w-full  bg-white rounded p-5 flex flex-col gap-y-6 shadow-sm`}
 `;
 
 function CheckoutPage() {
@@ -72,14 +72,14 @@ function CheckoutPage() {
       key: "cash",
       value: "Thanh toán khi nhận hàng",
     },
-    {
-      key: "momo",
-      value: "Thanh toán MoMo",
-    },
-    {
-      key: "zalopay",
-      value: "Thanh toán ZaloPay",
-    },
+    // {
+    //   key: "momo",
+    //   value: "Thanh toán MoMo",
+    // },
+    // {
+    //   key: "zalopay",
+    //   value: "Thanh toán ZaloPay",
+    // },
     {
       key: "vnpay",
       value: "Thanh toán VNPay",
@@ -236,7 +236,7 @@ function CheckoutPage() {
           <LeftContainer>
             <FlexContainer>
               <Heading26>Thông tin vận chuyển</Heading26>
-              <PinkHeading14>Đăng nhập ngay</PinkHeading14>
+              {/* <PinkHeading14>Đăng nhập ngay</PinkHeading14> */}
             </FlexContainer>
             <Formik
               initialValues={initialValues}

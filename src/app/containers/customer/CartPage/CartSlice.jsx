@@ -104,6 +104,7 @@ const CartSlice = createSlice({
     },
     [addToCart.fulfilled](state, action) {
       state.loading = false;
+      console.log(action.payload.newCart)
       state.cart.push(action.payload.newCart);
       state.isCheckAll = false
     },
@@ -140,10 +141,15 @@ const CartSlice = createSlice({
       state.loading = false;
       state.cart = state.cart.filter((item, index) => {
         if (item.variantId == null && action.payload.variantId == null) {
+          console.log("first")
           return item.productId !== action.payload.productId;
         } else {
+          console.log(item.variantId)
+          console.log(action.payload.variantId)
+          console.log(item.productId)
+          console.log(action.payload.productId)
           return (
-            item.variantId !== action.payload.variantId &&
+            item.variantId !== action.payload.variantId ||
             item.productId !== action.payload.productId
           );
         }
