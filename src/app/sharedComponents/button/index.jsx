@@ -16,6 +16,13 @@ export const WhiteButton = styled.button`
         disabled:cursor-not-allowed disabled:opacity-50
     `}
 `
+export const GreenBorderButton = styled.button`
+    ${tw` 
+        w-full box-border flex gap-x-2 justify-center items-center py-1 px-2 bg-white rounded-lg border hover:bg-[#33C481] border-[#33C481] 
+        text-[#33C481] not-italic font-semibold text-sm leading-[17px] hover:text-white
+        disabled:cursor-not-allowed disabled:opacity-50
+    `}
+`
 export const DisableButton = styled.button`
     ${tw` 
        w-full box-border flex gap-x-2 justify-center items-center py-2 px-4 bg-white rounded-lg border border-[#EE4C7E] 

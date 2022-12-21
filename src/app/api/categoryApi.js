@@ -49,6 +49,24 @@ class categoryApi {
       },
     });
   };
+
+  importFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/category/import`;
+    return axios.post(url,{},{
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+  exportFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/category/export`;
+    return axios.get(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+
 }
 
 const CategoryApi = new categoryApi();

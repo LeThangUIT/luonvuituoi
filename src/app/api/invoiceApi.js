@@ -70,6 +70,15 @@ class invoiceApi {
         Authorization: "Bearer " + token, }
       })
   }
+
+  exportFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/invoice/export`;
+    return axios.post(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
 }
 
 const InvoiceApi = new invoiceApi();

@@ -42,8 +42,25 @@ class voucherApi {
   };
 
   updateVoucher = ({id, data, adminToken}) => {
-    const url = `${ADMIN_API_URL}/category/${id}`;
+    const url = `${ADMIN_API_URL}/coupon/${id}`;
     return axios.put(url, data, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+
+  importFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/coupon/import`;
+    return axios.post(url,{},{
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+  exportFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/coupon/export`;
+    return axios.post(url, {
       headers: {
         Authorization: "Bearer " + adminToken,
       },

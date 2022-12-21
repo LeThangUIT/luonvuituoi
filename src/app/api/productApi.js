@@ -73,6 +73,23 @@ class propductApi {
         Authorization: "Bearer " + userToken, }
       })
   }
+
+  importFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/product/import`;
+    return axios.post(url,{},{
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+  exportFile = (adminToken) => {
+    const url = `${ADMIN_API_URL}/product/export`;
+    return axios.post(url, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
 }
 const ProductApi = new propductApi();
 export default ProductApi;
