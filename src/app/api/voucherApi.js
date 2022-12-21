@@ -50,20 +50,22 @@ class voucherApi {
     });
   };
 
-  importFile = (adminToken) => {
+  importFile = ({formData, adminToken}) => {
     const url = `${ADMIN_API_URL}/coupon/import`;
-    return axios.post(url,{},{
+    return axios.post(url,formData, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + adminToken,
       },
     });
   };
   exportFile = (adminToken) => {
     const url = `${ADMIN_API_URL}/coupon/export`;
-    return axios.post(url, {
+    return axios.get(url, {
       headers: {
         Authorization: "Bearer " + adminToken,
       },
+      responseType: "blob"
     });
   };
 }

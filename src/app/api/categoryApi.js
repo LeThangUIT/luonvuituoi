@@ -50,10 +50,11 @@ class categoryApi {
     });
   };
 
-  importFile = (adminToken) => {
+  importFile = ({formData, adminToken}) => {
     const url = `${ADMIN_API_URL}/category/import`;
-    return axios.post(url,{},{
+    return axios.post(url,formData, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + adminToken,
       },
     });
@@ -64,6 +65,7 @@ class categoryApi {
       headers: {
         Authorization: "Bearer " + adminToken,
       },
+      responseType: "blob"
     });
   };
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { AddButton } from '../../../../sharedComponents/button';
+import { AddButton, GreenBorderButton } from '../../../../sharedComponents/button';
 import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent';
 import { Heading30 } from '../../../../sharedComponents/text';
 import { getAllCategoriesByAdmin } from '../../categoryManagement/categorySlice';
@@ -10,9 +10,16 @@ import { MainDash } from '../../components/MainDash/MainDash';
 import ProductModal from '../components/ProductModal';
 import ProductTable from '../components/ProductTable';
 import { getAllProductsByAdmin, showProductModal } from '../productSlice';
+import { UilImport } from "@iconscout/react-unicons";
+import excelIcon from "../../../../assets/images/excelIcon.png";
+import ProductApi from '../../../../api/productApi';
+import ImportModal from '../../categoryManagement/components/ImportModal';
 
 const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between`}
+`;
+const ButtonGroup = styled.div`
+  ${tw` flex flex-row items-center gap-4`}
 `;
 export const ScrollContainer = styled.div`
   flex-grow: 1;
@@ -48,15 +55,40 @@ function ProductManagementPage() {
   const handleAdd = () => {
     dispatch(showProductModal({data: null }));
   };
+
+  const [showImport, setShowImport] = useState(false);
+  const handleImport = () => {
+    setShowImport(true);
+  };
+
+  const handleExport = () => {
+    ProductApi.exportFile(adminToken).then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "products.xlsx");
+      link.click();
+    });
+  };
   return (
     <>
     <MainDash>
         <Heading30>Product Management</Heading30>
         <FlexContainer>
           <span>Hiển thị 4 trên 10 dòng</span>
-          <AddButton onClick={() => handleAdd()}>
-            Thêm sản phẩm
-          </AddButton>
+          <ButtonGroup>
+            <AddButton disabled={loading} onClick={() => handleAdd()}>
+              Thêm
+            </AddButton>
+            <GreenBorderButton onClick={handleExport}>
+              <img className="w-6 h-6" src={excelIcon}></img>
+              Export
+            </GreenBorderButton>
+            <GreenBorderButton onClick={handleImport}>
+              <UilImport></UilImport>
+              Import
+            </GreenBorderButton>
+          </ButtonGroup>
         </FlexContainer>
         <ScrollContainer>
           <ProductTable listProducts={listProducts}></ProductTable>
@@ -64,7 +96,7 @@ function ProductManagementPage() {
         <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage}></PagingComponent>
     </MainDash>
     {isShow && <ProductModal></ProductModal>}
-    
+    {showImport && <ImportModal typeModal="product" setShowImport={setShowImport}></ImportModal>}
   </>
   )
 }

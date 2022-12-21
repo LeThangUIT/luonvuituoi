@@ -49,7 +49,6 @@ const Price = styled.span`
   `}
 `;
 function ProductCard({data}) {
-  console.log(data)
   const navigate = useNavigate()
   const handProductDetail = (id) => {
     navigate(`/detail/${id}`)

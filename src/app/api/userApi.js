@@ -44,10 +44,11 @@ class userApi {
 
   exportFile = (adminToken) => {
     const url = `${ADMIN_API_URL}/user/export`;
-    return axios.post(url, {
+    return axios.get(url, {
       headers: {
         Authorization: "Bearer " + adminToken,
       },
+      responseType: "blob"
     });
   };
 

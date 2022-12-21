@@ -2,10 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import CartApi from "../../../api/cartApi";
 
 export const addToCart = createAsyncThunk("product/addToCart", async (data) => {
-  const { userToken, ...newCart } = data;
-  const { imageMain, price, name, ...rest } = data;
-  const res = await CartApi.addToCart(rest);
-  return { newCart, res };
+  const res = await CartApi.addToCart(data);
+  return res;
 });
 
 export const getCart = createAsyncThunk(
@@ -103,9 +101,9 @@ const CartSlice = createSlice({
       state.loading = true;
     },
     [addToCart.fulfilled](state, action) {
+      console.log(action.payload)
       state.loading = false;
-      console.log(action.payload.newCart)
-      state.cart.push(action.payload.newCart);
+      state.cart.push(action.payload.data.data);
       state.isCheckAll = false
     },
     [addToCart.rejected](state) {

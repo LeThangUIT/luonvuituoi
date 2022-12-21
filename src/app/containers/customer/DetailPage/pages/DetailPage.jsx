@@ -189,13 +189,14 @@ function DetailPage() {
     if (userToken) {
       let index = duplicateCheck(cart, data);
       if (index == -1) {
-        const { payload } = await dispatch(addToCart({ ...data, userToken }));
-        if (payload.res.data.success) {
-          toast.success(payload.res.data.message, {
+        const { imageMain, price, name, ...rest } = data;
+        const { payload } = await dispatch(addToCart({ ...rest, userToken }));
+        if (payload.data.success) {
+          toast.success(payload.data.message, {
             position: toast.POSITION.TOP_RIGHT,
           });
         } else {
-          toast.error(payload.res.data.message, {
+          toast.error(payload.data.message, {
             position: toast.POSITION.TOP_RIGHT,
           });
         }

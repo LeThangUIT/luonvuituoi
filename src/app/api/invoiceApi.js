@@ -73,10 +73,11 @@ class invoiceApi {
 
   exportFile = (adminToken) => {
     const url = `${ADMIN_API_URL}/invoice/export`;
-    return axios.post(url, {
+    return axios.get(url, {
       headers: {
         Authorization: "Bearer " + adminToken,
       },
+      responseType: "blob"
     });
   };
 }
