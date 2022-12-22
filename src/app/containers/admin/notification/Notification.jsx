@@ -9,7 +9,7 @@ import { LightText12, Text14, Text16 } from "../../../sharedComponents/text";
 import { ScrollContainer } from "../productManagement/pages/ProductManagementPage";
 import { getAllNotificationsByAdmin, getAllNotificationsByCustomer, hideNotification, markAsReadAllByAdmin, markAsReadAllByUser, markAsReadByAdmin, markAsReadByUser } from "./notificationSlice";
 import avatar from "../../../assets/images/avatar.png"
-import logo from "../../../assets/images/Lamborghini-Logo.png"
+import logo from "../../../assets/images/LogoCircle.png"
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../sharedComponents/format";
 
@@ -49,6 +49,7 @@ const Notification = () => {
   };
   const resultBoxRef = useRef();
   const { notifications } = useSelector((state) => state.notification);
+  
   useOnClickOutside(resultBoxRef, clickOutsidehandler);
   const navigate = useNavigate()
   const handleClick = (item) => {

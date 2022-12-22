@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import { Heading30 } from '../text'
 
 const Container = styled.div`
-    ${tw` flex flex-col items-center justify-center gap-8 px-60 py-20`}
+    ${tw` flex flex-col items-center justify-center gap-8 px-60 pt-40 pb-64`}
 `
 const LoadingComponent = () => {
   return (

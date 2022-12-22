@@ -22,17 +22,23 @@ const Item = styled.button`
   ${tw` px-3 py-1 rounded items-center hover:bg-gray-100 text-sm leading-8`}
 `;
 
-const PagingComponent = ({ type, pageCount, categoryId, orderByPrice }) => {
+const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword }) => {
   const adminToken = localStorage.getItem("adminToken");
   const userToken = localStorage.getItem("userToken");
   const dispatch = useDispatch();
   const handlePageClick = async (data) => {
-    console.log(data.selected);
+    console.log(data.selected)
     let pageNumber = data.selected + 1;
     switch (type) {
       case "product":
         await dispatch(
-          getAllProducts({ page: pageNumber, perPage: "2", categoryId, orderByPrice })
+          getAllProducts({
+            page: pageNumber,
+            perPage: "2",
+            categoryId,
+            orderByPrice,
+            keyword
+          })
         );
         break;
       case "productByAdmin":

@@ -63,6 +63,9 @@ const NotificationSlice = createSlice({
         setNotifications: (state, action) => {
             state.notifications.items = [action.payload, ...state.notifications.items]
             state.notifications.notReadCount += 1
+            var title = document.title;
+            var newTitle = '(' + state.notifications.notReadCount + ') ' + title;
+	        document.title = newTitle;
         }
     },
     extraReducers: {

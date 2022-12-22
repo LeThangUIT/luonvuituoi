@@ -74,6 +74,7 @@ const ProductSlice = createSlice({
         newProduct: null,
         productDetail: null,
         variantId: null,
+        keyword: ""
     },
     reducers:{
         showProductModal: (state, action) => {
@@ -86,6 +87,10 @@ const ProductSlice = createSlice({
         },
         setLoading: (state) => {
             state.loading = true
+        },
+
+        setKeyword: (state, action) => {
+            state.keyword = action.payload
         }
     },
     extraReducers: {
@@ -116,7 +121,6 @@ const ProductSlice = createSlice({
             state.loading = true
         },
         [fetchProductDetailByAdmin.fulfilled](state, action) {
-            console.log(action.payload.data)
             state.productDetail = action.payload.data
             state.loading = false
         },
@@ -198,5 +202,5 @@ const ProductSlice = createSlice({
 })
 
 export const { reducer: ProductReducer, actions } = ProductSlice;
-export const {showProductModal, hideProductModal, setLoading} = actions;
+export const {showProductModal, hideProductModal, setLoading, setKeyword} = actions;
 export default ProductReducer;

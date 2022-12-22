@@ -26,7 +26,6 @@ function Customer() {
           dispatch(setNotifications(notification))
         });
         await connection.start();
-        console.log(userInfo)
         await connection.invoke("JoinSystem", userInfo.id);
       } catch (e) {
         console.log(e);
