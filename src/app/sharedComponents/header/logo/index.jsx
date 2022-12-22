@@ -9,6 +9,7 @@ const LogoContainer = styled.div`
         md:w-28
         sm:w-24
         w-16
+        hover:cursor-pointer
     `}
 `
 export function Logo () {

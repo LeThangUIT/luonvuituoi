@@ -43,7 +43,9 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={window.innerWidth <= 768 ? `${expanded}` : ""}
       >
-        <Logo></Logo>
+        <div className="logo">
+          <Logo ></Logo>
+        </div>
         <div className="menu">
           {SidebarData.map((item, index) => {
             return (
