@@ -25,13 +25,15 @@ class propductApi {
     });
   };
 
-  getAllProducts = ({page, perPage, keyWord}) => {
+  getAllProducts = ({page, perPage, keyWord, categoryId, orderByPrice}) => {
     const url = `${API_URL}/product`;
     return axios.get(url, {
       params : {
+        categoryId,
         page,
         perPage,
-        keyWord
+        keyWord,
+        orderByPrice
       }
     });
   };

@@ -17,8 +17,8 @@ export const getAllProductsByAdmin = createAsyncThunk(
 )
 export const getAllProducts = createAsyncThunk(
     "product/getAllProducts",
-    async({page, perPage, keyWord}) => {
-        const allProduct = await ProductApi.getAllProducts({page, perPage, keyWord});
+    async(data) => {
+        const allProduct = await ProductApi.getAllProducts(data);
         return allProduct;
     }
 )

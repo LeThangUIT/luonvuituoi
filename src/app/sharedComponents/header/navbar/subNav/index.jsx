@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Heading14 } from "../../../text";
@@ -18,11 +19,12 @@ export const ArrowIconRight = styled.svg`
 `
 
 export const SubMenu = ({display, data}) => {
+    const navigate = useNavigate()
     return (
         <SubNav className={display}>
             {data.map((item, index) => {
                 return(
-                    <SubMenuItem key={index}>
+                    <SubMenuItem onClick={() => navigate(`/product/${item.id}`) } key={index}>
                         <Heading14>{item.name}</Heading14>
                     </SubMenuItem>
                 )

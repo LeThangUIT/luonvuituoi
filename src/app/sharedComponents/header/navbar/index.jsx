@@ -56,8 +56,8 @@ export function Navbar() {
         <NavbarContent>
             {listMenu.map((item, index) => {
                 return(
-                    <MenuItem key={index} onClick={() => navigate(item.path) } onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
-                        <Heading14 key={index}>{item.name}</Heading14>
+                    <MenuItem key={index} onMouseOver={() => showSubMenu(index)} onMouseLeave={hideSubMenu}>
+                        <Heading14 key={index} onClick={() => navigate(item.path) }>{item.name}</Heading14>
                         {item.subMenu.length>0 && 
                             <UilAngleDown size="9" color="#818181"></UilAngleDown> 
                         }
