@@ -165,7 +165,7 @@ const ProductDetailPage = () => {
                         <TableHeading>Sku</TableHeading>
                         <TableHeading>Giá</TableHeading>
                         <TableHeading>Số lượng</TableHeading>
-                        {productDetail?.variants !=null && productDetail?.variants[0].variantDetails.map(
+                        {productDetail?.variants !=null && productDetail?.variants[0]?.variantDetails.map(
                           (item, index) => (
                             <TableHeading>{item.option.name}</TableHeading>
                           )
