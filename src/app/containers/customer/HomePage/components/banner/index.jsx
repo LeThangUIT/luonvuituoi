@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import lambor from "../../../../../assets/images/lambor.png"
+import nguoimau from "../../../../../assets/images/NguoiMau.jpg"
 
 const BannerContainer = styled.div`
   ${tw`
@@ -51,7 +51,7 @@ const StartButtonIcon = styled.svg`
 `
 const ImageContainer = styled.div`
     ${tw`
-        absolute sm:w-[350px] md:w-[420px] xl:w-[600px] h-auto right-0 bottom-10
+        absolute sm:w-[350px] md:w-[420px] xl:w-[600px] h-auto right-0 bottom-0
     `}
 `
 export function Banner() {
@@ -59,12 +59,10 @@ export function Banner() {
     <BannerContainer>
       <Rectangle>
         <TextContainer>
-          <Text1>Lựa chọn tối ưu của mẹ và bé</Text1>
+          <Text1>Lựa chọn tối ưu của phái đẹp</Text1>
           <Text2>
             {" "}
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s{" "}
+            Chia sẻ phương pháp làm đẹp da, tóc đẹp, cải thiện vóc dáng hiệu quả và đơn giản. Hướng dẫn cách chọn mỹ phẩm, trang điểm,…{" "}
           </Text2>
           <StartButton>
             <StartButtonText>Bắt đầu</StartButtonText>
@@ -96,7 +94,7 @@ export function Banner() {
           </StartButton>
         </TextContainer>
         <ImageContainer>
-            <img src={lambor}/>
+            <img src={nguoimau}/>
         </ImageContainer>
       </Rectangle>
     </BannerContainer>
