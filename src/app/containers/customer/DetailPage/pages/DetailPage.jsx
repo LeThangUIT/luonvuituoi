@@ -76,7 +76,7 @@ const StartFrame = styled.div`
 `;
 const NameProduct = styled.span`
   ${tw`
-        not-italic font-bold text-[30px] leading-[36px] text-[#300F19] text-center
+        not-italic font-bold text-[30px] leading-[36px] text-[#300F19]
     `}
 `;
 
