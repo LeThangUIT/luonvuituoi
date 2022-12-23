@@ -61,7 +61,7 @@ function ProductCard({data}) {
         </ImageBox>
       </ImageContainer>
       <DescribesBox2>
-        <Heading14 onClick={() => handProductDetail(data.id)}>{data.name}</Heading14>
+        <Heading14 className="min-h-[34px]" onClick={() => handProductDetail(data.id)}>{data.name}</Heading14>
         <PriceContainer>
           {data.priceMax == 0 || data.price == data.priceMax ? <Price>{formatter.format(data.price)} đ</Price>
           : <Price>{formatter.format(data.price)} ~ {formatter.format(data.priceMax)} đ</Price>  
