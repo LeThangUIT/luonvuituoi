@@ -30,9 +30,9 @@ function VoucherModal() {
   let initialValues = {};
   if (isUpdate && newVoucher) {
     initialValues = {
-      title: newVoucher.title,
+      // title: newVoucher.title,
       code: newVoucher.code,
-      description: newVoucher.description,
+      // description: newVoucher.description,
       discountType: newVoucher.discountType,
       condition: newVoucher.condition,
       value: newVoucher.value,
@@ -41,9 +41,9 @@ function VoucherModal() {
     };
   } else {
     initialValues = {
-      title: "",
+      // title: "",
       code: "",
-      description: "",
+      // description: "",
       discountType: "money",
       condition: "",
       value: "",
@@ -106,24 +106,24 @@ function VoucherModal() {
             return (
               <Form>
                 <FormContainer>
-                  <FormikControl
+                  {/* <FormikControl
                     control="input"
                     type="text"
                     label="Tiêu đề"
                     name="title"
-                  ></FormikControl>
+                  ></FormikControl> */}
                    <FormikControl
                     control="input"
                     type="Mã"
                     label="Mã giảm giá"
                     name="code"
                   ></FormikControl>
-                   <FormikControl
+                   {/* <FormikControl
                     control="input"
                     type="text"
                     label="Mô tả"
                     name="description"
-                  ></FormikControl>
+                  ></FormikControl> */}
                   <FormikControl
                     control="radio"
                     label="Loại giảm giá"

@@ -8,7 +8,7 @@ import { HeadingTitle } from "../../HomePage/components/content";
 import { UilAngleRightB } from "@iconscout/react-unicons";
 import tw from "twin.macro";
 import styled from "styled-components";
-import logo from "../../../../assets/images/Lamborghini-Logo.png";
+import logo from "../../../../assets/images/LzavaLogo.png";
 import { useState } from "react";
 import { formatDate } from "../../../../sharedComponents/format";
 import LoadingComponent from "../../../../sharedComponents/loading";

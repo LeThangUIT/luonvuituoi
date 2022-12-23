@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import logo from "../../../assets/images/Logo.png"
+import logo from "../../../assets/images/LzavaLogo.png"
 
 
 const LogoContainer = styled.div`
     ${tw`
         md:w-28
         sm:w-24
-        w-16
+        h-16
         hover:cursor-pointer
     `}
 `
