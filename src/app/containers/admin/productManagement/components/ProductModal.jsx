@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { UilTimes} from "@iconscout/react-unicons";
+import { UilTimes } from "@iconscout/react-unicons";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,6 +33,8 @@ import {
 } from "../../../../sharedComponents/table";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../../firebase";
+import { toast } from "react-toastify";
+
 
 const Frame = styled.div`
   ${tw` p-5 mb-8 rounded-lg bg-white border border-black flex flex-col gap-y-4 `}
@@ -51,7 +53,7 @@ const FlexRow = styled.div`
 `;
 const AddOptionBtn = styled.span`
   ${tw` mt-4 p-2 hover:cursor-pointer hover:bg-gray-100 rounded-lg`}
-`
+`;
 const BoxValue = styled.div`
   ${tw` flex flex-row gap-x-2 items-center justify-between 
     py-2 px-5 border border-solid border-[#EEEEEE] rounded-lg text-[14px]  text-[ #300F19] font-normal leading-[17px] hover:opacity-90 hover:cursor-pointer
@@ -60,12 +62,12 @@ const BoxValue = styled.div`
 
 const DeleteIcon = styled(UilTimes)`
   ${tw` absolute top-2 right-2 hover:cursor-pointer hover:bg-gray-50 rounded-full`}
-`
+`;
 function ProductModal() {
   const adminToken = localStorage.getItem("adminToken");
   const { loading } = useSelector((state) => state.product);
   const { listCategories } = useSelector((state) => state.category);
-  let listCate = [{id: "", name: "Chọn danh mục"}, ...listCategories?.items]
+  let listCate = [{ id: "", name: "Chọn danh mục" }, ...listCategories?.items];
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(hideProductModal());
@@ -75,7 +77,7 @@ function ProductModal() {
     name: "",
     categoryId: "",
     price: "",
-    quantity: 0,
+    quantity: "",
     details: "",
     description: "",
     images: [],
@@ -83,8 +85,22 @@ function ProductModal() {
     imageDescription: "",
   };
   const validationSchema = Yup.object({
+    name: Yup.string().required("Bạn cần phải nhập trường này!"),
     categoryId: Yup.string().required("Bạn cần phải chọn trường này!"),
+    price: Yup.number()
+      .typeError("Giá phải là số!")
+      .required("Bạn cần phải nhập trường này!")
+      .positive("Giá phải là số dương!")
+      .integer("Giá phải là số nguyên!")
+      .min(10000, "Giá phải lớn hơn 10000!"),
     details: Yup.string().required("Bạn cần phải nhập trường này!"),
+    description: Yup.string().required("Bạn cần phải nhập trường này!"),
+    quantity: Yup.number()
+      .typeError("Số lượng phải là số!")
+      .required("Bạn cần phải chọn trường này!")
+      .positive("Số lượng phải là số dương!")
+      .integer("Số lượng phải là số nguyên!"),
+    images: Yup.array().length(4, "Phải đủ 4 hình ảnh!"),
   });
 
   const onSubmit = async (values) => {
@@ -106,15 +122,24 @@ function ProductModal() {
         }
       }
       const { images, ...rest } = values;
-      let data
-      if(isChecked) {
-         data = { variants, options, ...rest };
+      let data;
+      if (isChecked) {
+        data = { variants, options, ...rest };
+      } else {
+        data = rest;
       }
-      else {
-         data = rest
+      var {payload} = await dispatch(addProduct({ data, adminToken }));
+      if (!payload.data.success) {
+        dispatch(hideProductModal());
+        toast.error(payload.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        dispatch(hideProductModal());
+        toast.success(payload.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
-      console.log(data)
-      dispatch(addProduct({ data, adminToken }));
     }
   };
 
@@ -224,8 +249,7 @@ function ProductModal() {
   return (
     <ModalBackground>
       <ModalContainer>
-        <DeleteIcon onClick={() => handleClose()}>
-        </DeleteIcon>
+        <DeleteIcon onClick={() => handleClose()}></DeleteIcon>
         <ModalTitle>
           <Heading22>Thêm sản phẩm</Heading22>
         </ModalTitle>
@@ -295,10 +319,10 @@ function ProductModal() {
                           return (
                             <FrameBody key={index}>
                               <FlexCol>
-                                  <Label> Tên tùy chọn</Label>
-                                  <DeleteIcon
-                                    onClick={() => handleDeleteOption(index)}
-                                  ></DeleteIcon>
+                                <Label> Tên tùy chọn</Label>
+                                <DeleteIcon
+                                  onClick={() => handleDeleteOption(index)}
+                                ></DeleteIcon>
                                 <BoxText
                                   onChange={(event) =>
                                     handleOptionChange(event, index)
@@ -321,12 +345,12 @@ function ProductModal() {
                                     return (
                                       <BoxValue>
                                         <span key={indexValue}>{value}</span>
-                                        <UilTimes size="17"
+                                        <UilTimes
+                                          size="17"
                                           onClick={() =>
                                             handleDeleteValue(index, indexValue)
                                           }
-                                        >
-                                        </UilTimes>
+                                        ></UilTimes>
                                       </BoxValue>
                                     );
                                   })}
@@ -335,7 +359,9 @@ function ProductModal() {
                             </FrameBody>
                           );
                         })}
-                        <AddOptionBtn onClick={handleAddOption}>+ Thêm tùy chọn</AddOptionBtn>
+                        <AddOptionBtn onClick={handleAddOption}>
+                          + Thêm tùy chọn
+                        </AddOptionBtn>
                       </div>
                     )}
                   </Frame>

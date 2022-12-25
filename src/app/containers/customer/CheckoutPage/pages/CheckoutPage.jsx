@@ -94,9 +94,12 @@ function CheckoutPage() {
     address: "",
     payment: "cod",
   };
+const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
   const validationSchema = Yup.object({
     name: Yup.string().required("Bạn cần phải nhập trường này!"),
-    phone: Yup.string().required("Bạn cần phải nhập trường này!"),
+    phone: Yup.string()
+    .required("Bạn cần phải nhập trường này!")
+    .matches(phoneRegExp, "Số điện thoại không đúng!"),
     wardId: Yup.string().required("Bạn cần phải nhập trường này!"),
     address: Yup.string().required("Bạn cần phải nhập trường này!"),
   });

@@ -8,6 +8,15 @@ export const addProduct = createAsyncThunk(
         return newProduct;
     }
 )
+
+export const updateProduct = createAsyncThunk(
+    "product/updateProduct",
+    async( data ) => {
+        const res = await ProductApi.updateProduct(data);
+        return res;
+    }
+)
+
 export const getAllProductsByAdmin = createAsyncThunk(
     "product/getAllProductsByAdmin",
     async({page, perPage, keyWord, adminToken}) => {
@@ -159,6 +168,17 @@ const ProductSlice = createSlice({
             state.isShow = false
         },
         [addProduct.rejected](state) {
+            state.loading = false
+        },
+
+        [updateProduct.pending](state) {
+            state.loading = true
+        },
+        [updateProduct.fulfilled](state, action) {
+            state.loading = false
+            state.isShow = false
+        },
+        [updateProduct.rejected](state) {
             state.loading = false
         },
 

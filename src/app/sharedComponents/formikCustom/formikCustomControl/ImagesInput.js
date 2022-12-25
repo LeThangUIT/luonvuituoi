@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import { UilTimes} from "@iconscout/react-unicons";
-
-import "../form.css";
 import TextError from "./TextError";
 import styled from "styled-components";
 import tw from "twin.macro";

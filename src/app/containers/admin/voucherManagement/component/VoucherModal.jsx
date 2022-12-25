@@ -7,7 +7,7 @@ import {
   ModalBackground,
   ModalContainer,
   ModalFooter,
-  ModalTitle
+  ModalTitle,
 } from "../../../../sharedComponents/modal";
 import { Heading22 } from "../../../../sharedComponents/text";
 
@@ -24,9 +24,9 @@ function VoucherModal() {
     (state) => state.voucher
   );
   const DiscountType = [
-    {key: "money" , value: "money"},
-    {key: "quantity" , value: "quantity"},
-  ]
+    { key: "money", value: "money" },
+    { key: "quantity", value: "quantity" },
+  ];
   let initialValues = {};
   if (isUpdate && newVoucher) {
     initialValues = {
@@ -52,17 +52,74 @@ function VoucherModal() {
     };
   }
   const validationSchema = Yup.object({
-    title: Yup.string().required("Bạn cần phải nhập trường này!"),
+    // title: Yup.string().required("Bạn cần phải nhập trường này!"),
+    code: Yup.string()
+      .required("Bạn cần phải nhập trường này!")
+      .max(12, "Vui lòng không nhập quá 12 kí tự!"),
+    discountType: Yup.string().required("Bạn cần phải nhập trường này!"),
+    condition: Yup.number()
+      .typeError("Giá phải là số!")
+      .required("Bạn cần phải nhập trường này!")
+      .positive("Giá phải là số dương!")
+      .integer("Giá phải là số nguyên!"),
+    value: Yup.number()
+      .typeError("Giá phải là số!")
+      .required("Bạn cần phải nhập trường này!")
+      .positive("Giá phải là số dương!")
+      .integer("Giá phải là số nguyên!"),
+      beginDate: Yup.date()
+      // .transform(function (value, originalValue) {
+      //   if (this.isType(value)) {
+      //     return value;
+      //   }
+      //   const result = parse(originalValue, "dd.MM.yyyy", new Date());
+      //   return result;
+      // })
+      .typeError("Vui lòng nhập ngày hợp lệ!")
+      .required("Bạn cần phải nhập trường này!"),
+      endDate: Yup.date()
+      // .transform(function (value, originalValue) {
+      //   if (this.isType(value)) {
+      //     return value;
+      //   }
+      //   const result = parse(originalValue, "dd.MM.yyyy", new Date());
+      //   return result;
+      // })
+      .typeError("Vui lòng nhập ngày hợp lệ!")
+      .required("Bạn cần phải nhập trường này!")
   });
 
+  const validate = (values, props) => {
+    const errors = {};
+    if (values.discountType === "money") {
+      if (values.value > values.condition) {
+        errors.value = "Số tiền giảm không được lớn hơn số tiền tối thiểu!";
+      }
+    } else {
+      if (values.value < 0 || values.value > 100) {
+        errors.value = "Phần trăm giảm phải từ 0 đến 100%!";
+      }
+    }
+    const date = new Date();
+    if(values.beginDate < date) {
+      errors.beginDate = "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại!";
+    }
+    if(values.beginDate > values.endDate) {
+      errors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu!";
+    }
+    return errors;
+  };
+
   const onSubmit = async (values) => {
-    console.log(values)
     if (isUpdate) {
-      var {payload} = await dispatch(
-        dispatch(updateVoucher({id: newVoucher.id,data: values, adminToken}))
+      console.log(values)
+      var { payload } = await dispatch(
+        dispatch(updateVoucher({ id: newVoucher.id, data: values, adminToken }))
       );
     } else {
-      var {payload} = await dispatch(addVoucher({data: values, adminToken}));
+      var { payload } = await dispatch(
+        addVoucher({ data: values, adminToken })
+      );
     }
     if (!payload.res.data.success) {
       dispatch(hideVoucherModal());
@@ -99,10 +156,10 @@ function VoucherModal() {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
+          validate={validate}
           validationSchema={validationSchema}
         >
           {(formik) => {
-            console.log(formik)
             return (
               <Form>
                 <FormContainer>
@@ -112,13 +169,13 @@ function VoucherModal() {
                     label="Tiêu đề"
                     name="title"
                   ></FormikControl> */}
-                   <FormikControl
+                  <FormikControl
                     control="input"
                     type="Mã"
                     label="Mã giảm giá"
                     name="code"
                   ></FormikControl>
-                   {/* <FormikControl
+                  {/* <FormikControl
                     control="input"
                     type="text"
                     label="Mô tả"
@@ -129,18 +186,25 @@ function VoucherModal() {
                     label="Loại giảm giá"
                     name="discountType"
                     options={DiscountType}
-                  >
-                  </FormikControl>
+                  ></FormikControl>
                   <FormikControl
                     control="input"
                     type="text"
-                    label={formik.values.discountType == "money" ? "Số tiền đơn hàng tối thiểu" : "Số lượng sản phẩm tối thiểu"}
+                    label={
+                      formik.values.discountType == "money"
+                        ? "Số tiền đơn hàng tối thiểu"
+                        : "Số lượng sản phẩm tối thiểu"
+                    }
                     name="condition"
                   ></FormikControl>
                   <FormikControl
                     control="input"
                     type="text"
-                    label={formik.values.discountType == "money" ? "Số tiền được giảm" : "Phần trăm giảm"}
+                    label={
+                      formik.values.discountType == "money"
+                        ? "Số tiền được giảm"
+                        : "Phần trăm giảm"
+                    }
                     name="value"
                   ></FormikControl>
                   <FormikControl

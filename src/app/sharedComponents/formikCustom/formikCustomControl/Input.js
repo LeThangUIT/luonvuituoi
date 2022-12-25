@@ -1,7 +1,5 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-
-import '../form.css'
 import TextError from "./TextError";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -32,7 +30,7 @@ const CustomInput = (props) => {
 }
 
 export const ErrorContainer = styled.div`
-  ${tw` h-7`}
+  ${tw` h-6`}
 `
 const Input = (props) => {
   const { label, name, ...rest} = props;

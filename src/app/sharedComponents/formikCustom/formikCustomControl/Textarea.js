@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, ErrorMessage } from "formik";
-import '../form.css'
 import TextError from './TextError';
 
 

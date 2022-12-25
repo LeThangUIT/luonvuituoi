@@ -34,9 +34,9 @@ export const deleteVoucher = createAsyncThunk(
 
 export const updateVoucher = createAsyncThunk(
     "voucher/updateVoucher",
-    async( {id ,voucher , adminToken}) => {
-        const res = await VoucherApi.updateVoucher({id, voucher, adminToken});
-        const data = {id, voucher, res}
+    async( payload) => {
+        const res = await VoucherApi.updateVoucher(payload);
+        const data = {id: payload.id, voucher: payload.data, res}
         return data;
     }
 )
@@ -112,9 +112,11 @@ const VoucherSlice = createSlice({
         },
         [updateVoucher.fulfilled](state, action) {
             state.loading = false
-            state.listVoucher.forEach((item, index) => {
+            state.listVoucher.map((item, index) => {
+                console.log(item)
+                console.log(action.payload)
                 if(item.id == action.payload.id) {
-                    item = {id: action.payload.id, ...action.payload.voucher}
+                    state.listVoucher[index] = {id: action.payload.id, ...action.payload.voucher}
                 }
             })
         },

@@ -3,7 +3,6 @@ import { ADMIN_API_URL, API_URL, USER_API_URL } from "../constant";
 
 class propductApi {
   addProduct = ({ data, adminToken }) => {
-    console.log(data);
     const url = `${ADMIN_API_URL}/product`;
     return axios.post(url, data, {
       headers: {
@@ -11,6 +10,16 @@ class propductApi {
       },
     });
   };
+
+  updateProduct = ({productId, data, adminToken }) => {
+    const url = `${ADMIN_API_URL}/product/${productId}`;
+    return axios.put(url, data, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+  };
+
   getAllProductsByAdmin = ({page, perPage, keyWord, adminToken}) => {
     const url = `${ADMIN_API_URL}/product`;
     return axios.get(url, {

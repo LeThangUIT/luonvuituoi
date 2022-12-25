@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Field, ErrorMessage } from "formik";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import "../form.css";
 import TextError from "./TextError";
 import styled from "styled-components";
 import tw from "twin.macro";

@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
+import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -13,6 +14,7 @@ import { StarIcon } from "../../../../sharedComponents/icon/starIcon";
 import { ModalFooter } from "../../../../sharedComponents/modal";
 import ProductImageSlider from "../../../../sharedComponents/slider/ProductImageSlider";
 import avatar from "../../../../assets/images/avatar.png"
+import { toast } from "react-toastify";
 import {
   Table,
   TableBody,
@@ -26,8 +28,11 @@ import { CommentFrame, FlexFrame, StarGroup } from "../../../customer/DetailPage
 import { FormContainer } from "../../../customer/LoginPage/pages/LoginPage";
 import { getAllCategoriesByAdmin } from "../../categoryManagement/categorySlice";
 import { MainDash } from "../../components/MainDash/MainDash";
-import { fetchProductDetailByAdmin } from "../productSlice";
+import { fetchProductDetailByAdmin, setLoading, updateProduct } from "../productSlice";
 import { ScrollContainer } from "./ProductManagementPage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../../firebase";
+
 
 const GridContainer = styled.div`
   ${tw` grid grid-cols-10 gap-10 bg-white rounded p-4 h-fit-content`}
@@ -61,11 +66,33 @@ const ProductDetailPage = () => {
     quantity: productDetail?.quantity,
     details: productDetail?.details,
     description: productDetail?.description,
+    images: [],
+    imageMain: "",
+    imageDescription: "",
   };
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Bạn cần phải nhập trường này!"),
+    categoryId: Yup.string().required("Bạn cần phải chọn trường này!"),
+    price: Yup.number()
+      .typeError("Giá phải là số!")
+      .required("Bạn cần phải nhập trường này!")
+      .positive("Giá phải là số dương!")
+      .integer("Giá phải là số nguyên!")
+      .min(10000, "Giá phải lớn hơn 10000!"),
+    details: Yup.string().required("Bạn cần phải nhập trường này!"),
+    description: Yup.string().required("Bạn cần phải nhập trường này!"),
+    quantity: Yup.number()
+      .typeError("Số lượng phải là số!")
+      .required("Bạn cần phải chọn trường này!")
+      .positive("Số lượng phải là số dương!")
+      .integer("Số lượng phải là số nguyên!"),
+    images: Yup.array().length(4, "Phải đủ 4 hình ảnh!"),
+  });
+  const [update, setUpdate] = useState(false)
   useEffect(() => {
       dispatch(fetchProductDetailByAdmin({ productId, adminToken }));
       dispatch(getAllCategoriesByAdmin({ adminToken, noPagination: "0" }));
-  }, []);
+  }, [update]);
   const { listCategories } = useSelector((state) => state.category);
   let listCate;
   if (listCategories) {
@@ -82,7 +109,34 @@ const ProductDetailPage = () => {
     listImages.pop();
   }
 
-  const onSubmit = (values) => {};
+  const onSubmit = async (values) => {
+    dispatch(setLoading());
+    for (let i = 0; i < values.images.length; i++) {
+      let blob = await fetch(values.images[i])
+        .then((r) => r.blob())
+        .catch((error) => console.log(error));
+      const imageRef = ref(storage, "image " + values.name + i);
+      await uploadBytes(imageRef, blob);
+      let URL = await getDownloadURL(imageRef);
+      if (i == 0) {
+        values.imageMain = URL;
+      } else {
+        values.imageDescription += `${URL} `;
+      }
+    }
+    const { images, ...rest } = values;
+    var {payload} = await dispatch(updateProduct({productId, data: rest, adminToken }));
+    if (!payload.data.success) {
+      toast.error(payload.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      setUpdate(!update)
+      toast.success(payload.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
   return (
     <MainDash>
       <Heading30>Detail Product</Heading30>
@@ -93,7 +147,7 @@ const ProductDetailPage = () => {
               enableReinitialize
               initialValues={initialValues}
               onSubmit={onSubmit}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
             >
               {(formik) => {
                 return (
@@ -111,6 +165,24 @@ const ProductDetailPage = () => {
                         name="categoryId"
                         options={listCate}
                       />
+                        <FormikControl
+                   control="imagesInput"
+                   type="file"
+                   label="Thay hình ảnh mới"
+                   name="images"
+                 ></FormikControl>
+                        <FormikControl
+                          control="input"
+                          type="text"
+                          label="Giá sản phẩm"
+                          name="price"
+                        ></FormikControl>
+                        <FormikControl
+                          control="input"
+                          type="text"
+                          label="Số lượng"
+                          name="quantity"
+                        ></FormikControl>
                       <FormikControl
                         control="editorInput"
                         type="text"
@@ -122,18 +194,6 @@ const ProductDetailPage = () => {
                         type="text"
                         label="Chi tiết"
                         name="details"
-                      ></FormikControl>
-                      <FormikControl
-                        control="input"
-                        type="text"
-                        label="Giá sản phẩm"
-                        name="price"
-                      ></FormikControl>
-                      <FormikControl
-                        control="input"
-                        type="text"
-                        label="Số lượng"
-                        name="quantity"
                       ></FormikControl>
                       <ModalFooter>
                         <PinkButton disabled={loading} type="submit">

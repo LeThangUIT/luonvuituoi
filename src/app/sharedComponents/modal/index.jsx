@@ -5,7 +5,7 @@ export const ModalBackground = styled.div`
   ${tw` w-screen h-screen bg-[rgba(200, 200, 200, 0.7)] fixed flex justify-center items-center top-0 right-0`}
 `;
 export const ModalContainer = styled.div`
-  ${tw` overflow-auto max-h-[90%] max-w-2xl relative rounded-xl bg-white flex flex-col gap-4 p-6`}
+  ${tw` min-w-[400px] overflow-auto max-h-[90%] max-w-2xl relative rounded-xl bg-white flex flex-col gap-4 p-6`}
   ::-webkit-scrollbar {
     width: 8px;
     height: 20px;
