@@ -5,7 +5,15 @@ export const addVoucher = createAsyncThunk(
     "voucher/addVoucher",
     async({data, adminToken}) => {
         const newVoucher = await VoucherApi.addVoucher({data, adminToken});
-        return newVoucher;
+        return {res: newVoucher};
+    }
+)
+export const updateVoucher = createAsyncThunk(
+    "voucher/updateVoucher",
+    async( payload) => {
+        const res = await VoucherApi.updateVoucher(payload);
+        const data = {id: payload.id, voucher: payload.data, res}
+        return data;
     }
 )
 
@@ -15,7 +23,7 @@ export const getAllVouchersByAdmin = createAsyncThunk(
         const allVoucher = await VoucherApi.getAllVouchersByAdmin(data);
         return allVoucher;
     }
-)
+    )
 export const getAllVouchers = createAsyncThunk(
     "voucher/getAllVouchers",
     async() => {
@@ -32,14 +40,6 @@ export const deleteVoucher = createAsyncThunk(
     }
 )
 
-export const updateVoucher = createAsyncThunk(
-    "voucher/updateVoucher",
-    async( payload) => {
-        const res = await VoucherApi.updateVoucher(payload);
-        const data = {id: payload.id, voucher: payload.data, res}
-        return data;
-    }
-)
 
 const VoucherSlice = createSlice({
     name: "voucher",
@@ -66,7 +66,7 @@ const VoucherSlice = createSlice({
             state.loading = true
         },
         [addVoucher.fulfilled](state, action) {
-            state.listVoucher.push(action.payload.data.data)
+            state.listVoucher.push(action.payload.res.data.data)
             state.loading = false
             state.isShow = false
         },

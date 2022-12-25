@@ -19,6 +19,7 @@ import {
   QuantityText,
 } from "../../sharedComponents/header/rightHeader/RightHeader";
 import { admin } from "../customer/Auth/authSlice";
+import { getStatistic } from "./dashBoard/statisticSlice";
 
 const GroupIcon = styled.div`
   ${tw` absolute top-3 right-10 flex gap-2`}

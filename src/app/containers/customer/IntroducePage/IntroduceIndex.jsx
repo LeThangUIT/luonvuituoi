@@ -12,7 +12,7 @@ const IntroduceIndex = () => {
       <div>
           <Routes>
                 <Route path='/' element={<IntroducePage />} >
-                    <Route index element={<IntroPage />} />
+                    <Route index element={<RefundPage />} />
                     <Route path='intro' element={<IntroPage />} />
                     <Route path="policy" element={<PolicyPage />} />
                     <Route path="insurance" element={<InsurancePage />} />

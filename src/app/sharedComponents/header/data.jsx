@@ -28,7 +28,7 @@ export let listMenu = [
     name: "Blog",
     subMenu: [
     ],
-    path: "/blog"
+    path: "/introduce/insurance"
   },
   // {
   //   name: "Tra cứu đơn hàng",

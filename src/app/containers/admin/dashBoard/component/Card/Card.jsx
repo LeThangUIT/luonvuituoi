@@ -9,11 +9,11 @@ const Card = (props) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <AnimateSharedLayout>
-      {
+      {/* {
         expanded ?
           <ExpandedCard param={props} setExpanded={() => setExpanded(false)} /> :
           <CompactCard param={props} setExpanded={() => setExpanded(true)} />
-      }
+      } */}
     </AnimateSharedLayout>
   )
 }
@@ -40,7 +40,7 @@ function CompactCard({ param, setExpanded }) {
       <div className="detail">
         <Png/>
         <span>${param.value}</span>
-        <span>Last 24 hours</span>
+        {/* <span>Last 24 hours</span> */}
       </div>
     </motion.div>
   )

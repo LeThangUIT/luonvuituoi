@@ -101,7 +101,6 @@ const CartSlice = createSlice({
       state.loading = true;
     },
     [addToCart.fulfilled](state, action) {
-      console.log(action.payload)
       state.loading = false;
       state.cart.push(action.payload.data.data);
       state.isCheckAll = false
@@ -142,10 +141,7 @@ const CartSlice = createSlice({
           console.log("first")
           return item.productId !== action.payload.productId;
         } else {
-          console.log(item.variantId)
-          console.log(action.payload.variantId)
-          console.log(item.productId)
-          console.log(action.payload.productId)
+
           return (
             item.variantId !== action.payload.variantId ||
             item.productId !== action.payload.productId

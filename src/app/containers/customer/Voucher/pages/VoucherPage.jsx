@@ -35,6 +35,20 @@ const CouponCart = styled.div`
         after:bg-white after:w-[30px] after:h-[30px] after:rounded-full after:absolute after:top-1/2  after:right-0
     `}
 `;
+
+const CouponCart2 = styled.div`
+  /* width: fit-content; */
+  ::before {
+    transform: translate(-50%, -50%);
+  }
+  ::after {
+    transform: translate(50%, -50%);
+  }
+  ${tw` col-span-1 relative bg-gradient-to-br from-green-500 to-blue-500 text-white py-3 px-8 shadow-lg rounded-2xl flex flex-col gap-2 items-center justify-center
+        before:bg-white before:w-[30px] before:h-[30px] before:rounded-full before:absolute before:top-1/2  before:left-0
+        after:bg-white after:w-[30px] after:h-[30px] after:rounded-full after:absolute after:top-1/2  after:right-0
+    `}
+`;
 const Logo = styled.img`
   ${tw`w-16 rounded-lg`}
 `;
@@ -56,11 +70,9 @@ const ExpText = styled.span`
 
 function VoucherPage() {
   const { listVoucher, loading } = useSelector((state) => state.voucher);
-  
 
   const [copy, setCopy] = useState(-1);
   const copyCode = ({ index, code }) => {
-    console.log(index);
     setCopy(index);
     navigator.clipboard.writeText(code);
   };
@@ -76,34 +88,53 @@ function VoucherPage() {
         ) : listVoucher.length > 0 ? (
           <ListCoupons>
             {listVoucher.map((item, index) => {
-              return (
-                <CouponCart key={index}>
-                  <Logo src={logo}></Logo>
-                  {item.discountType === "money" ? (
+              if (item.discountType === "money") {
+                return (
+                  <CouponCart key={index}>
+                    <Logo src={logo}></Logo>
                     <Heading>
                       Giảm ngay {item.value / 1000}k cho đơn hàng từ{" "}
                       {item.condition / 1000}k
                     </Heading>
-                  ) : (
+                    <CouponRow>
+                      <CouponCode>{item.code}</CouponCode>
+                      {copy == index ? (
+                        <CouponBtn>Đã lưu!</CouponBtn>
+                      ) : (
+                        <CouponBtn
+                          onClick={() => copyCode({ index, code: item.code })}
+                        >
+                          Sao chép
+                        </CouponBtn>
+                      )}
+                    </CouponRow>
+                    <ExpText>HSD: {formatDate(item.endDate)}</ExpText>
+                  </CouponCart>
+                );
+              } else {
+                return (
+                  <CouponCart2 key={index}>
+                    <Logo src={logo}></Logo>
                     <Heading>
                       Giảm {item.value}% cho đơn hàng từ {item.condition} sản
                       phẩm
                     </Heading>
-                  )}
-                  <CouponRow>
-                    <CouponCode>{item.code}</CouponCode>
-                    {copy == index ? (
-                      <CouponBtn
-                      >
-                        Đã lưu!
-                      </CouponBtn>
-                    ) : (
-                      <CouponBtn onClick={() => copyCode({ index, code: item.code })}>Sao chép</CouponBtn>
-                    )}
-                  </CouponRow>
-                  <ExpText>HSD: {formatDate(item.endDate)}</ExpText>
-                </CouponCart>
-              );
+                    <CouponRow>
+                      <CouponCode>{item.code}</CouponCode>
+                      {copy == index ? (
+                        <CouponBtn>Đã lưu!</CouponBtn>
+                      ) : (
+                        <CouponBtn
+                          onClick={() => copyCode({ index, code: item.code })}
+                        >
+                          Sao chép
+                        </CouponBtn>
+                      )}
+                    </CouponRow>
+                    <ExpText>HSD: {formatDate(item.endDate)}</ExpText>
+                  </CouponCart2>
+                );
+              }
             })}
           </ListCoupons>
         ) : (

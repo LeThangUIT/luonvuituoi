@@ -1,6 +1,6 @@
 import React from "react";
 import * as Yup from "yup";
-
+import parse from "date-fns/parse";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ButtonClose,
@@ -10,13 +10,13 @@ import {
   ModalTitle,
 } from "../../../../sharedComponents/modal";
 import { Heading22 } from "../../../../sharedComponents/text";
-
 import { Form, Formik } from "formik";
 import { FormContainer } from "../../../customer/LoginPage/pages/LoginPage";
 import FormikControl from "../../../../sharedComponents/formikCustom/FormikControl";
 import { PinkButton } from "../../../../sharedComponents/button";
 import { toast } from "react-toastify";
 import { addVoucher, hideVoucherModal, updateVoucher } from "../VoucherSlice";
+import { formatDate } from "../../../../sharedComponents/format";
 
 function VoucherModal() {
   const adminToken = localStorage.getItem("adminToken");
@@ -67,26 +67,34 @@ function VoucherModal() {
       .required("Bạn cần phải nhập trường này!")
       .positive("Giá phải là số dương!")
       .integer("Giá phải là số nguyên!"),
-      beginDate: Yup.date()
-      // .transform(function (value, originalValue) {
-      //   if (this.isType(value)) {
-      //     return value;
-      //   }
-      //   const result = parse(originalValue, "dd.MM.yyyy", new Date());
-      //   return result;
-      // })
+    beginDate: Yup.date()
+      .transform(function (value, originalValue) {
+        if (this.isType(value)) {
+          return value;
+        }
+        const result = parse(
+          formatDate(originalValue),
+          "dd/MM/yyyy",
+          new Date()
+        );
+        return result;
+      })
       .typeError("Vui lòng nhập ngày hợp lệ!")
       .required("Bạn cần phải nhập trường này!"),
-      endDate: Yup.date()
-      // .transform(function (value, originalValue) {
-      //   if (this.isType(value)) {
-      //     return value;
-      //   }
-      //   const result = parse(originalValue, "dd.MM.yyyy", new Date());
-      //   return result;
-      // })
+    endDate: Yup.date()
+      .transform(function (value, originalValue) {
+        if (this.isType(value)) {
+          return value;
+        }
+        const result = parse(
+          formatDate(originalValue),
+          "dd/MM/yyyy",
+          new Date()
+        );
+        return result;
+      })
       .typeError("Vui lòng nhập ngày hợp lệ!")
-      .required("Bạn cần phải nhập trường này!")
+      .required("Bạn cần phải nhập trường này!"),
   });
 
   const validate = (values, props) => {
@@ -100,11 +108,11 @@ function VoucherModal() {
         errors.value = "Phần trăm giảm phải từ 0 đến 100%!";
       }
     }
-    const date = new Date();
-    if(values.beginDate < date) {
-      errors.beginDate = "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại!";
-    }
-    if(values.beginDate > values.endDate) {
+    //const date = new Date();
+    // if(values.beginDate < date) {
+    //   errors.beginDate = "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại!";
+    // }
+    if (values.beginDate > values.endDate) {
       errors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu!";
     }
     return errors;
@@ -112,14 +120,15 @@ function VoucherModal() {
 
   const onSubmit = async (values) => {
     if (isUpdate) {
-      console.log(values)
-      var { payload } = await dispatch(
-        dispatch(updateVoucher({ id: newVoucher.id, data: values, adminToken }))
-      );
+      values.beginDate = new Date(values.beginDate);
+      values.endDate = new Date(values.endDate);
+      var { payload } = await dispatch(updateVoucher({ id: newVoucher.id, data: values, adminToken }));
+      console.log(payload);
     } else {
       var { payload } = await dispatch(
         addVoucher({ data: values, adminToken })
-      );
+        );
+        console.log(payload);
     }
     if (!payload.res.data.success) {
       dispatch(hideVoucherModal());
@@ -189,7 +198,7 @@ function VoucherModal() {
                   ></FormikControl>
                   <FormikControl
                     control="input"
-                    type="text"
+                    type="number"
                     label={
                       formik.values.discountType == "money"
                         ? "Số tiền đơn hàng tối thiểu"
@@ -199,7 +208,7 @@ function VoucherModal() {
                   ></FormikControl>
                   <FormikControl
                     control="input"
-                    type="text"
+                    type="number"
                     label={
                       formik.values.discountType == "money"
                         ? "Số tiền được giảm"

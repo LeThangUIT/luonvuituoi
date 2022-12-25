@@ -72,7 +72,7 @@ const UserDetailPage = () => {
             </Text16>
             <Text16>
               Lock:{" "}
-              <BoldText16>{userInfo?.isLocked ? "open" : "locked"}</BoldText16>
+              <BoldText16>{!userInfo?.isLocked ? "open" : "locked"}</BoldText16>
             </Text16>
             <Text16>
               Social login:{" "}

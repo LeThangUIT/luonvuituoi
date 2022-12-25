@@ -64,7 +64,7 @@ const NotificationSlice = createSlice({
             state.notifications.items = [action.payload, ...state.notifications.items]
             state.notifications.notReadCount += 1
             var title = document.title;
-            var newTitle = '(' + state.notifications.notReadCount + ') ' + title;
+            var newTitle = '(' + state.notifications.notReadCount + ') ' + "Lzava";
 	        document.title = newTitle;
         }
     },

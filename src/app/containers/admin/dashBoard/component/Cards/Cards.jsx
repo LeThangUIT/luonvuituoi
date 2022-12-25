@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../Card/Card'
 import { CardsData } from '../../../Data/Data'
 import './Cards.css'
-const Cards = () => {
+const Cards = ({data}) => {
   return (
     <div className="Cards">
       {CardsData.map((card, id) => {

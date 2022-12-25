@@ -23,7 +23,7 @@ const Datetimepicker = (props) => {
                 {...field}
                 {...rest}
                 selected={value}
-                onChange={val => setFieldValue(name, val)}
+                onChange={val =>{setFieldValue(name, val)}}
               />
             );
           }}
