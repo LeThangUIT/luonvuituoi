@@ -34,7 +34,7 @@ const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword })
         await dispatch(
           getAllProducts({
             page: pageNumber,
-            perPage: "16",
+            perPage: "8",
             categoryId,
             orderByPrice,
             keyword

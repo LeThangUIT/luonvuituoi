@@ -160,7 +160,6 @@ const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
   }, []);
   let selectedCart = cart.filter((item) => {
     if (item.checked) {
-      console.log(item);
       return item;
     }
   });

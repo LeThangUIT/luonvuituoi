@@ -268,6 +268,8 @@ function DetailPage() {
     rating: Yup.string()
       .required("Bạn cần phải nhập trường này!")
   });
+
+  const [reviewForm, setReviewForm] = useState(true)
   const onSubmit = (values) => {
     dispatch(addReview({userToken, data: {productId: productDetail.id, ...values}}))
   }

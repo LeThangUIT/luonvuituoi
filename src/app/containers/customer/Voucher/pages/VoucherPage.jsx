@@ -73,6 +73,7 @@ function VoucherPage() {
 
   const [copy, setCopy] = useState(-1);
   const copyCode = ({ index, code }) => {
+    console.log(code)
     setCopy(index);
     navigator.clipboard.writeText(code);
   };

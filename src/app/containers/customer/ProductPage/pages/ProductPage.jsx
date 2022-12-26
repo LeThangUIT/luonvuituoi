@@ -41,7 +41,7 @@ export default function ProductPage() {
   const [orderByPrice, setOrderByPrice] = useState("");
   useEffect(() => {
     dispatch(
-      getAllProducts({ page: "1", perPage: "16", categoryId, orderByPrice, keyword })
+      getAllProducts({ page: "1", perPage: "8", categoryId, orderByPrice, keyword })
     );
     setRemountComponent(Math.random());
   }, [categoryId, orderByPrice, keyword]);
