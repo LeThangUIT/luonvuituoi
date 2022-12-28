@@ -26,7 +26,6 @@ import VoucherIndex from "./app/containers/customer/Voucher/VoucherIndex";
 import InvoiceManagementIndex from "./app/containers/admin/invoiceManagement/InvoiceManagementIndex";
 import InvoiceIndex from "./app/containers/customer/InvoiceDetailPage/InvoiceIndex";
 import CallbackPayment from "./app/containers/CallbackPayment";
-import IntroduceIndex from "./app/containers/customer/IntroducePage/IntroduceIndex";
 const AppContainer = styled.div`
   ${tw`
     w-full
@@ -54,7 +53,6 @@ function App() {
           <Route path="invoice/:invoiceId" element={<InvoiceIndex />} />
           <Route path="product/*" element={<ProductIndex />} />
           <Route path="voucher" element={<VoucherIndex />} />
-          <Route path="introduce/*" element={<IntroduceIndex />} />
         </Route>
         <Route
           path="/admin/*"

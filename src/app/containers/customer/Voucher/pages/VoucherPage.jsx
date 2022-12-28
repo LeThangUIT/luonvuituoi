@@ -8,7 +8,7 @@ import { HeadingTitle } from "../../HomePage/components/content";
 import { UilAngleRightB } from "@iconscout/react-unicons";
 import tw from "twin.macro";
 import styled from "styled-components";
-import logo from "../../../../assets/images/LzavaLogo.png";
+import logo from "../../../../assets/images/Logo.png";
 import { useState } from "react";
 import { formatDate } from "../../../../sharedComponents/format";
 import LoadingComponent from "../../../../sharedComponents/loading";
@@ -50,7 +50,7 @@ const CouponCart2 = styled.div`
     `}
 `;
 const Logo = styled.img`
-  ${tw`w-16 rounded-lg`}
+  ${tw`h-10 rounded-lg`}
 `;
 const Heading = styled.span`
   ${tw` text-[16px] font-normal leading-[19px] text-center`}
