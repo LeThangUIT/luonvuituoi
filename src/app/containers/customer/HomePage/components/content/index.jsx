@@ -122,7 +122,7 @@ export function Content() {
                 </clipPath>
               </defs>
             </FlashIcon>
-            <Heading26>Flash sale</Heading26>
+            <Heading26>Sản phẩm mới</Heading26>
             <Time>
               <TimeBox>
                 <TimeText>{gio < 10 ? "0" + gio : gio}</TimeText>
@@ -138,7 +138,7 @@ export function Content() {
             </Time>
             <UilAngleRightB></UilAngleRightB>
           </HeadingTitle>
-          <LightText14>135 khuyến mãi</LightText14>
+          {/* <LightText14>135 khuyến mãi</LightText14> */}
         </Title>
         <RelativeDiv>
           {listProducts && <ProductsSlider data={listProducts.items}></ProductsSlider>}
