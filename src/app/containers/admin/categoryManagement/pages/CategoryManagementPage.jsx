@@ -59,7 +59,7 @@ function CategoryManagementPage() {
       <MainDash>
         <Heading30>Category Management</Heading30>
         <FlexContainer>
-          <span>Hiển thị 4 trên 10 dòng</span>
+        <span>Hiển thị {listCategories?.items?.length} trên  {listCategories?.totalCount} danh mục</span>
           <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm

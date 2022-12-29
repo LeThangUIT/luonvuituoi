@@ -46,7 +46,7 @@ function UserManagementPage() {
     <MainDash>
       <Heading30>User Management</Heading30>
       <FlexContainer>
-        <span>Hiển thị 4 trên 10 dòng</span>
+        <span>Hiển thị {listUser?.items?.length} trên  {listUser?.totalCount} tài khoản</span>
         <ButtonGroup>
           <GreenBorderButton onClick={handleExport}>
                 <img className="w-6 h-6" src={excelIcon}></img>

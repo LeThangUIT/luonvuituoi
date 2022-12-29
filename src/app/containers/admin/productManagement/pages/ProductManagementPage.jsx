@@ -75,7 +75,7 @@ function ProductManagementPage() {
     <MainDash>
         <Heading30>Product Management</Heading30>
         <FlexContainer>
-          <span>Hiển thị 4 trên 10 dòng</span>
+          <span>Hiển thị {listProducts?.items?.length} trên  {listProducts?.totalCount} sản phẩm</span>
           <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm

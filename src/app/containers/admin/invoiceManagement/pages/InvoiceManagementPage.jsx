@@ -43,7 +43,8 @@ function InvoiceManagementPage() {
     <MainDash>
       <Heading30>Invoice Management</Heading30>
       <FlexContainer>
-        <span>Hiển thị 4 trên 10 dòng</span>
+      <span>Hiển thị {listInvoice?.items?.length} trên  {listInvoice?.totalCount} hóa đơn</span>
+
         <ButtonGroup>
           <GreenBorderButton onClick={handleExport}>
                 <img className="w-6 h-6" src={excelIcon}></img>

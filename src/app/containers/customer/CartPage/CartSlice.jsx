@@ -120,16 +120,16 @@ const CartSlice = createSlice({
       state.loading = false;
     },
 
-    [getCartFromLocal.pending](state) {
-      state.loading = true;
-    },
-    [getCartFromLocal.fulfilled](state, action) {
-      state.loading = false;
-      state.cart = action.payload.data;
-    },
-    [getCartFromLocal.rejected](state) {
-      state.loading = false;
-    },
+    // [getCartFromLocal.pending](state) {
+    //   state.loading = true;
+    // },
+    // [getCartFromLocal.fulfilled](state, action) {
+    //   state.loading = false;
+    //   state.cart = action.payload.data;
+    // },
+    // [getCartFromLocal.rejected](state) {
+    //   state.loading = false;
+    // },
 
     [deleteCart.pending](state) {
       state.loading = true;

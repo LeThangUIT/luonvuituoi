@@ -51,7 +51,7 @@ function VoucherManagementPage() {
     <MainDash>
       <Heading30>Voucher Management</Heading30>
       <FlexContainer>
-        <span>Hiển thị 4 trên 10 dòng</span>
+      <span>Hiển thị tất cả voucher</span>
         <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm
@@ -69,7 +69,7 @@ function VoucherManagementPage() {
       <ScrollContainer>
         <VoucherTable listVoucher={listVoucher}></VoucherTable>
       </ScrollContainer>
-      <PagingComponent type={"voucherByAdmin"} pageCount={listVoucher?.totalPage}></PagingComponent>
+      {/* <PagingComponent type={"voucherByAdmin"} pageCount={listVoucher?.totalPage}></PagingComponent> */}
     </MainDash>
     {isShow && <VoucherModal></VoucherModal>}
     {showImport && <ImportModal typeModal="voucher" setShowImport={setShowImport}></ImportModal>}
