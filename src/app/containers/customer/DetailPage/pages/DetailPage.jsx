@@ -20,6 +20,7 @@ import {
   LightText12,
   LightText14,
   PinkHeading16,
+  PinkHeading22,
   PinkHeading30,
   PinkHeading48,
   Text14,
@@ -275,8 +276,8 @@ function DetailPage() {
     const res = await dispatch(
       addReview({ userToken, data: { productId: productDetail.id, ...values } })
     );
-    if(res.data.success) {
-      setReviewForm(false)
+    if (res.payload.success) {
+      setReviewForm(false);
     }
   };
   return (
@@ -291,7 +292,7 @@ function DetailPage() {
               <ContentSection>
                 <NameProduct>{productDetail.name}</NameProduct>
                 <EvaluationFrame>
-                  {productDetail.averageRating == null ? (
+                  {/* {productDetail.averageRating == null ? (
                     <StartFrame>
                       {[...Array(5)].map((i, index) => (
                         <StarIcon size="20" color="#F0A500"></StarIcon>
@@ -299,25 +300,33 @@ function DetailPage() {
                     </StartFrame>
                   ) : (
                     <StartFrame>
-                      {[...Array(productDetail.averageRating)].map(
+                      {[...Array(productDetail.averageRating.toFixed(0))].map(
                         (i, index) => (
                           <StarIcon size="20" color="#F0A500"></StarIcon>
                         )
                       )}
-                      {[...Array(5 - productDetail.averageRating)].map(
+                      {[...Array(5 - productDetail.averageRating.toFixed(0))].map(
                         (i, index) => (
                           <StarIcon size="20" color="#818181"></StarIcon>
                         )
                       )}
                     </StartFrame>
-                  )}
-                  <Line></Line>
+                  )} */}
                   {productDetail.countReview == 0 ? (
                     <LightText14>Chưa có đánh giá</LightText14>
                   ) : (
-                    <LightText14>
-                      {productDetail.countReview} lượt đánh giá
-                    </LightText14>
+                    <>
+                      <div className="flex items-center gap-1">
+                        <PinkHeading22>
+                          {productDetail.averageRating}{" "}
+                        </PinkHeading22>
+                        <StarIcon size="20" color="#F0A500"></StarIcon>
+                      </div>
+                      <Line></Line>
+                      <LightText14>
+                        {productDetail.countReview} lượt đánh giá
+                      </LightText14>
+                    </>
                   )}
 
                   <Line></Line>
