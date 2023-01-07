@@ -42,11 +42,16 @@ function CategoryModal() {
 
   const onSubmit = async (values) => {
     if (isUpdate) {
-      var {payload} = await dispatch(
-        updateCategory({category: { id: newCategory.id, ...values }, adminToken})
+      var { payload } = await dispatch(
+        updateCategory({
+          category: { id: newCategory.id, ...values },
+          adminToken,
+        })
       );
     } else {
-      var {payload} = await dispatch(addCategory({data: values, adminToken}));
+        var {payload} = await dispatch(
+          addCategory({ data: values, adminToken })
+        );
     }
     if (!payload.res.data.success) {
       dispatch(hideCategoryModal());

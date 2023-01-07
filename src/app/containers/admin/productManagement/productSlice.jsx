@@ -3,9 +3,17 @@ import ProductApi from "../../../api/productApi";
 
 export const addProduct = createAsyncThunk(
     "product/addProduct",
-    async( {data,adminToken} ) => {
-        const newProduct = await ProductApi.addProduct({data, adminToken});
-        return newProduct;
+    async( {data,adminToken}, {rejectWithValue} ) => {
+        try {
+            const newProduct = await ProductApi.addProduct({data, adminToken});
+            console.log(newProduct)
+            return newProduct;
+        }
+        catch (err) {
+            console.log(err.response)
+
+            return rejectWithValue(err.response)
+        }
     }
 )
 

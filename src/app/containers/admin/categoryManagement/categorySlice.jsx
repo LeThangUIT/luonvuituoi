@@ -20,18 +20,28 @@ export const getAllCategories = createAsyncThunk(
 
 export const addCategory = createAsyncThunk(
     "category/addCategory",
-    async({data, adminToken}) => {
-        const newCategory = await CategoryApi.addCategory({data, adminToken});
-        return newCategory;
+    async({data, adminToken}, { rejectWithValue }) => {
+        try {
+            const res = await CategoryApi.addCategory({data, adminToken});
+            return {res};
+        } 
+        catch (err) {
+            return rejectWithValue({res: err.response})
+        }
     }
 )
 
 export const updateCategory = createAsyncThunk(
     "category/updateCategory",
-    async({category, adminToken}) => {
-        const res = await CategoryApi.updateCategory({id: category.id,name: category.name, adminToken});
-        const data = {category, res}
-        return data;
+    async({category, adminToken}, { rejectWithValue }) => {
+        try{
+            const res = await CategoryApi.updateCategory({id: category.id,name: category.name, adminToken});
+            const data = {category, res}
+            return data;
+        }
+        catch (err) {
+            return rejectWithValue({res: err.response})
+        }
     }
 )
 
@@ -91,11 +101,11 @@ const CategorySlice = createSlice({
             state.loading = true
         },
         [addCategory.fulfilled](state, action) {
-            state.listCategories.items.push(action.payload.data.data)
+            state.listCategories.items.push(action.payload.res.data.data)
             state.loading = false
             state.isShow = false
         },
-        [addCategory.rejected](state) {
+        [addCategory.rejected](state, action) {
             state.loading = false
         },
 
@@ -103,6 +113,7 @@ const CategorySlice = createSlice({
             state.loading = true
         },
         [updateCategory.fulfilled](state, action) {
+            console.log(action.payload)
             state.loading = false
             state.listCategories.items.forEach((item, index) => {
                 if(item.id == action.payload.category.id) {
