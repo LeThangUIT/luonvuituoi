@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductIndex from "./app/containers/customer/ProductPage/ProductIndex";
 import CallbackApi from "./app/containers/CallbackApi";
 import ProfileIndex from "./app/containers/customer/ProfilePage/ProfileIndex";
-import VoucherManagementIndex from "./app/containers/admin/voucherManagement/OrderManagementIndex";
+import VoucherManagementIndex from "./app/containers/admin/voucherManagement/VoucherManagementIndex";
 import UserManagementIndex from "./app/containers/admin/userManagement/UserManagementIndex";
 import ProtectedAdminRoute from "./app/sharedComponents/protectedRoute/ProtectedAdminRoute";
 import ProtectedCustomerRoute from "./app/sharedComponents/protectedRoute/ProtectedCustomerRoute";
