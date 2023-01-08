@@ -14,15 +14,13 @@ import { UilImport } from "@iconscout/react-unicons";
 import excelIcon from "../../../../assets/images/excelIcon.png";
 import ProductApi from '../../../../api/productApi';
 import ImportModal from '../../categoryManagement/components/ImportModal';
+import { SearchBox } from '../../../../sharedComponents/header/searchBox';
 
 const FlexContainer = styled.div`
   ${tw` flex flex-row items-center justify-between gap-16`}
 `;
 const ButtonGroup = styled.div`
   ${tw` flex flex-row items-center gap-4`}
-`;
-export const SearchBox = styled.input`
-  ${tw` flex-1 border w-full py-3 pl-4 pr-12 h-12 focus:outline-none rounded-lg bg-white placeholder:text-xs placeholder:not-italic placeholder:font-normal placeholder:leading-[15px] `}
 `;
 export const ScrollContainer = styled.div`
   flex-grow: 1;
@@ -46,17 +44,18 @@ export const ScrollContainer = styled.div`
 `;
 function ProductManagementPage() {
   const adminToken = localStorage.getItem("adminToken");
-  const { listProducts, isShow, loading } = useSelector(
+  const { listProducts, isShow, loading, keyword } = useSelector(
     (state) => state.product
   );
-  const [value, setValue] = useState(""); //keyword
+
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getAllProductsByAdmin({page:"1", perPage:"8", adminToken, keyword: value}))
+    console.log("âssd")
+    dispatch(getAllCategoriesByAdmin({adminToken, noPagination: "0"}))
   }, [])
   useEffect(() => {
-    dispatch(getAllProductsByAdmin({page:"1", perPage:"8", adminToken, keyword: value}))
-  }, [value])
+    dispatch(getAllProductsByAdmin({page:"1", perPage:"8", adminToken, keyword}))
+  }, [keyword])
   
   const handleAdd = () => {
     dispatch(showProductModal({data: null }));
@@ -78,20 +77,13 @@ function ProductManagementPage() {
   };
 
   
-  const handleChangeInput = (event) => {
-    setValue(event.target.value);
-  };
   return (
     <>
     <MainDash>
         <Heading30>Product Management</Heading30>
         <FlexContainer>
           <span>Hiển thị {listProducts?.items?.length} trên  {listProducts?.totalCount} sản phẩm</span>
-          <SearchBox
-             value={value}
-             onChange={handleChangeInput}
-             placeholder="Tìm sản phẩm..."
-          ></SearchBox>
+          <SearchBox></SearchBox>
           <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm
@@ -109,7 +101,7 @@ function ProductManagementPage() {
         <ScrollContainer>
           <ProductTable listProducts={listProducts}></ProductTable>
         </ScrollContainer>
-        <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage} keyword = {value}></PagingComponent>
+        <PagingComponent type={"productByAdmin"} pageCount={listProducts?.totalPage} keyword = {keyword}></PagingComponent>
     </MainDash>
     {isShow && <ProductModal></ProductModal>}
     {showImport && <ImportModal typeModal="product" setShowImport={setShowImport}></ImportModal>}

@@ -33,13 +33,17 @@ const UserSlice = createSlice({
         loading: false,
         listUser: [],
         isShow: false,
-        userInfo: null
+        userInfo: null,
+        keyword: ""
     },
 
     reducers: {
         showUserModal: (state, action) => {
             state.isShow = true;
           },
+          setUserKeyword: (state, action) => {
+            state.keyword = action.payload
+        }
     }, 
     extraReducers: {
         [getAllUsers.pending](state) {
@@ -83,5 +87,5 @@ const UserSlice = createSlice({
 })
 
 export const { reducer: UserReducer, actions } = UserSlice;
-export const {showUserModal} = actions;
+export const {showUserModal, setUserKeyword} = actions;
 export default UserSlice;

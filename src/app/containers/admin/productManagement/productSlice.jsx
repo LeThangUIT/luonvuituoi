@@ -103,7 +103,7 @@ const ProductSlice = createSlice({
             state.loading = true
         },
 
-        setKeyword: (state, action) => {
+        setProductKeyword: (state, action) => {
             state.keyword = action.payload
         }
     },
@@ -227,5 +227,5 @@ const ProductSlice = createSlice({
 })
 
 export const { reducer: ProductReducer, actions } = ProductSlice;
-export const {showProductModal, hideProductModal, setLoading, setKeyword} = actions;
+export const {showProductModal, hideProductModal, setLoading, setProductKeyword} = actions;
 export default ProductReducer;

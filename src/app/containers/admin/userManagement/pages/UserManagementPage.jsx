@@ -7,11 +7,12 @@ import { AddButton, GreenBorderButton } from '../../../../sharedComponents/butto
 import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent';
 import { Heading30 } from '../../../../sharedComponents/text';
 import { MainDash } from '../../components/MainDash/MainDash';
-import { ScrollContainer, SearchBox } from '../../productManagement/pages/ProductManagementPage';
+import { ScrollContainer } from '../../productManagement/pages/ProductManagementPage';
 import UserTable from '../component/UserTable';
 import { getAllUsers } from '../UserSlice';
 import excelIcon from "../../../../assets/images/excelIcon.png";
 import { useState } from 'react';
+import { SearchBox } from '../../../../sharedComponents/header/searchBox';
 
 
 
@@ -26,14 +27,13 @@ const ButtonGroup = styled.div`
 function UserManagementPage() {
   const dispatch = useDispatch()
   const adminToken = localStorage.getItem("adminToken");
-  const { listUser, isShow, loading } = useSelector(
+  const { listUser, isShow, loading , keyword} = useSelector(
     (state) => state.user
   );
 
-  const [value, setValue] = useState(""); //keyword
   useEffect(() => {
-    dispatch(getAllUsers({adminToken, page:"1", perPage:"8", keyword: value}))
-  }, [value])
+    dispatch(getAllUsers({adminToken, page:"1", perPage:"8", keyword}))
+  }, [keyword])
 
   const handleExport = () => {
     UserApi.exportFile(adminToken).then((res) => {
@@ -45,20 +45,13 @@ function UserManagementPage() {
     });
   };
 
-  const handleChangeInput = (event) => {
-    setValue(event.target.value);
-  };
   return (
     <>
     <MainDash>
       <Heading30>User Management</Heading30>
       <FlexContainer>
         <span>Hiển thị {listUser?.items?.length} trên  {listUser?.totalCount} tài khoản</span>
-        <SearchBox
-             value={value}
-             onChange={handleChangeInput}
-             placeholder="Tìm khách hàng..."
-          ></SearchBox>
+        <SearchBox></SearchBox>
         <ButtonGroup>
           <GreenBorderButton onClick={handleExport}>
                 <img className="w-6 h-6" src={excelIcon}></img>
@@ -69,7 +62,7 @@ function UserManagementPage() {
       <ScrollContainer>
         <UserTable listUser={listUser}></UserTable>
       </ScrollContainer>
-      <PagingComponent type={"userByAdmin"} pageCount={listUser?.totalPage} keyword={value}></PagingComponent>
+      <PagingComponent type={"userByAdmin"} pageCount={listUser?.totalPage} keyword={keyword}></PagingComponent>
     </MainDash>
   </>
 );

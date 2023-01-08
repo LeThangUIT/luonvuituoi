@@ -62,7 +62,8 @@ const CategorySlice = createSlice({
         listCategories: null,
         isShow: false,
         isUpdate: null,
-        newCategory: null
+        newCategory: null,
+        keyword: "",
     },
     reducers:{
         showCategoryModal: (state, action) => {
@@ -72,7 +73,10 @@ const CategorySlice = createSlice({
           },
         hideCategoryModal: (state, action) => {
             state.isShow = false;
-          },
+        },
+        setCategoryKeyword: (state, action) => {
+            state.keyword = action.payload
+        }
     },
     extraReducers: {
         [getAllCategoriesByAdmin.pending](state) {
@@ -140,6 +144,6 @@ const CategorySlice = createSlice({
 })
 
 export const { reducer: CategoryReducer, actions } = CategorySlice;
-export const {showCategoryModal, hideCategoryModal} = actions;
+export const {showCategoryModal, hideCategoryModal, setCategoryKeyword} = actions;
 export default CategoryReducer;
 
