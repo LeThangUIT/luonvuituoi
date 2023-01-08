@@ -3,8 +3,8 @@ import CategoryApi from "../../../api/categoryApi";
 
 export const getAllCategoriesByAdmin = createAsyncThunk(
     "category/getAllCategoriesByAdmin",
-    async({page, perPage, adminToken, noPagination}) => {
-        const allCategory = await CategoryApi.getAllCategoriesByAdmin({page, perPage, adminToken, noPagination});
+    async(data) => {
+        const allCategory = await CategoryApi.getAllCategoriesByAdmin(data);
         return allCategory;
 
     }

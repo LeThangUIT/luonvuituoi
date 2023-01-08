@@ -20,13 +20,13 @@ class propductApi {
     });
   };
 
-  getAllProductsByAdmin = ({page, perPage, keyWord, adminToken}) => {
+  getAllProductsByAdmin = ({page, perPage, keyword, adminToken}) => {
     const url = `${ADMIN_API_URL}/product`;
     return axios.get(url, {
       params: {
         page,
         perPage,
-        keyWord
+        keyword
       },
       headers: {
         Authorization: "Bearer " + adminToken,

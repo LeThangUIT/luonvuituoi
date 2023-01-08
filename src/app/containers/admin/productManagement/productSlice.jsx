@@ -6,12 +6,9 @@ export const addProduct = createAsyncThunk(
     async( {data,adminToken}, {rejectWithValue} ) => {
         try {
             const newProduct = await ProductApi.addProduct({data, adminToken});
-            console.log(newProduct)
             return newProduct;
         }
         catch (err) {
-            console.log(err.response)
-
             return rejectWithValue(err.response)
         }
     }
@@ -27,8 +24,8 @@ export const updateProduct = createAsyncThunk(
 
 export const getAllProductsByAdmin = createAsyncThunk(
     "product/getAllProductsByAdmin",
-    async({page, perPage, keyWord, adminToken}) => {
-        const allProduct = await ProductApi.getAllProductsByAdmin({page, perPage, keyWord, adminToken});
+    async(data) => {
+        const allProduct = await ProductApi.getAllProductsByAdmin(data);
         return allProduct;
     }
 )

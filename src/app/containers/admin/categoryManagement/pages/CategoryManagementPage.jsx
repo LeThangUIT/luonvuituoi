@@ -12,15 +12,15 @@ import { getAllCategoriesByAdmin, showCategoryModal } from "../categorySlice";
 import TableBrand from "../components/TableCategory";
 import CategoryModal from "../components/CategoryModal";
 import PagingComponent from "../../../../sharedComponents/pagination/PagingComponent";
-import { ScrollContainer } from "../../productManagement/pages/ProductManagementPage";
+import { ScrollContainer, SearchBox } from "../../productManagement/pages/ProductManagementPage";
 import { UilImport } from "@iconscout/react-unicons";
 import excelIcon from "../../../../assets/images/excelIcon.png";
-import ImportModal from "../components/ImportModal"; 
+import ImportModal from "../components/ImportModal";
 import CategoryApi from "../../../../api/categoryApi";
 import { useState } from "react";
 
 const FlexContainer = styled.div`
-  ${tw` flex flex-row items-center justify-between`}
+  ${tw` flex flex-row items-center justify-between gap-16`}
 `;
 
 const ButtonGroup = styled.div`
@@ -30,12 +30,21 @@ function CategoryManagementPage() {
   const adminToken = localStorage.getItem("adminToken");
   const { listCategories, isShow, loading } = useSelector(
     (state) => state.category
+  );
+  const dispatch = useDispatch();
+
+  const [value, setValue] = useState(""); //keyword
+  useEffect(() => {
+    dispatch(
+      getAllCategoriesByAdmin({
+        adminToken,
+        page: "1",
+        perPage: "8",
+        keyword: value,
+      })
     );
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(getAllCategoriesByAdmin({ adminToken, page: "1", perPage: "8" }));
-    }, []);
-    
+  }, [value]);
+
   const handleAdd = () => {
     dispatch(showCategoryModal({ isUpdate: false, data: null }));
   };
@@ -54,12 +63,24 @@ function CategoryManagementPage() {
       link.click();
     });
   };
+
+  const handleChangeInput = (event) => {
+    setValue(event.target.value);
+  };
   return (
     <>
       <MainDash>
         <Heading30>Category Management</Heading30>
         <FlexContainer>
-        <span>Hiển thị {listCategories?.items?.length} trên  {listCategories?.totalCount} danh mục</span>
+          <span>
+            Hiển thị {listCategories?.items?.length} trên{" "}
+            {listCategories?.totalCount} danh mục
+          </span>
+          <SearchBox
+            value={value}
+            onChange={handleChangeInput}
+            placeholder="Tìm danh mục..."
+          ></SearchBox>
           <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm
@@ -80,10 +101,16 @@ function CategoryManagementPage() {
         <PagingComponent
           type={"categoryByAdmin"}
           pageCount={listCategories?.totalPage}
+          keyword={value}
         ></PagingComponent>
       </MainDash>
       {isShow && <CategoryModal></CategoryModal>}
-      {showImport && <ImportModal typeModal="category" setShowImport={setShowImport}></ImportModal>}
+      {showImport && (
+        <ImportModal
+          typeModal="category"
+          setShowImport={setShowImport}
+        ></ImportModal>
+      )}
     </>
   );
 }

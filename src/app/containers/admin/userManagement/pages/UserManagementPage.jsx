@@ -7,15 +7,16 @@ import { AddButton, GreenBorderButton } from '../../../../sharedComponents/butto
 import PagingComponent from '../../../../sharedComponents/pagination/PagingComponent';
 import { Heading30 } from '../../../../sharedComponents/text';
 import { MainDash } from '../../components/MainDash/MainDash';
-import { ScrollContainer } from '../../productManagement/pages/ProductManagementPage';
+import { ScrollContainer, SearchBox } from '../../productManagement/pages/ProductManagementPage';
 import UserTable from '../component/UserTable';
 import { getAllUsers } from '../UserSlice';
 import excelIcon from "../../../../assets/images/excelIcon.png";
+import { useState } from 'react';
 
 
 
 const FlexContainer = styled.div`
-  ${tw` flex flex-row items-center justify-between`}
+  ${tw` flex flex-row items-center justify-between gap-16`}
 `;
 
 const ButtonGroup = styled.div`
@@ -28,9 +29,11 @@ function UserManagementPage() {
   const { listUser, isShow, loading } = useSelector(
     (state) => state.user
   );
+
+  const [value, setValue] = useState(""); //keyword
   useEffect(() => {
-    dispatch(getAllUsers({adminToken, page:"1", perPage:"8"}))
-  }, [])
+    dispatch(getAllUsers({adminToken, page:"1", perPage:"8", keyword: value}))
+  }, [value])
 
   const handleExport = () => {
     UserApi.exportFile(adminToken).then((res) => {
@@ -41,12 +44,21 @@ function UserManagementPage() {
       link.click();
     });
   };
+
+  const handleChangeInput = (event) => {
+    setValue(event.target.value);
+  };
   return (
     <>
     <MainDash>
       <Heading30>User Management</Heading30>
       <FlexContainer>
         <span>Hiển thị {listUser?.items?.length} trên  {listUser?.totalCount} tài khoản</span>
+        <SearchBox
+             value={value}
+             onChange={handleChangeInput}
+             placeholder="Tìm khách hàng..."
+          ></SearchBox>
         <ButtonGroup>
           <GreenBorderButton onClick={handleExport}>
                 <img className="w-6 h-6" src={excelIcon}></img>
@@ -57,7 +69,7 @@ function UserManagementPage() {
       <ScrollContainer>
         <UserTable listUser={listUser}></UserTable>
       </ScrollContainer>
-      <PagingComponent type={"userByAdmin"} pageCount={listUser?.totalPage}></PagingComponent>
+      <PagingComponent type={"userByAdmin"} pageCount={listUser?.totalPage} keyword={value}></PagingComponent>
     </MainDash>
   </>
 );

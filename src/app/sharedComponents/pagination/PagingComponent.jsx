@@ -43,7 +43,7 @@ const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword })
         break;
       case "productByAdmin":
         await dispatch(
-          getAllProductsByAdmin({ page: pageNumber, perPage: "8", adminToken })
+          getAllProductsByAdmin({ page: pageNumber, perPage: "8", adminToken, keyword })
         );
         break;
       case "categoryByAdmin":
@@ -52,6 +52,7 @@ const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword })
             page: pageNumber,
             perPage: "8",
             adminToken,
+            keyword
           })
         );
         break;
@@ -62,7 +63,7 @@ const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword })
         break;
       case "userByAdmin":
         await dispatch(
-          getAllUsers({ page: pageNumber, perPage: "8", adminToken })
+          getAllUsers({ page: pageNumber, perPage: "8", adminToken, keyword})
         );
         break;
       case "invoiceByAdmin":

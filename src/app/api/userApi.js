@@ -4,12 +4,13 @@ import { ADMIN_API_URL, API_URL, USER_API_URL } from "../constant";
 
 class userApi {
 
-  getAllUsers = async ({page, perPage, adminToken}) => {
+  getAllUsers = async ({page, perPage, adminToken, keyword}) => {
     const url = `${ADMIN_API_URL}/user`;
     return await axios.get(url, {
       params: {
         page, 
         perPage,
+        keyword
       },
       headers: {
         Authorization: "Bearer " + adminToken,
