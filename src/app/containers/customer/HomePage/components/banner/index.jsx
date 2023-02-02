@@ -33,7 +33,7 @@ const Text1 = styled.span`
 `;
 const Text2 = styled.span`
   ${tw`
-        sm:w-[450px] not-italic font-normal text-base self-stretch leading-[19px] text-[#300F19] opacity-60
+        sm:w-[420px] not-italic font-normal text-base self-stretch leading-[19px] text-[#300F19] opacity-60
     `}
 `;
 const StartButton = styled.button`
@@ -51,7 +51,7 @@ const StartButtonIcon = styled.svg`
 `
 const ImageContainer = styled.div`
     ${tw`
-        absolute sm:w-[350px] md:w-[420px] xl:w-[600px] h-auto right-0 bottom-0
+        absolute w-[350px] md:w-[420px] xl:w-[600px] h-auto right-0 bottom-0
     `}
 `
 export function Banner() {

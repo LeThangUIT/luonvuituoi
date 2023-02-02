@@ -172,6 +172,7 @@ export default function LoginPage() {
     try {
       const res = await AuthApi.socialLogin("google");
       const url = res.data.data;
+      console.log(url)
       window.location.href = url;
     } catch (e) {}
   };

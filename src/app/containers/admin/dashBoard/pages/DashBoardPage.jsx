@@ -31,7 +31,7 @@ function DashBoardPage() {
     return (
       <>
         <MainDash>
-          <Heading30>Dashboard Page</Heading30>
+          <Heading30>Thống kê</Heading30>
           <Cards>
             <Card
               style={{

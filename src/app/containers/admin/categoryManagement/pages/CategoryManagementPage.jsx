@@ -67,7 +67,7 @@ function CategoryManagementPage() {
   return (
     <>
       <MainDash>
-        <Heading30>Category Management</Heading30>
+        <Heading30>Quản lý danh mục</Heading30>
         <FlexContainer>
           <span>
             Hiển thị {listCategories?.items?.length} trên{" "}
@@ -80,11 +80,11 @@ function CategoryManagementPage() {
             </AddButton>
             <GreenBorderButton onClick={handleExport}>
               <img className="w-6 h-6" src={excelIcon}></img>
-              Export
+              Xuất
             </GreenBorderButton>
             <GreenBorderButton onClick={handleImport}>
               <UilImport></UilImport>
-              Import
+              Nhập
             </GreenBorderButton>
           </ButtonGroup>
         </FlexContainer>

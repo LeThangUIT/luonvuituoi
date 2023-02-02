@@ -6,10 +6,12 @@ import logo from "../../../assets/images/Logo.png"
 
 const LogoContainer = styled.div`
     ${tw`
+        lg:w-32
         md:w-28
-        sm:w-24
-        h-16
+        w-24
         hover:cursor-pointer
+        flex 
+        items-center
     `}
 `
 export function Logo () {

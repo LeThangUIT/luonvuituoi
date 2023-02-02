@@ -41,14 +41,13 @@ function InvoiceManagementPage() {
   return (
     <>
     <MainDash>
-      <Heading30>Invoice Management</Heading30>
+      <Heading30>Quản lý hóa đơn</Heading30>
       <FlexContainer>
       <span>Hiển thị {listInvoice?.items?.length} trên  {listInvoice?.totalCount} hóa đơn</span>
-
         <ButtonGroup>
           <GreenBorderButton onClick={handleExport}>
                 <img className="w-6 h-6" src={excelIcon}></img>
-                Export
+                Xuất
           </GreenBorderButton>
         </ButtonGroup>
       </FlexContainer>

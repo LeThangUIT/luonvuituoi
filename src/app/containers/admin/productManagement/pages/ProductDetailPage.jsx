@@ -139,7 +139,7 @@ const ProductDetailPage = () => {
   };
   return (
     <MainDash>
-      <Heading30>Detail Product</Heading30>
+      <Heading30>Chi tiết sản phẩm</Heading30>
       <ScrollContainer>
         <GridContainer>
           <LeftSide>

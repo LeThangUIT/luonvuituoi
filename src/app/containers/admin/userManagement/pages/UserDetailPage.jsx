@@ -61,38 +61,38 @@ const UserDetailPage = () => {
             </Text16>
             {userInfo?.phone && (
               <Text16>
-                Phone: <BoldText16>{userInfo?.phone}</BoldText16>
+                Điện thoại: <BoldText16>{userInfo?.phone}</BoldText16>
               </Text16>
             )}
             <Text16>
-              Status:{" "}
+              Trạng thái:{" "}
               <BoldText16>
-                {userInfo?.isActive ? "active" : "inactive"}
+                {userInfo?.isActive ? "hoạt động" : "không hoạt động"}
               </BoldText16>
             </Text16>
             <Text16>
-              Lock:{" "}
-              <BoldText16>{!userInfo?.isLocked ? "open" : "locked"}</BoldText16>
+              Khóa:{" "}
+              <BoldText16>{!userInfo?.isLocked ? "mở" : "đã khóa"}</BoldText16>
             </Text16>
             <Text16>
-              Social login:{" "}
-              <BoldText16>{userInfo?.isLoginSocial ? "yes" : "no"}</BoldText16>
+              Đăng nhập bằng mạng xã hội:{" "}
+              <BoldText16>{userInfo?.isLoginSocial ? "có" : "không"}</BoldText16>
             </Text16>
           </Group>
           <Text16>Invoice list:</Text16>
           <Table>
             <TableHead>
               <TableRowHead>
-                <TableHeading>SL</TableHeading>
-                <TableHeading>Receiver name</TableHeading>
-                <TableHeading>Receiver phone</TableHeading>
-                <TableHeading>Address</TableHeading>
-                <TableHeading>Order date</TableHeading>
+                <TableHeading>STT</TableHeading>
+                <TableHeading>Tên</TableHeading>
+                <TableHeading>Điện thoại</TableHeading>
+                <TableHeading>Địa chỉ</TableHeading>
+                <TableHeading>Ngày đặt</TableHeading>
                 {/* <TableHeading>Subtotal</TableHeading>
                 <TableHeading>Fee</TableHeading>
                 <TableHeading>Discount</TableHeading> */}
-                <TableHeading>Total</TableHeading>
-                <TableHeading>Payment</TableHeading>
+                <TableHeading>Thành tiền</TableHeading>
+                <TableHeading>Thanh toán</TableHeading>
               </TableRowHead>
             </TableHead>
             <TableBody>

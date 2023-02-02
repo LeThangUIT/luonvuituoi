@@ -82,9 +82,9 @@ const PagingComponent = ({ type, pageCount, categoryId, orderByPrice, keyword })
   };
   return (
     <Paginate
-      previousLabel={<Item>Previous</Item>}
+      previousLabel={<Item>Trước</Item>}
       breakLabel="..."
-      nextLabel={<Item>Next</Item>}
+      nextLabel={<Item>Sau</Item>}
       pageRangeDisplayed={3}
       pageCount={pageCount}
       activeLinkClassName="px-3 py-1.5 rounded  border border-primaryColor text-primaryColor text-sm "

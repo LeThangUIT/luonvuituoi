@@ -22,7 +22,7 @@ const InvoiceDetailPage = () => {
   }, [currentURL])
   return (
     <MainDash>
-      <Heading30>Invoice Detail</Heading30>
+      <Heading30>Chi tiết hóa đơn</Heading30>
       <ScrollContainer>
         <InvoicePaper invoiceDetail={invoiceDetail}>
         </InvoicePaper>

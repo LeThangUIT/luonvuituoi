@@ -48,7 +48,7 @@ function UserManagementPage() {
   return (
     <>
     <MainDash>
-      <Heading30>User Management</Heading30>
+      <Heading30>Quản lý tài khoản</Heading30>
       <FlexContainer>
         <span>Hiển thị {listUser?.items?.length} trên  {listUser?.totalCount} tài khoản</span>
         <SearchBox></SearchBox>

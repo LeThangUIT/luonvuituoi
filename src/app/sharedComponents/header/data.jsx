@@ -22,13 +22,13 @@ export let listMenu = [
     name: "Giới thiệu",
     subMenu: [
     ],
-    path: "/product"
+    path: "/introduce"
   },
   {
     name: "Blog",
     subMenu: [
     ],
-    path: "/product"
+    path: "/blog"
   },
   // {
   //   name: "Tra cứu đơn hàng",

@@ -32,7 +32,7 @@ function VoucherTable( {listVoucher}) {
     <TableHead>
       <TableRow>
         <TableHeading>Mã</TableHeading>
-        <TableHeading>Loại voucher</TableHeading>
+        <TableHeading>Loại</TableHeading>
         <TableHeading>Điều kiện</TableHeading>
         <TableHeading>Giá trị</TableHeading>
         <TableHeading>Ngày bắt đầu</TableHeading>

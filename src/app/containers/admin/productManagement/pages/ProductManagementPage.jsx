@@ -80,7 +80,7 @@ function ProductManagementPage() {
   return (
     <>
     <MainDash>
-        <Heading30>Product Management</Heading30>
+        <Heading30>Quản lý sản phẩm</Heading30>
         <FlexContainer>
           <span>Hiển thị {listProducts?.items?.length} trên  {listProducts?.totalCount} sản phẩm</span>
           <SearchBox></SearchBox>
@@ -90,11 +90,11 @@ function ProductManagementPage() {
             </AddButton>
             <GreenBorderButton onClick={handleExport}>
               <img className="w-6 h-6" src={excelIcon}></img>
-              Export
+              Xuất
             </GreenBorderButton>
             <GreenBorderButton onClick={handleImport}>
               <UilImport></UilImport>
-              Import
+              Nhập
             </GreenBorderButton>
           </ButtonGroup>
         </FlexContainer>

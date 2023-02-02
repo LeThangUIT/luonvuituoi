@@ -34,30 +34,30 @@ const InvoicePaper = ({invoiceDetail}) => {
             <LeftColumn>
               <Logo></Logo>
               <InfoGroup>
-                <Text20>To, {invoiceDetail?.receiverName}</Text20>
-                <BoldText14>P {invoiceDetail?.receiverPhone}</BoldText14>
-                <BoldText14>A {invoiceDetail?.receiverAddress}</BoldText14>
+                <Text20>Khách hàng: {invoiceDetail?.receiverName}</Text20>
+                <BoldText14>Điện thoại: {invoiceDetail?.receiverPhone}</BoldText14>
+                <BoldText14>Địa chỉ: {invoiceDetail?.receiverAddress}</BoldText14>
               </InfoGroup>
             </LeftColumn>
             <RightColumn>
-              <PinkHeading30>Invoice</PinkHeading30> 
+              <PinkHeading30>Hóa đơn</PinkHeading30> 
               {/* <Text14>No. {invoiceDetail?.id}</Text14> */}
                <InfoGroup>
-                <BoldText14>Invoice Date: {formatDate(invoiceDetail?.orderDate)}</BoldText14>
-                <BoldText14>Issue Date: {formatDate(Date.now())}</BoldText14>
-                <BoldText14>Payment method: {invoiceDetail?.payment}</BoldText14>
+                <BoldText14>Ngày đặt: {formatDate(invoiceDetail?.orderDate)}</BoldText14>
+                <BoldText14>Ngày phát hành: {formatDate(Date.now())}</BoldText14>
+                <BoldText14>Thanh toán: {invoiceDetail?.payment}</BoldText14>
               </InfoGroup>
             </RightColumn>
           </GridContainer>
           <Table>
             <TableHead>
               <TableRowHead>
-                <TableHeading>SL</TableHeading>
+                <TableHeading>STT</TableHeading>
                 <TableHeading>Hình ảnh</TableHeading>
-                <TableHeading>Name</TableHeading>
-                <TableHeading>Price</TableHeading>
-                <TableHeading>Quantity</TableHeading>
-                <TableHeading>Option</TableHeading>
+                <TableHeading>Tên</TableHeading>
+                <TableHeading>Giá</TableHeading>
+                <TableHeading>Số lượng</TableHeading>
+                <TableHeading>Biến thể</TableHeading>
               </TableRowHead>
             </TableHead>
             <TableBody>
@@ -87,19 +87,19 @@ const InvoicePaper = ({invoiceDetail}) => {
           </Table>
           <Cost>
             <CostItem>
-                <span>Sub-Total</span>
+                <span>Tổng</span>
                 <span>{formatter.format(invoiceDetail?.total)}</span>
             </CostItem>
             <CostItem>
-                <span>Delivery-Fee</span>
+                <span>Phí vận chuyển</span>
                 <span>+ {formatter.format(invoiceDetail?.fee)}</span>
             </CostItem>
             <CostItem>
-                <span>Discount</span>
+                <span>Giảm giá</span>
                 <span>- {formatter.format(invoiceDetail?.discount)}</span>
             </CostItem>
             <CostItem>
-                <b>Total</b>
+                <b>Thành tiền</b>
                 <b>{formatter.format(invoiceDetail?.paid)}</b>
             </CostItem>
           </Cost>

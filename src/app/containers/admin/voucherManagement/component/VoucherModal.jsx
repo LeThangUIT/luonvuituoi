@@ -157,9 +157,9 @@ function VoucherModal() {
 
         <ModalTitle>
           {isUpdate ? (
-            <Heading22>Cập nhật voucher</Heading22>
+            <Heading22>Cập nhật khuyến mãi</Heading22>
           ) : (
-            <Heading22>Thêm voucher</Heading22>
+            <Heading22>Thêm khuyến mãi</Heading22>
           )}
         </ModalTitle>
         <Formik

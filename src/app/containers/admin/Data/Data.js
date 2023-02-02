@@ -6,32 +6,32 @@ import {UilTicket, UilEstate, UilBill, UilUsersAlt, UilStore, UilListUl, UilUsdS
 export const SidebarData = [
   {
     icon: UilEstate,
-    heading: "Dashboard",
+    heading: "Thống kê",
     path: ""
   },
   {
-    icon: UilStore,
-    heading: "Products",
-    path: "product"
-  },
-  {
     icon: UilListUl,
-    heading: "Category",
+    heading: "Danh mục",
     path: "category"
   },
   {
+    icon: UilStore,
+    heading: "Sản phẩm",
+    path: "product"
+  },
+  {
     icon: UilBill,
-    heading: "Invoices",
+    heading: "Hóa đơn",
     path: "invoice"
   },
   {
     icon: UilTicket,
-    heading: "Vouchers",
+    heading: "Khuyến mãi",
     path: "voucher"
   },
   {
     icon: UilUsersAlt,
-    heading: "Users",
+    heading: "Tài khoản",
     path: "user"
   },
 

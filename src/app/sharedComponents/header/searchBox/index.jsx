@@ -14,14 +14,14 @@ import { setProductKeyword } from "../../../containers/admin/productManagement/p
 import { setUserKeyword } from "../../../containers/admin/userManagement/UserSlice";
 
 export const SearchContainer = styled.div`
-  ${tw`  flex-1 flex rounded-lg bg-[#FAFAFA] relative`}
+  ${tw` mx-2 md:m-0 flex-1 flex rounded-lg bg-[#FAFAFA] relative`}
 `;
 export const BoxText = styled.input`
   ${tw` border sm:border-none w-full py-4 pl-4 pr-12 h-12 focus:outline-none rounded-lg bg-[#FAFAFA] placeholder:text-xs placeholder:not-italic placeholder:font-normal placeholder:leading-[15px] `}
 `;
 export const SearchIcon = styled.svg`
   ${tw`
-    box-border p-2 h-8 w-8  bg-[#EE4C7E] absolute top-2 right-2 bottom-2 rounded-lg hover:opacity-90 hover:cursor-pointer
+    box-border p-2 h-8 w-8 bg-[#EE4C7E] absolute top-2 right-2 bottom-2 rounded-lg hover:opacity-90 hover:cursor-pointer
   `}
 `;
 
@@ -94,7 +94,7 @@ export function SearchBox() {
   return (
     // <SearchContainer ref={resultBoxRef}>
     <SearchContainer >
-      <form onSubmit={onFormSubmit}>
+      <form className="w-full mx-" onSubmit={onFormSubmit}>
         <BoxText
           value={value}
           onChange={handleChangeInput}

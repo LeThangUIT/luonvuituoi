@@ -5,6 +5,7 @@ function CallbackApi() {
   const { social } = useParams();
   useEffect(async () => {
     let url = window.location.href;
+    console.log(url)
     let data = url.split("?")[1];
     data = `/${social}?` + data;
     try {

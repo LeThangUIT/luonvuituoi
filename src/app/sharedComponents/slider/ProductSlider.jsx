@@ -1,11 +1,13 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper";
+import "swiper/css/autoplay"
+import { Autoplay, Navigation } from "swiper";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { useRef } from "react";
 import ProductCard from "../../containers/customer/ProductPage/components/ProductCard";
+import { delay } from "framer-motion";
 
 export const IconLeft = styled.svg`
   transform: translate(0, -50%);
@@ -23,14 +25,33 @@ export const ProductsSlider = (props) => {
   const nextRef = useRef(null);
   return (
     <Swiper
-      slidesPerView={4}
+      modules={[Navigation, Autoplay]}
+      // slidesPerView={4}
       loop={true}
-      spaceBetween={20}
+      // spaceBetween={20}
+      autoplay= {{delay: 2000}}
       navigation={{
         prevEl: prevRef.current,
         nextEl: nextRef.current,
       }}
-      modules={[Navigation]}
+      breakpoints={{
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 5,
+        },
+        480: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      }}
     >
       {props.data.map((item, index) => {
         return (

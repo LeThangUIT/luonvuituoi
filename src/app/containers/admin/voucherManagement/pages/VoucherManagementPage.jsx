@@ -49,20 +49,20 @@ function VoucherManagementPage() {
   return (
     <>
     <MainDash>
-      <Heading30>Voucher Management</Heading30>
+      <Heading30>Quản lý mã khuyến mãi</Heading30>
       <FlexContainer>
-      <span>Hiển thị tất cả voucher</span>
+      <span>Hiển thị tất cả mã khuyến mãi</span>
         <ButtonGroup>
             <AddButton disabled={loading} onClick={() => handleAdd()}>
               Thêm
             </AddButton>
             <GreenBorderButton onClick={handleExport}>
               <img className="w-6 h-6" src={excelIcon}></img>
-              Export
+              Xuất
             </GreenBorderButton>
             <GreenBorderButton onClick={handleImport}>
               <UilImport></UilImport>
-              Import
+              Nhập
             </GreenBorderButton>
           </ButtonGroup>
       </FlexContainer>
