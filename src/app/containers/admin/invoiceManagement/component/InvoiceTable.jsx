@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AddButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
 import { formatDate, formatter } from '../../../../sharedComponents/format'
-import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
+import { Table, TableBody, TableData, TableHead, TableHeading, TableRow, TableRowHead } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory';
 import { setInvoice, showInvoiceModal } from '../InvoiceSlice';
 
@@ -55,7 +55,7 @@ function InvoiceTable( {listInvoice}) {
   return (
     <Table>
     <TableHead>
-      <TableRow>
+      <TableRowHead>
         {adminInfo && <TableHeading>Tên khách hàng</TableHeading>}
         <TableHeading>Thành tiền</TableHeading>
         <TableHeading>Ngày mua</TableHeading>
@@ -63,7 +63,7 @@ function InvoiceTable( {listInvoice}) {
         <TableHeading>Giao hàng</TableHeading>
         <TableHeading>Thanh toán</TableHeading>
         <TableHeading>Tùy biến</TableHeading>
-      </TableRow>
+      </TableRowHead>
     </TableHead>
     <TableBody>
     {listInvoice?.items && listInvoice.items.map((item, index) => {

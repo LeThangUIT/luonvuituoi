@@ -25,8 +25,11 @@ const ImageBox = styled.div`
 `;
 const Image = styled.img`
   ${tw`
-     object-cover w-full h-full relative flex-basis[100%] flex-grow-0 flex-shrink-0
+     object-cover w-full h-full relative transition-all
   `}
+  &:hover{
+    transform: scale(1.25);
+  }
 `;
 const DescribesBox = styled.div`
   ${tw`
@@ -66,7 +69,7 @@ function ProductCard({data}) {
           {data.priceMax == 0 || data.price == data.priceMax ? <Price>{formatter.format(data.price)} đ</Price>
           : <Price>{formatter.format(data.price)} ~ {formatter.format(data.priceMax)} đ</Price>  
         }
-        {data.priceMax == 0 ? <UilShoppingCart></UilShoppingCart> : <UilShoppingCart className="invisible"></UilShoppingCart>}
+        {/* {data.priceMax == 0 ? <UilShoppingCart></UilShoppingCart> : <UilShoppingCart className="invisible"></UilShoppingCart>} */}
         </PriceContainer>
       </DescribesBox2>
     </ProductContainer>

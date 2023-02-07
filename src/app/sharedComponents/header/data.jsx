@@ -4,7 +4,7 @@ export let listMenu = [
     name: "Trang chủ",
     subMenu: [
     ],
-    path: "/"
+    path: "/home"
   },
   {
     name: "Sản phẩm",

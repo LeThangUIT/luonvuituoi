@@ -48,6 +48,7 @@ function App() {
         <Route path="/payonline/vnpay-return" element={<CallbackPayment/>} />
         <Route path="/*" element={<Customer />} >
           <Route index element={<HomeIndex/>}/>
+          <Route path="home" element={<HomeIndex/>}/>
           <Route path="profile/*" element={<ProtectedCustomerRoute><ProfileIndex/></ProtectedCustomerRoute> }/>
           <Route path="checkout/*" element={<ProtectedCustomerRoute><CheckoutIndex /></ProtectedCustomerRoute>} />
           <Route path="cart" element={<ProtectedCustomerRoute><CartIndex /></ProtectedCustomerRoute>} />

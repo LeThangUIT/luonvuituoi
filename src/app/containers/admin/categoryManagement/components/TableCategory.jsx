@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { DeleteButton, UpdateButton } from '../../../../sharedComponents/button'
-import { Table, TableBody, TableData, TableHead, TableHeading, TableNameData, TableRow } from '../../../../sharedComponents/table'
+import { Table, TableBody, TableData, TableHead, TableHeading, TableNameData, TableRow, TableRowHead } from '../../../../sharedComponents/table'
 import { deleteCategory, showCategoryModal } from '../categorySlice';
 
 
@@ -34,11 +34,11 @@ function TableCategory({listCategories}) {
   return (
     <Table>
         <TableHead>
-          <TableRow>
+          <TableRowHead>
             <TableHeading>STT</TableHeading>
             <TableHeading>Tên</TableHeading>
             <TableHeading>Tùy biến</TableHeading>
-          </TableRow>
+          </TableRowHead>
         </TableHead>
         <TableBody>
           {listCategories?.items && listCategories.items.map((item, index) => (

@@ -18,6 +18,7 @@ import {
   TableHeading,
   TableNameData,
   TableRow,
+  TableRowHead,
 } from "../../../../sharedComponents/table";
 import { ButtonGroup } from "../../categoryManagement/components/TableCategory";
 import { deleteProduct } from "../productSlice";
@@ -47,14 +48,14 @@ function ProductTable({ listProducts }) {
   return (
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRowHead>
             <TableHeading>Hình ảnh</TableHeading>
             <TableHeading>Tên</TableHeading>
             <TableHeading>Danh mục</TableHeading>
             <TableHeading>Giá</TableHeading>
             <TableHeading>Số lượng</TableHeading>
             <TableHeading>Tùy biến</TableHeading>
-          </TableRow>
+          </TableRowHead>
         </TableHead>
         <TableBody>
           {listProducts &&

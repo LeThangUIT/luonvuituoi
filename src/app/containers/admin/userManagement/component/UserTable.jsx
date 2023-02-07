@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AddButton, DeleteButton, DetailButton, UpdateButton } from '../../../../sharedComponents/button'
-import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
+import { Table, TableBody, TableData, TableHead, TableHeading, TableRow, TableRowHead } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory'
 import { lockUser } from '../UserSlice'
 
@@ -27,14 +27,14 @@ function UserTable( {listUser}) {
   return (
     <Table>
     <TableHead>
-      <TableRow>
+      <TableRowHead>
         <TableHeading>Tên</TableHeading>
         <TableHeading>Email</TableHeading>
-        <TableHeading>Di động</TableHeading>
+        <TableHeading>Điện thoại</TableHeading>
         <TableHeading>Trạng thái</TableHeading>
         <TableHeading>Tình trạng</TableHeading>
         <TableHeading>Tùy biến</TableHeading>
-      </TableRow>
+      </TableRowHead>
     </TableHead>
     <TableBody>
     {listUser?.items && listUser.items.map((item, index) => {

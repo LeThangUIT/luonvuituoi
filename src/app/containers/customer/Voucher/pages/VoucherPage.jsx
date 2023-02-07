@@ -33,7 +33,11 @@ const CouponCart = styled.div`
   ${tw` col-span-1 relative bg-gradient-to-br from-purple-500 to-pink-500 text-white py-3 px-8 shadow-lg rounded-2xl flex flex-col gap-2 items-center justify-center
         before:bg-white before:w-[30px] before:h-[30px] before:rounded-full before:absolute before:top-1/2  before:left-0
         after:bg-white after:w-[30px] after:h-[30px] after:rounded-full after:absolute after:top-1/2  after:right-0
+        transition-all
     `}
+  :hover {
+    transform: scale(1.05)
+  }
 `;
 
 const CouponCart2 = styled.div`
@@ -47,7 +51,11 @@ const CouponCart2 = styled.div`
   ${tw` col-span-1 relative bg-gradient-to-br from-green-500 to-blue-500 text-white py-3 px-8 shadow-lg rounded-2xl flex flex-col gap-2 items-center justify-center
         before:bg-white before:w-[30px] before:h-[30px] before:rounded-full before:absolute before:top-1/2  before:left-0
         after:bg-white after:w-[30px] after:h-[30px] after:rounded-full after:absolute after:top-1/2  after:right-0
+        transition-all
     `}
+  :hover {
+    transform: scale(1.05)
+  }
 `;
 const Logo = styled.img`
   ${tw`h-10 rounded-lg`}

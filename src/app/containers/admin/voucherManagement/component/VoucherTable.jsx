@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import { DeleteButton, UpdateButton } from '../../../../sharedComponents/button'
 import { formatDate, formatter } from '../../../../sharedComponents/format';
-import { Table, TableBody, TableData, TableHead, TableHeading, TableRow } from '../../../../sharedComponents/table'
+import { Table, TableBody, TableData, TableHead, TableHeading, TableRow, TableRowHead } from '../../../../sharedComponents/table'
 import { ButtonGroup } from '../../categoryManagement/components/TableCategory'
 import { deleteVoucher, showVoucherModal } from '../VoucherSlice'
 
@@ -30,7 +30,7 @@ function VoucherTable( {listVoucher}) {
   return (
     <Table>
     <TableHead>
-      <TableRow>
+      <TableRowHead>
         <TableHeading>Mã</TableHeading>
         <TableHeading>Loại</TableHeading>
         <TableHeading>Điều kiện</TableHeading>
@@ -38,7 +38,7 @@ function VoucherTable( {listVoucher}) {
         <TableHeading>Ngày bắt đầu</TableHeading>
         <TableHeading>Ngày kết thúc</TableHeading>
         <TableHeading>Tùy biến</TableHeading>
-      </TableRow>
+      </TableRowHead>
     </TableHead>
     <TableBody>
       {listVoucher.map((item, index) => {
